@@ -1,25 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Paperbase from './Paperbase';
+
+import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
+import { cacheExchange } from '@urql/exchange-graphcache';
+const client = createClient({
+  url: 'http://localhost:5000/graphql',
+  exchanges: [
+    dedupExchange,
+    // Replace the default cacheExchange with the new one
+    cacheExchange({
+      /* config */
+    }),
+    fetchExchange,
+  ],
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+		<Provider value={client}>
+			<Paperbase/>
+		</Provider>
   );
 }
 
