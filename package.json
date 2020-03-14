@@ -1,5 +1,5 @@
 {
-  "name": "bluesteel-ui2",
+  "name": "bluesteel-ui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,15 +10,17 @@
     "@testing-library/user-event": "^7.1.2",
     "@urql/exchange-graphcache": "^2.1.1",
     "graphql": "^14.6.0",
+    "history": "^4.10.1",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "urql": "^1.9.0"
   },
   "scripts": {
-		"analyze": "source-map-explorer 'build/static/js/*.js'",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
-		"start_prod": "serve -s build",
+    "start_prod": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

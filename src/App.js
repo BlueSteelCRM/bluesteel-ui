@@ -1,6 +1,9 @@
 import React from 'react';
-import './App.css';
-import Paperbase from './Paperbase';
+import './styles/App.css';
+import Layout from './Layout';
+
+import {Router} from 'react-router-dom';
+import { createBrowserHistory } from "history";
 
 import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
 import { cacheExchange } from '@urql/exchange-graphcache';
@@ -16,12 +19,13 @@ const client = createClient({
   ],
 });
 
-
 function App() {
   return (
-		<Provider value={client}>
-			<Paperbase/>
-		</Provider>
+		<Router history={createBrowserHistory()}>
+			<Provider value={client}>
+				<Layout/>
+			</Provider>
+		</Router>
   );
 }
 
