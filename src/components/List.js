@@ -1,4 +1,6 @@
-import React from 'react';
+import React,{useContext} from 'react';
+import {SchemaContext} from '../SchemaContext';
+
 
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
@@ -18,19 +20,9 @@ import ObjectHeader from './ObjectHeader';
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 
-function List(props){
-	let {classes}=props;
-	let { object } = useParams()
-
-  const [result] = useQuery({
-    query: `query {
-			  ${object}Metadata{
-					fields{
-						name,
-						type
-					}
-			  }
-		}`,
+const Query=withStyles(commonStyles)(({object,query,classes})=>{
+	const [result] = useQuery({
+    query,
     requestPolicy: 'cache-only',
   });
   return <React.Fragment>
@@ -72,6 +64,19 @@ function List(props){
 		</Paper>
 		</div>
 	</React.Fragment>
-};
+});
 
-export default withStyles(commonStyles)(List);
+export default function List(props){
+	let { object } = useParams();
+	let schema=useContext(SchemaContext);
+	let def=schema.objects[object];
+	if (!def) return "Could not find object "+object+" in "+Object.keys(schema.objects);
+	let {fields}=def;
+	let q=fields.slice(0,4).map(d=>d.name);
+	let query=`query {
+			${object}List{
+				${q.join("\n")}
+			}
+	}`;
+	return <Query query={query} object={object}/>;
+};

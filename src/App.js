@@ -7,8 +7,11 @@ import { createBrowserHistory } from "history";
 
 import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
 import { cacheExchange } from '@urql/exchange-graphcache';
+
+let endpoint=process.env.REACT_APP_DATA_LAYER;
+
 const client = createClient({
-  url: 'http://localhost:5000/graphql',
+  url: endpoint,
   exchanges: [
     dedupExchange,
     // Replace the default cacheExchange with the new one
@@ -22,9 +25,9 @@ const client = createClient({
 function App() {
   return (
 		<Router history={createBrowserHistory()}>
-			<Provider value={client}>
-				<Layout/>
-			</Provider>
+				<Provider value={client}>
+					<Layout/>
+				</Provider>
 		</Router>
   );
 }

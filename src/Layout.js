@@ -2,6 +2,7 @@ import React from 'react';
 
 import { layoutStyles, theme, drawerWidth} from './theme/Styles';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
+import {SchemaProvider} from './SchemaContext';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
@@ -41,12 +42,14 @@ function Layout(props) {
         <CssBaseline />
         <nav className={classes.drawer}>
           <Hidden smUp implementation="js">
-            <Sidebar
-              PaperProps={{ style: { width: drawerWidth } }}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-            />
+						<SchemaProvider>
+	            <Sidebar
+	              PaperProps={{ style: { width: drawerWidth } }}
+	              variant="temporary"
+	              open={mobileOpen}
+	              onClose={handleDrawerToggle}
+	            />
+						</SchemaProvider>
           </Hidden>
           <Hidden xsDown implementation="css">
             <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
@@ -55,11 +58,13 @@ function Layout(props) {
         <div className={classes.app}>
           <AppHeader onDrawerToggle={handleDrawerToggle} />
 					<main className={classes.main}>
-		    		<Switch>
-							<Route path='/obj/:object/edit/:id'><Edit/></Route>
-							<Route path='/obj/:object/edit'><Edit/></Route>
-							<Route path='/obj/:object'><List/></Route>
-						</Switch>
+						<SchemaProvider>
+			    		<Switch>
+								<Route path='/obj/:object/edit/:id'><Edit/></Route>
+								<Route path='/obj/:object/edit'><Edit/></Route>
+								<Route path='/obj/:object'><List/></Route>
+							</Switch>
+						</SchemaProvider>
 					</main>
           <footer className={classes.footer}>
             <Copyright />

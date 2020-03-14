@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { withStyles } from '@material-ui/core/styles';
 import {sidebarStyles} from '../theme/Styles.js';
@@ -30,6 +29,7 @@ const categories = [
     id: 'People',
     children: [
       { id: 'People', icon: <PersonIcon />, active: true,link:"/obj/Person" },
+			{ id: 'Emails', icon: <PersonIcon />, active: true,link:"/obj/PersonEmail" },
 			{ id: 'Queries', icon: <PeopleIcon />, active: true,link:"/obj/PersonQuery" },
     ],
   },
@@ -102,9 +102,5 @@ function Sidebar(props) {
     </Drawer>
   );
 }
-
-Navigator.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(sidebarStyles)(Sidebar);
