@@ -69,6 +69,14 @@ export const theme=Object.assign(themeCore,{overrides:{
 				minWidth: 0,
 			},
 		},
+    wrapper: {
+      flexDirection:'row',
+			alignItems: 'normal'
+    },
+		labelIcon:{
+			minHeight:'auto',
+			padding:'4px 8px'
+		}
 	},
 	MuiIconButton: {
 		root: {
@@ -206,7 +214,7 @@ export const headerStyles = theme => ({
 
 export const commonStyles = theme => ({
   paper: {
-    maxWidth: 936,
+    //maxWidth: 936,
     margin: 'auto',
     overflow: 'hidden',
   },
@@ -224,7 +232,7 @@ export const commonStyles = theme => ({
   },
 	contentWrapper: {
 		flex: 1,
-    margin: '40px 16px',
-		padding: theme.spacing(6, 4)
+    margin: '8px 8px',
+		padding: 0
   }
 });

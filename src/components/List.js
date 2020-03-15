@@ -1,16 +1,14 @@
 import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
+import AutoTable from './AutoTable';
 
 
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/ToolBar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
-import RefreshIcon from '@material-ui/icons/Refresh';
+
 import Paper from '@material-ui/core/Paper';
 
 
@@ -20,11 +18,18 @@ import ObjectHeader from './ObjectHeader';
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 
-const Query=withStyles(commonStyles)(({object,query,classes})=>{
+const Query=withStyles(commonStyles)(({object,query,fields,classes})=>{
 	const [result] = useQuery({
     query,
     requestPolicy: 'cache-only',
   });
+	if (result.fetching) return "Loading...";
+
+	let rows=result.data.listResult;
+	let columns=fields.map(field=>{
+		return {title:field,field}
+	});
+
   return <React.Fragment>
 		<ObjectHeader object={object}/>
 		<div className={classes.contentWrapper}>
@@ -45,22 +50,10 @@ const Query=withStyles(commonStyles)(({object,query,classes})=>{
 								}}
 							/>
 						</Grid>
-						<Grid item>
-							<Button variant="contained" color="primary" className={classes.addObject}>
-								Add user
-							</Button>
-							<Tooltip title="Reload">
-								<IconButton>
-									<RefreshIcon className={classes.block} color="inherit" />
-								</IconButton>
-							</Tooltip>
-						</Grid>
 					</Grid>
 				</Toolbar>
 			</AppBar>
-			<div className={classes.contentWrapper}>
-					{JSON.stringify(result)}
-			</div>
+			<AutoTable rows={rows} columns={columns}/>
 		</Paper>
 		</div>
 	</React.Fragment>
@@ -72,11 +65,11 @@ export default function List(props){
 	let def=schema.objects[object];
 	if (!def) return "Could not find object "+object+" in "+Object.keys(schema.objects);
 	let {fields}=def;
-	let q=fields.slice(0,4).map(d=>d.name);
+	let q=fields.slice(0,5).map(d=>d.name);
 	let query=`query {
-			${object}List{
+			listResult: ${object}List{
 				${q.join("\n")}
 			}
 	}`;
-	return <Query query={query} object={object}/>;
+	return <Query query={query} object={object} fields={q}/>;
 };

@@ -11,6 +11,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
+import SendIcon from '@material-ui/icons/Send';
+import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {NavLink} from 'react-router-dom';
 import {useLocation } from 'react-router-dom'
 /*
@@ -22,7 +24,7 @@ import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponen
 import TimerIcon from '@material-ui/icons/Timer';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
 */
-import SettingsIcon from '@material-ui/icons/Settings';
+
 
 const categories = [
   {
@@ -34,11 +36,17 @@ const categories = [
     ],
   },
   {
-    id: 'Settings',
+    id: 'Messaging',
     children: [
-      { id: 'Settings', icon: <SettingsIcon />,link:"/settings" },
+      { id: 'Campaigns', icon: <SendIcon />,link:"/obj/Campaign" }
     ],
   },
+	{
+    id: 'Transactions',
+    children: [
+      { id: 'Donations', icon: <AttachMoneyIcon />,link:"/obj/Transaction" }
+    ],
+  }
 ];
 
 

@@ -10,18 +10,36 @@ import ObjectHeader from './ObjectHeader';
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 
+import AutoForm from './AutoForm';
+
 const Query=withStyles(commonStyles)(({object,query,classes})=>{
 	const [result] = useQuery({
     query,
     requestPolicy: 'cache-only',
   });
+	const fields = [
+		{ name: 'given_name'},
+	 	{ name:"email",
+			type:"email",
+			required: 'Required',
+			pattern: {
+				value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+				message: "invalid email address"
+			}
+		}];
+
   return <React.Fragment>
 		<ObjectHeader object={object}/>
 		<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
-			<div className={classes.contentWrapper}>
+				<AutoForm
+					onChange={(values) => console.log(values)}
+					fields={fields}
+					values={{ name: 'test', limit: 10 }}
+					errors={{ limit: 'This field is required.' }}
+				/>
 					{JSON.stringify(result)}
-			</div>
+
 		</Paper>
 		</div>
 	</React.Fragment>
