@@ -29,8 +29,18 @@ function SchemaProvider(props) {
 						return include;
 					})
 					.forEach(t=>{
+						let fields=[];
+						let objects=[];
+						t.fields.forEach(t=>{
+							if (t.type && (t.type.kind==='OBJECT' || t.type.kind==='LIST')) objects.push(t);
+							else fields.push(t);
+						});
+						t.fields=fields;
+						t.objects=objects;
+
 						s.objects[t.name]=t;
 					});
+					console.log(s.objects);
 				if (Object.keys(s.objects).length===0){
 					return setSchemaError("No valid objects found in the schema");
 				}

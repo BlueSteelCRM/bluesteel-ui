@@ -12,11 +12,8 @@ import {commonStyles} from '../theme/Styles';
 
 import AutoForm from './AutoForm';
 
-const Query=withStyles(commonStyles)(({object,query,classes})=>{
-	const [result] = useQuery({
-    query,
-    requestPolicy: 'cache-only',
-  });
+const DisplayForm=withStyles(commonStyles)(({object,fields, values,classes})=>{
+	/*
 	const fields = [
 		{ name: 'given_name'},
 	 	{ name:"email",
@@ -27,35 +24,47 @@ const Query=withStyles(commonStyles)(({object,query,classes})=>{
 				message: "invalid email address"
 			}
 		}];
-
-  return <React.Fragment>
+	*/
+	return  <React.Fragment>
 		<ObjectHeader object={object}/>
 		<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
 				<AutoForm
-					onChange={(values) => console.log(values)}
+					onSubmit={(values) => alert("Submitted:"+JSON.stringify(values))}
 					fields={fields}
-					values={{ name: 'test', limit: 10 }}
-					errors={{ limit: 'This field is required.' }}
+					values={values}
 				/>
-					{JSON.stringify(result)}
-
 		</Paper>
 		</div>
 	</React.Fragment>
 });
 
+function RetrieveData({object,variables,fields}){
+	let query=`query($id:ID!){
+			values:${object}(id:$id){
+				${fields.map(d=>d.name).join("\n")}
+			}
+	}`;
+
+	const [result] = useQuery({
+    query,
+		variables
+  });
+	if (result.fetching) return "Loading...";
+	let values={};
+	if (result.data && result.data.values) values=result.data.values;
+  return <DisplayForm object={object} fields={fields} values={values}/>
+};
+
 export default function List(props){
-	let { object } = useParams();
+	let { object,id } = useParams();
 	let schema=useContext(SchemaContext);
 	let def=schema.objects[object];
 	if (!object) return "Could not find object "+object;
 	let {fields}=def;
-	let q=fields.slice(0,4).map(d=>d.name);
-	let query=`query {
-			${object}List{
-				${q.join("\n")}
-			}
-	}`;
-	return <Query query={query} object={object}/>;
+	if (id){
+		return <RetrieveData variables={{id}} object={object} fields={fields}/>
+	}
+
+	return <DisplayForm object={object} fields={fields} />;
 }

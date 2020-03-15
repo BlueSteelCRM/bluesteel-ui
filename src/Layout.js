@@ -60,6 +60,7 @@ function Layout(props) {
 					<main className={classes.main}>
 						<SchemaProvider>
 			    		<Switch>
+								<Route path='/obj/:object/:id'><Edit/></Route>
 								<Route path='/obj/:object/edit/:id'><Edit/></Route>
 								<Route path='/obj/:object/edit'><Edit/></Route>
 								<Route path='/obj/:object'><List/></Route>

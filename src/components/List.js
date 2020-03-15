@@ -17,18 +17,19 @@ import {useParams} from 'react-router-dom';
 import ObjectHeader from './ObjectHeader';
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
+import {useHistory} from 'react-router-dom'
 
-const Query=withStyles(commonStyles)(({object,query,fields,classes})=>{
-	const [result] = useQuery({
-    query,
-    requestPolicy: 'cache-only',
-  });
+const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
+	const [result] = useQuery({query});
+	const history=useHistory();
 	if (result.fetching) return "Loading...";
 
-	let rows=result.data.listResult;
 	let columns=fields.map(field=>{
 		return {title:field,field}
 	});
+
+	let rows=[];
+	if (result.data && result.data.listResult) rows=result.data.listResult;
 
   return <React.Fragment>
 		<ObjectHeader object={object}/>
@@ -53,7 +54,8 @@ const Query=withStyles(commonStyles)(({object,query,fields,classes})=>{
 					</Grid>
 				</Toolbar>
 			</AppBar>
-			<AutoTable rows={rows} columns={columns}/>
+			<AutoTable onRowClick={row=>history.push("/obj/"+object+"/"+row.id+"/edit")}
+					 rows={rows} columns={columns}/>
 		</Paper>
 		</div>
 	</React.Fragment>
@@ -65,11 +67,11 @@ export default function List(props){
 	let def=schema.objects[object];
 	if (!def) return "Could not find object "+object+" in "+Object.keys(schema.objects);
 	let {fields}=def;
-	let q=fields.slice(0,5).map(d=>d.name);
+	let q=fields.slice(0,20).map(d=>d.name);
 	let query=`query {
 			listResult: ${object}List{
 				${q.join("\n")}
 			}
 	}`;
-	return <Query query={query} object={object} fields={q}/>;
+	return <RetrieveData query={query} object={object} fields={q}/>;
 };
