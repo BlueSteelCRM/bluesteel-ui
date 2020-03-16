@@ -2,6 +2,9 @@ import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
 
 import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
 
 import {useQuery} from 'urql';
 import {useParams} from 'react-router-dom';
@@ -25,15 +28,24 @@ const DisplayForm=withStyles(commonStyles)(({object,fields, values,classes})=>{
 			}
 		}];
 	*/
+	let title="Edit "+object;
+	if (values.given_name && values.family_name) title="Edit "+values.given_name+" "+values.family_name;
+
+
 	return  <React.Fragment>
 		<ObjectHeader object={object}/>
 		<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
+			<Card>
+			<CardHeader title={title}/>
+			<CardContent>
 				<AutoForm
 					onSubmit={(values) => alert("Submitted:"+JSON.stringify(values))}
 					fields={fields}
 					values={values}
 				/>
+			</CardContent>
+			</Card>
 		</Paper>
 		</div>
 	</React.Fragment>

@@ -36,6 +36,12 @@ export const theme=Object.assign(themeCore,{overrides:{
 			backgroundColor: '#18202c',
 		},
 	},
+	MuiCardHeader: {
+		root:{
+			backgroundColor:themeCore.palette.primary.main,
+    	color: themeCore.palette.common.white,
+		}
+  },
 	MuiButton: {
 		label: {
 			textTransform: 'none',
