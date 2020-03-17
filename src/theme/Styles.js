@@ -31,6 +31,7 @@ let themeCore = createMuiTheme({
 });
 
 export const theme=Object.assign(themeCore,{overrides:{
+
 	MuiDrawer: {
 		paper: {
 			backgroundColor: '#18202c',

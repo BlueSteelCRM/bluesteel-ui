@@ -35,7 +35,7 @@ export default function AutoForm(props){
     <form onSubmit={handleSubmit(onSubmit)}>
 			{fields.map((f,i)=>{
 				let reg=Object.assign({},f);delete reg.name; // a name or a thype
-	      return <div>
+	      return <div key={i}>
 					<TextField key={i} inputRef={register(reg)}
 						label={f.name} name={f.name}
 						defaultValue={values[f.name]}

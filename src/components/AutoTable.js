@@ -140,7 +140,7 @@ export default function AutoTable({columns,rows,renderRow,onSelectedChange,onRow
 			return {value:v,rows:values[v],count:values[v].length};
 		}).sort((a,b)=>a.count<b.count?1:-1);
 		grouped.forEach(v=>{
-			finalRows.push({component:<TableRow onClick={e=>setGroupByDisplay(groupByDisplay===v.value?null:v.value)}>
+			finalRows.push({component:<TableRow hover={true} onClick={e=>setGroupByDisplay(groupByDisplay===v.value?null:v.value)}>
 				<TableCell colSpan={_columns.length+1}>
 					<h4>{(_columns.find(col=>col.field===groupBy)||{title:groupBy}).title+" ("+v.rows.length+" records) : "+v.value}</h4>
 				</TableCell>
@@ -208,6 +208,7 @@ export default function AutoTable({columns,rows,renderRow,onSelectedChange,onRow
 	const _renderRow=renderRow || function(row,i){
 		let newValues={};
 		return <React.Fragment key={i}>{row.component || <TableRow
+			hover={true}
 			selected={selected.indexOf(row.id)>=0}
 			className={rowClass(row,i)}
 			onClick={e=>{

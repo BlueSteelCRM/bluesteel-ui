@@ -11,15 +11,15 @@ import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
-import SendIcon from '@material-ui/icons/Send';
+
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {NavLink} from 'react-router-dom';
 import {useLocation } from 'react-router-dom'
 /*
+import SendIcon from '@material-ui/icons/Send';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import PublicIcon from '@material-ui/icons/Public';
-import SettingsEthernetIcon from '@material-ui/icons/SettingsEthernet';
 import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
 import TimerIcon from '@material-ui/icons/Timer';
 import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
@@ -31,16 +31,18 @@ const categories = [
     id: 'People',
     children: [
       { id: 'People', icon: <PersonIcon />, active: true,link:"/obj/Person" },
-			{ id: 'Emails', icon: <PersonIcon />, active: true,link:"/obj/PersonEmail" },
+			{ id: 'Segments', icon: <PeopleIcon />, active: true,link:"/obj/Segment" },
 			{ id: 'Queries', icon: <PeopleIcon />, active: true,link:"/obj/PersonQuery" },
     ],
   },
+	/*
   {
     id: 'Messaging',
     children: [
       { id: 'Campaigns', icon: <SendIcon />,link:"/obj/Campaign" }
     ],
   },
+	*/
 	{
     id: 'Transactions',
     children: [

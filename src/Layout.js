@@ -1,8 +1,8 @@
-import React from 'react';
+import React,{useContext} from 'react';
 
 import { layoutStyles, theme, drawerWidth} from './theme/Styles';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
-import {SchemaProvider} from './SchemaContext';
+import {SchemaProvider,SchemaContext} from './SchemaContext';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +12,7 @@ import AppHeader from './components/AppHeader';
 import List from './components/List';
 import Edit from './components/Edit';
 import {Switch,Route} from 'react-router-dom';
+import JSONPretty from 'react-json-pretty';
 
 function Copyright() {
   return (
@@ -24,6 +25,10 @@ function Copyright() {
       {'.'}
     </Typography>
   );
+}
+function SchemaDisplay(){
+	let schema=useContext(SchemaContext);
+	return <JSONPretty id="schema-json" data={schema}/>
 }
 
 
@@ -60,6 +65,7 @@ function Layout(props) {
 					<main className={classes.main}>
 						<SchemaProvider>
 			    		<Switch>
+								<Route path='/schema'><SchemaDisplay/></Route>
 								<Route path='/obj/:object/:id'><Edit/></Route>
 								<Route path='/obj/:object/edit/:id'><Edit/></Route>
 								<Route path='/obj/:object/edit'><Edit/></Route>

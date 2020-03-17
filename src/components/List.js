@@ -2,7 +2,7 @@ import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
 import AutoTable from './AutoTable';
 
-
+import Alert from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/ToolBar';
@@ -22,14 +22,18 @@ import {useHistory} from 'react-router-dom'
 const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 	const [result] = useQuery({query});
 	const history=useHistory();
-	if (result.fetching) return "Loading...";
+	const { data, fetching, error } = result;
+	if (fetching) return "Loading...";
+	if (error){
+		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
+	}
 
 	let columns=fields.map(field=>{
 		return {title:field,field}
 	});
 
 	let rows=[];
-	if (result.data && result.data.listResult) rows=result.data.listResult;
+	if (data && data.listResult) rows=data.listResult;
 
   return <React.Fragment>
 		<ObjectHeader object={object}/>
