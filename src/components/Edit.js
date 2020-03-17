@@ -27,7 +27,7 @@ function RetrieveData({object,variables,fields,children}){
     query,
 		variables
   });
-	if (result.fetching) return "Loading...";
+	if (result.fetching) return null;
 	let values={};
 	if (result.data && result.data.values) values=result.data.values;
 	return children(values);

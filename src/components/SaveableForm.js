@@ -3,10 +3,12 @@ import React,{useState} from 'react';
 import Alert from '@material-ui/lab/Alert';
 
 import {useMutation} from 'urql';
+import useNotifiers from '../util/Notifiers';
 
 import AutoForm from './AutoForm';
 
 export default function SaveableForm({object,fields, values}){
+	const {notify} = useNotifiers();
 	const [error,setError]=useState(null);
 	let SAVE_MUTATION=`mutation($record:${object}Save!){
 			save_result:${object}Save(record:$record){
@@ -22,13 +24,14 @@ export default function SaveableForm({object,fields, values}){
 		delete newVals.updated_at;
     executeMutation({record:newVals}).then(result => {
       if (result.error) {
-				console.error("Total result=",result);
 				setError(result.error);
-      }
+      }else{
+				notify("Saved");
+			}
     });
-  }, [executeMutation]);
+  }, [executeMutation,notify]);
 
-	if (state.fetching) return "Saving data";
+	if (state.fetching) return null;
 
 	/*
 	const fields = [

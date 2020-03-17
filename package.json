@@ -12,6 +12,8 @@
     "@urql/exchange-graphcache": "^2.1.1",
     "graphql": "^14.6.0",
     "history": "^4.10.1",
+    "material-table": "^1.57.2",
+    "notistack": "^0.9.9",
     "pluralize": "^8.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",

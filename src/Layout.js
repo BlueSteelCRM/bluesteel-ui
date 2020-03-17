@@ -4,6 +4,8 @@ import { layoutStyles, theme, drawerWidth} from './theme/Styles';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import {SchemaProvider,SchemaContext} from './SchemaContext';
 import {CustomLayoutProvider} from './CustomLayoutContext';
+import { SnackbarProvider } from 'notistack';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
@@ -44,43 +46,46 @@ function Layout(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
-        <CssBaseline />
-        <nav className={classes.drawer}>
-          <Hidden smUp implementation="js">
-						<SchemaProvider>
-	            <Sidebar
-	              PaperProps={{ style: { width: drawerWidth } }}
-	              variant="temporary"
-	              open={mobileOpen}
-	              onClose={handleDrawerToggle}
-	            />
-						</SchemaProvider>
-          </Hidden>
-          <Hidden xsDown implementation="css">
-            <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
-          </Hidden>
-        </nav>
-        <div className={classes.app}>
-          <AppHeader onDrawerToggle={handleDrawerToggle} />
-					<main className={classes.main}>
-						<SchemaProvider>
-						<CustomLayoutProvider>
-			    		<Switch>
-								<Route path='/schema'><SchemaDisplay/></Route>
-								<Route path='/obj/:object/:id'><Edit/></Route>
-								<Route path='/obj/:object/edit/:id'><Edit/></Route>
-								<Route path='/obj/:object/edit'><Edit/></Route>
-								<Route path='/obj/:object'><List/></Route>
-							</Switch>
-							</CustomLayoutProvider>
-						</SchemaProvider>
-					</main>
-          <footer className={classes.footer}>
-            <Copyright />
-          </footer>
-        </div>
-      </div>
+			<SnackbarProvider>
+
+	      <div className={classes.root}>
+	        <CssBaseline />
+	        <nav className={classes.drawer}>
+	          <Hidden smUp implementation="js">
+							<SchemaProvider>
+		            <Sidebar
+		              PaperProps={{ style: { width: drawerWidth } }}
+		              variant="temporary"
+		              open={mobileOpen}
+		              onClose={handleDrawerToggle}
+		            />
+							</SchemaProvider>
+	          </Hidden>
+	          <Hidden xsDown implementation="css">
+	            <Sidebar PaperProps={{ style: { width: drawerWidth } }} />
+	          </Hidden>
+	        </nav>
+	        <div className={classes.app}>
+	          <AppHeader onDrawerToggle={handleDrawerToggle} />
+						<main className={classes.main}>
+							<SchemaProvider>
+							<CustomLayoutProvider>
+				    		<Switch>
+									<Route path='/schema'><SchemaDisplay/></Route>
+									<Route path='/obj/:object/:id'><Edit/></Route>
+									<Route path='/obj/:object/edit/:id'><Edit/></Route>
+									<Route path='/obj/:object/edit'><Edit/></Route>
+									<Route path='/obj/:object'><List/></Route>
+								</Switch>
+								</CustomLayoutProvider>
+							</SchemaProvider>
+						</main>
+	          <footer className={classes.footer}>
+	            <Copyright />
+	          </footer>
+	        </div>
+	      </div>
+			</SnackbarProvider>
     </ThemeProvider>
   );
 }

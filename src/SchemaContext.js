@@ -48,7 +48,7 @@ function SchemaProvider(props) {
 			});
   }, []);
 	if (schemaError) return schemaError;
-	if (!schema.objects) return ("Loading schema...");
+	if (!schema.objects) return null;
 
  return (
     <SchemaContext.Provider value={schema}>

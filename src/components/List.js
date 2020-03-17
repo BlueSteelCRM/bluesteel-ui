@@ -23,7 +23,7 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 	const [result] = useQuery({query});
 	const history=useHistory();
 	const { data, fetching, error } = result;
-	if (fetching) return "Loading...";
+	if (fetching) return null;
 	if (error){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
