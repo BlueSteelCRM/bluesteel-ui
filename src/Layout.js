@@ -3,6 +3,7 @@ import React,{useContext} from 'react';
 import { layoutStyles, theme, drawerWidth} from './theme/Styles';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import {SchemaProvider,SchemaContext} from './SchemaContext';
+import {CustomLayoutProvider} from './CustomLayoutContext';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Hidden from '@material-ui/core/Hidden';
 import Typography from '@material-ui/core/Typography';
@@ -64,6 +65,7 @@ function Layout(props) {
           <AppHeader onDrawerToggle={handleDrawerToggle} />
 					<main className={classes.main}>
 						<SchemaProvider>
+						<CustomLayoutProvider>
 			    		<Switch>
 								<Route path='/schema'><SchemaDisplay/></Route>
 								<Route path='/obj/:object/:id'><Edit/></Route>
@@ -71,6 +73,7 @@ function Layout(props) {
 								<Route path='/obj/:object/edit'><Edit/></Route>
 								<Route path='/obj/:object'><List/></Route>
 							</Switch>
+							</CustomLayoutProvider>
 						</SchemaProvider>
 					</main>
           <footer className={classes.footer}>

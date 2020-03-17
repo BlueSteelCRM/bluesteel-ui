@@ -25,7 +25,7 @@ function SchemaProvider(props) {
 						let include=t.kind==='OBJECT' &&
 							['Query','Mutation','Subscription','__Schema','__Type','__Field','__InputValue','__EnumValue','__Directive','ListMetadata']
 							.indexOf(t.name)<0;
-						if (!include) console.log("Ignoring ",t);
+						//if (!include) console.log("Ignoring ",t);
 						return include;
 					})
 					.forEach(t=>{
