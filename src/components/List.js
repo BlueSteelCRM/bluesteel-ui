@@ -58,8 +58,11 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 					</Grid>
 				</Toolbar>
 			</AppBar>
-			<AutoTable onRowClick={row=>history.push("/obj/"+object+"/"+row.id+"/edit")}
-					 rows={rows} columns={columns}/>
+	     <AutoTable
+	        columns={columns}
+	        data={rows}
+					onRowClick={(e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")}}
+					/>
 		</Paper>
 		</div>
 	</React.Fragment>

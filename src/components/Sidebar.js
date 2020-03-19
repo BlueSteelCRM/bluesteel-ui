@@ -15,8 +15,11 @@ import PersonIcon from '@material-ui/icons/Person';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {NavLink} from 'react-router-dom';
 import {useLocation } from 'react-router-dom'
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import TelegramIcon from '@material-ui/icons/Telegram';
+import EmailIcon from '@material-ui/icons/Email';
+
 /*
-import SendIcon from '@material-ui/icons/Send';
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
 import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
 import PublicIcon from '@material-ui/icons/Public';
@@ -35,14 +38,14 @@ const categories = [
 			{ id: 'Queries', icon: <PeopleIcon />, active: true,link:"/obj/PersonQuery" },
     ],
   },
-	/*
   {
     id: 'Messaging',
     children: [
-      { id: 'Campaigns', icon: <SendIcon />,link:"/obj/Campaign" }
+      { id: 'Campaigns', icon: <TelegramIcon />,link:"/obj/Campaign" },
+			{ id: 'Emails', icon: <EmailIcon />,link:"/obj/EmailBlast" },
+			{ id: 'Email Templates', icon: <DashboardIcon />,link:"/obj/EmailTemplate" }
     ],
   },
-	*/
 	{
     id: 'Transactions',
     children: [

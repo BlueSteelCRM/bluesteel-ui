@@ -45,7 +45,7 @@ export default withStyles(commonStyles)(function({classes}){
 		<ObjectHeader object={object}/>
 			<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{
 				if (layouts && layouts[object] && layouts[object].Edit){
-					return React.createElement(layouts[object].Edit,{object,fields,values,classes});
+					return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
 				}else{
 					let title="Create "+object;
 					if (id){
@@ -61,7 +61,7 @@ export default withStyles(commonStyles)(function({classes}){
 							<Card>
 								<CardHeader title={title}/>
 									<CardContent>
-										<SaveableForm object={object} fields={fields} values={values}/>
+										<SaveableForm object={object} id={id} fields={fields} values={values}/>
 									</CardContent>
 							</Card>
 						</Paper>

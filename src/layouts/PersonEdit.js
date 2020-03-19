@@ -1,6 +1,6 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import EditableTable from '../components/EditableTable';
+import SaveableTable from '../components/SaveableTable';
 import SaveableForm from '../components/SaveableForm';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
@@ -29,12 +29,12 @@ export default function PersonEdit(props){
 			</TabPanel>
 			<TabPanel value={tabIndex} index={1} classes={classes}>
 				<Grid container spacing={4}>
-				 <Grid item xs={12} md={6}><EditableTable title="Emails"/></Grid>
-				 <Grid item xs={12} md={6}><EditableTable title="Phones"/></Grid>
+				 <Grid item xs={12} md={6}><SaveableTable title="Emails" object="PersonEmail" filter={{person_id:parseInt(props.id)}} fields={['email']}/></Grid>
+				 <Grid item xs={12} md={6}><SaveableTable title="Phones" object="PersonPhone" filter={{person_id:parseInt(props.id)}} fields={['phone']}/></Grid>
 				</Grid>
 			</TabPanel>
-			<TabPanel value={tabIndex} index={2} classes={classes}><EditableTable title="Segments"/></TabPanel>
-			<TabPanel value={tabIndex} index={3} classes={classes}><EditableTable title="Transactions"/></TabPanel>
+			<TabPanel value={tabIndex} index={2} classes={classes}><SaveableTable title="Segments"/></TabPanel>
+			<TabPanel value={tabIndex} index={3} classes={classes}><SaveableTable title="Transactions"/></TabPanel>
 			</Paper>
 		</div>;
 }

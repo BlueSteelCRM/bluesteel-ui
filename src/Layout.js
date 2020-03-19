@@ -43,7 +43,6 @@ function Layout(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
   return (
     <ThemeProvider theme={theme}>
 			<SnackbarProvider>
