@@ -45,8 +45,10 @@ export default withStyles(commonStyles)(function({classes}){
 		<ObjectHeader object={object}/>
 			<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{
 				if (layouts && layouts[object] && layouts[object].Edit){
+					console.log("Using custom layout for ",object);
 					return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
 				}else{
+					console.log("Not using custom layout for ",object,layouts[object]);
 					let title="Create "+object;
 					if (id){
 						if (values.given_name && values.family_name){

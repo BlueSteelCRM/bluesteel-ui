@@ -7,9 +7,14 @@ import useNotifiers from '../util/Notifiers';
 
 import AutoForm from './AutoForm';
 
-export default function SaveableForm({object,fields, values}){
+export default function SaveableForm({object,fields:_fields, values}){
 	const {notify} = useNotifiers();
 	const [error,setError]=useState(null);
+	let fields=_fields.map(d=>{
+		if (typeof d=='string') return {name:d};
+		return d;
+	});
+
 	let SAVE_MUTATION=`mutation($record:${object}Save!){
 			save_result:${object}Save(record:$record){
 				${fields.map(d=>d.name).join("\n")}

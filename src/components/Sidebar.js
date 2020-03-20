@@ -17,7 +17,8 @@ import {NavLink} from 'react-router-dom';
 import {useLocation } from 'react-router-dom'
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import TelegramIcon from '@material-ui/icons/Telegram';
-import EmailIcon from '@material-ui/icons/Email';
+//import EmailIcon from '@material-ui/icons/Email';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
 /*
 import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
@@ -41,8 +42,8 @@ const categories = [
   {
     id: 'Messaging',
     children: [
-      { id: 'Campaigns', icon: <TelegramIcon />,link:"/obj/Campaign" },
-			{ id: 'Emails', icon: <EmailIcon />,link:"/obj/EmailBlast" },
+      { id: 'Campaigns', icon: <AccountTreeIcon />,link:"/obj/Campaign" },
+			{ id: 'Emails', icon: <TelegramIcon />,link:"/obj/EmailBlast" },
 			{ id: 'Email Templates', icon: <DashboardIcon />,link:"/obj/EmailTemplate" }
     ],
   },

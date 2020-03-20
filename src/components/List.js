@@ -48,7 +48,7 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 						<Grid item xs>
 							<TextField
 								fullWidth
-								placeholder="Search by email address, phone number, or user UID"
+								placeholder="Search"
 								InputProps={{
 									disableUnderline: true,
 									className: classes.searchInput,
