@@ -10,10 +10,19 @@ import AutoForm from './AutoForm';
 export default function SaveableForm({object,fields:_fields, values}){
 	const {notify} = useNotifiers();
 	const [error,setError]=useState(null);
-	let fields=_fields.map(d=>{
-		if (typeof d=='string') return {name:d};
-		return d;
-	});
+	let fields=_fields.map(f=>{
+		if (typeof f=='string'){
+			f={name:f};
+		}
+		if (f==='id'){
+			f.hidden=true;
+			return f;
+		};
+		if (f.name.slice(-3)==='_id'){
+			return false;
+		};
+		return f;
+	}).filter(Boolean);
 
 	let SAVE_MUTATION=`mutation($record:${object}Save!){
 			save_result:${object}Save(record:$record){
@@ -50,6 +59,8 @@ export default function SaveableForm({object,fields:_fields, values}){
 			}
 		}];
 	*/
+
+
 	return <React.Fragment>
 				{error && <Alert severity="error">{JSON.stringify(error)}</Alert>}
 				<AutoForm

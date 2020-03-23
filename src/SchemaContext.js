@@ -1,13 +1,16 @@
 import React, { useEffect,useState } from 'react';
 import { getIntrospectionQuery } from 'graphql';
 const endpoint=process.env.REACT_APP_DATA_LAYER;
+const QueryOptions=require('./QueryOptions');
 
 const SchemaContext = React.createContext();
 
 function SchemaProvider(props) {
 	const [schema, setSchema] = useState({});
 	const [schemaError, setSchemaError] = useState(null);
+
   useEffect(() => {
+		console.log("Fetching schema");
 		fetch(endpoint, {
 		  method: 'POST',
 		  headers: { 'Content-Type': 'application/json' },
@@ -40,13 +43,17 @@ function SchemaProvider(props) {
 
 						s.objects[t.name]=t;
 					});
-					console.log(s.objects);
 				if (Object.keys(s.objects).length===0){
 					return setSchemaError("No valid objects found in the schema");
 				}
+
+				// Query fields and options
+				s.queryOptions=QueryOptions;
+
 				setSchema(s);
 			});
-  }, []);
+  },[]); //Keep the array, that means this should be called only once
+
 	if (schemaError) return schemaError;
 	if (!schema.objects) return null;
 

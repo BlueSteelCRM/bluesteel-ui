@@ -3,10 +3,11 @@ import {SchemaContext} from '../SchemaContext';
 import {CustomLayoutContext} from '../CustomLayoutContext';
 import SaveableForm from './SaveableForm';
 import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-import ObjectHeader from './ObjectHeader';
+import ObjectWrapper from './ObjectWrapper';
 
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
@@ -41,35 +42,37 @@ export default withStyles(commonStyles)(function({classes}){
 	if (!object) return "Could not find object "+object;
 	let {fields}=def;
 
-	return <React.Fragment>
-		<ObjectHeader object={object}/>
-			<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{
-				if (layouts && layouts[object] && layouts[object].Edit){
-					console.log("Using custom layout for ",object);
-					return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
-				}else{
-					console.log("Not using custom layout for ",object,layouts[object]);
-					let title="Create "+object;
-					if (id){
-						if (values.given_name && values.family_name){
-							 	title="Edit "+values.given_name+" "+values.family_name;
-						}else{
-							title="Edit "+object;
+	return <Box display="flex">
+			<ObjectWrapper object={object}>
+				<RetrieveData variables={{id}} object={object} fields={fields}>{(_values)=>{
+					const values=JSON.parse(JSON.stringify(_values));
+					if (layouts && layouts[object] && layouts[object].Edit){
+						console.log("Using custom layout for ",object);
+						return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
+					}else{
+						console.log("Not using custom layout for ",object,layouts[object]);
+						let title="Create "+object;
+						if (id){
+							if (values.given_name && values.family_name){
+								 	title="Edit "+values.given_name+" "+values.family_name;
+							}else{
+								title="Edit "+object;
+							}
 						}
-					}
 
-					return <div className={classes.contentWrapper}>
-						<Paper className={classes.paper}>
-							<Card>
-								<CardHeader title={title}/>
-									<CardContent>
-										<SaveableForm object={object} id={id} fields={fields} values={values}/>
-									</CardContent>
-							</Card>
-						</Paper>
-					</div>;
-				}
-			}}
-			</RetrieveData>
-		</React.Fragment>
+						return <div className={classes.contentWrapper}>
+							<Paper className={classes.paper}>
+								<Card>
+									<CardHeader title={title}/>
+										<CardContent>
+											<SaveableForm object={object} id={id} fields={fields} values={values}/>
+										</CardContent>
+								</Card>
+							</Paper>
+						</div>;
+					}
+				}}
+				</RetrieveData>
+			</ObjectWrapper>
+		</Box>
 });

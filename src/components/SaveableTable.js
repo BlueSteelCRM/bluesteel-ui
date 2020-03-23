@@ -7,21 +7,38 @@ import useNotifiers from '../util/Notifiers';
 
 
 const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,title})=>{
-	const [result] = useQuery({query,variables});
+	const [result,reexecuteQuery] = useQuery({query,variables});
 	const {notify,notifyErr} = useNotifiers();
 	const [saveState, executeSaveMutation] = useMutation(saveMutation);
 	const [deleteState, executeDeleteMutation] = useMutation(deleteMutation);
+	if (saveState.fetching){
+		return "Refetching results";
+	}
 
-	const saveRecord = (newData) => {
+	const saveRecord = (newData,cb) => {
 		//These are managed by the database
 		delete newData.created_at;
 		delete newData.updated_at;
-		newData.person_id=1;
-    return executeSaveMutation({record:newData}).then(notify,notifyErr)
+		//If there was a filter, make sure at least the filter value is assigned
+		if (variables && variables.filter){
+			for (let i in variables.filter){
+				if (!newData[i] && variables.filter[i] && typeof variables.filter[i]!='object'){
+					newData[i]=variables.filter[i];
+				}
+			}
+		}
+
+    return executeSaveMutation({record:newData}).then(notify,notifyErr).then(e=>{
+			reexecuteQuery({ requestPolicy: 'network-only' });
+			if (typeof cb=='function') cb();
+		});
   };
 
-	const deleteRecord = (oldData) => {
-    return executeDeleteMutation({id:oldData.id}).then(()=>notify("Deleted"),notifyErr)
+	const deleteRecord = (oldData,cb) => {
+    return executeDeleteMutation({id:oldData.id}).then(()=>notify("Deleted"),notifyErr).then(e=>{
+			reexecuteQuery({ requestPolicy: 'network-only' });
+			if (typeof cb=='function') cb();
+		});
   };
 
 	if (saveState.fetching || deleteState.fetching) return null;
@@ -35,16 +52,18 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	if (error){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
+	console.log("Retrieved data",data);
 
 
 	let rows=[];
 	if (data && data.listResult) rows=data.listResult;
+	rows.forEach(r=>delete r.__typename);
 
   return <AutoTable
 					title={title}
 	        columns={columns}
 	        data={JSON.parse(JSON.stringify(rows))}
-					onRowAdd={newData=>saveRecord(newData)}
+					onRowAdd={(newData,cb)=>saveRecord(newData)}
 					onRowUpdate={(newData,oldData)=>saveRecord(newData)}
 					onRowDelete={(oldData)=>deleteRecord(oldData)}
 			/>

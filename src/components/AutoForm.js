@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 /*
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -20,12 +21,15 @@ export default function AutoForm(props){
 	//The useForm / react-hook-form library is a VERY fast react form library that handles
 	// required, errors, etc, etc, but does require a 'register' method to be called
 	// on form elements
+	let hiddenValues={}
   const { handleSubmit, register, errors } = useForm();
-  const onSubmit = values => {
+  const onSubmit = _values => {
+		let values=Object.assign(_values,hiddenValues);
     if (props.onSubmit){
 			return props.onSubmit(values);
 		}else{
 			console.log("Submitted form:",values);
+			return false;
 		}
   };
 	let {fields,values}=props;
@@ -34,9 +38,14 @@ export default function AutoForm(props){
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
 			{fields.map((f,i)=>{
-				let reg=Object.assign({},f);delete reg.name; // a name or a thype
+				if (f.hidden){
+					hiddenValues[f.name]=values[f.name];
+					return null;
+				}
+				let reg=Object.assign({},f);
+				delete reg.name; // registration names handled across a whole form
 	      return <div key={i}>
-					<TextField key={i} inputRef={register(reg)}
+					<TextField key={i} hidden={f.hidden} inputRef={register(reg)}
 						label={f.name} name={f.name}
 						defaultValue={values[f.name]}
 						error={errors[f.name]}
@@ -44,7 +53,9 @@ export default function AutoForm(props){
 						/>
 				</div>;
 			})}
-      <button type="submit">Submit</button>
+			<Button variant="contained" color="primary" type="submit">
+        Save
+      </Button>
     </form>
   );
 };

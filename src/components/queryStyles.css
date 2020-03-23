@@ -1,0 +1,31 @@
+.query-items{
+  height:100%;
+}
+
+.query-placeholder{
+  border:2px dashed #999;
+	padding:20px;
+	margin:15px;
+	height:100%;
+}
+
+
+.dragging {
+  border: 1px dashed grey;
+}
+
+.react-beatiful-dnd-copy {
+  outline: 1px dashed grey;
+}
+.react-beatiful-dnd-copy ~ li {
+  transform: none !important;
+}
+
+
+.react-beatiful-dnd-copy ~ [data-rbd-placeholder-context-id] {
+  display: none !important;
+}
+.query-options-wrapper{
+	border-left:1px solid rgba(0, 0, 0, 0.12);
+	padding:10px;
+}

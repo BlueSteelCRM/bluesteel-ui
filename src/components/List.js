@@ -5,16 +5,18 @@ import AutoTable from './AutoTable';
 import Alert from '@material-ui/lab/Alert';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/ToolBar';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
+import AddIcon from '@material-ui/icons/Add';
 
 import Paper from '@material-ui/core/Paper';
 
 
 import {useQuery} from 'urql';
 import {useParams} from 'react-router-dom';
-import ObjectHeader from './ObjectHeader';
+import ObjectWrapper from './ObjectWrapper';
 import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 import {useHistory} from 'react-router-dom'
@@ -35,37 +37,42 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 	let rows=[];
 	if (data && data.listResult) rows=data.listResult;
 
-  return <React.Fragment>
-		<ObjectHeader object={object}/>
-		<div className={classes.contentWrapper}>
-		<Paper className={classes.paper}>
-			<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-				<Toolbar>
-					<Grid container spacing={2} alignItems="center">
-						<Grid item>
-							<SearchIcon className={classes.block} color="inherit" />
+  return <Box display="flex">
+		<ObjectWrapper object={object}>
+			<div className={classes.contentWrapper}>
+			<Paper className={classes.paper}>
+				<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+					<Toolbar>
+						<Grid container spacing={2} alignItems="center">
+							<Grid item>
+								<SearchIcon className={classes.block} color="inherit" />
+							</Grid>
+							<Grid item xs>
+								<TextField
+									fullWidth
+									placeholder="Search"
+									InputProps={{
+										disableUnderline: true,
+										className: classes.searchInput,
+									}}
+								/>
+							</Grid>
+							<Grid item>
+								<AddIcon className={classes.block} color="inherit"
+								onClick={e=>history.push("/obj/"+object+"/edit")}/>
+							</Grid>
 						</Grid>
-						<Grid item xs>
-							<TextField
-								fullWidth
-								placeholder="Search"
-								InputProps={{
-									disableUnderline: true,
-									className: classes.searchInput,
-								}}
-							/>
-						</Grid>
-					</Grid>
-				</Toolbar>
-			</AppBar>
-	     <AutoTable
-	        columns={columns}
-	        data={rows}
-					onRowClick={(e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")}}
-					/>
-		</Paper>
-		</div>
-	</React.Fragment>
+					</Toolbar>
+				</AppBar>
+		     <AutoTable
+		        columns={columns}
+		        data={rows}
+						onRowClick={(e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")}}
+						/>
+			</Paper>
+			</div>
+		</ObjectWrapper>
+	</Box>
 });
 
 export default function List(props){

@@ -19,79 +19,71 @@ import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
 const tableIcons = {
-    Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-    Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-    Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-    DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-    Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-    Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-    FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-    LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-    NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-    PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-    ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-    Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-    SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-    ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-  };
+	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
+	Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+	Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+	Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
+	DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+	Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+	Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+	Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
+	FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
+	LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
+	NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
+	PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+	ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
+	Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
+	SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
+	ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
+	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+};
 
 
 export default function AutoTable(props){
-	const {title}=props;
-	let [data,setData]=React.useState(props.data);
+	const {title,data}=props;
 
 	const columns=props.columns || [];
-		let editable=null;
-		if (props.onRowAdd || props.onRowDelete || props.onRowUpdate){
-			editable={
-				onRowAdd: props.onRowAdd && (newData =>
-					new Promise( (resolve, reject) => {
-						props.onRowAdd(newData);
-						//if (typeof o.then=='function'){ o.then(()=>{resolve();});}
-						let d=JSON.parse(JSON.stringify(data));
-						d.push(newData);
-						setData(d);
+	let editable=null;
+	if (props.onRowAdd || props.onRowDelete || props.onRowUpdate){
+		editable={
+			onRowAdd: props.onRowAdd && (newData =>
+				new Promise( (resolve, reject) => {
+					props.onRowAdd(newData,()=>{
+						console.log("Added new row");
 						resolve();
-					})),
-				onRowUpdate: props.onRowUpdate && ((newData, oldData) =>
-					new Promise((resolve, reject) => {
-						props.onRowUpdate(newData,oldData);
-						//if (typeof o.then=='function'){ o.then(()=>{resolve();});}
-						let d=JSON.parse(JSON.stringify(data));
-						const index = data.indexOf(oldData);
-						d[index] = newData;
-						setData(d);
+					});
+				})),
+			onRowUpdate: props.onRowUpdate && ((newData, oldData) =>
+				new Promise((resolve, reject) => {
+					props.onRowUpdate(newData,oldData,()=>{
+						console.log("Updated a row");
 						resolve();
-					})),
-				onRowDelete: props.onRowDelete && (oldData =>
-					new Promise((resolve, reject) => {
-						props.onRowDelete(oldData);
-						//if (typeof o.then=='function'){ o.then(()=>{resolve();});}
-						let d=JSON.parse(JSON.stringify(data));
-						const index = data.indexOf(oldData);
-						d.splice(index, 1);
-						setData(d);
+					});
+				})),
+			onRowDelete: props.onRowDelete && (oldData =>
+				new Promise((resolve, reject) => {
+					props.onRowDelete(oldData,()=>{
+						console.log("Added new row");
 						resolve();
-					}))
-			}
+					});
+				}))
 		};
-		let actions=[];
+	};
+	let actions=[];
 
-    return (
-      <MaterialTable
-				icons={tableIcons}
-        title={title || false}
-        columns={columns}
-        data={data}
-				options={{
-      		search: !!props.search
-    		}}
-				onRowClick={props.onRowClick}
-				editable={editable}
-				actions={actions}
-      />
-    );
+	return (
+		<MaterialTable
+			icons={tableIcons}
+			title={title || false}
+			columns={columns}
+			data={data}
+			options={Object.assign({},{
+				search: !!props.search,
+				actionsColumnIndex: -1, // aligning table actions on the right-hand side
+			},props.options)}
+			onRowClick={props.onRowClick}
+			editable={editable}
+			actions={actions}
+		/>
+	);
 }
