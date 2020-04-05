@@ -1,5 +1,6 @@
 import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
+import {CustomLayoutContext} from '../CustomLayoutContext';
 import AutoTable from './AutoTable';
 
 import Alert from '@material-ui/lab/Alert';
@@ -21,21 +22,27 @@ import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 import {useHistory} from 'react-router-dom'
 
-const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
+const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes,columns})=>{
 	const [result] = useQuery({query});
 	const history=useHistory();
+	let layouts=useContext(CustomLayoutContext);
 	const { data, fetching, error } = result;
 	if (fetching) return null;
 	if (error){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
 
-	let columns=fields.map(field=>{
+	if (!columns) columns=fields.map(field=>{
+		if (field==='id' || field.slice(-3)==='_id' || field==='created_at') return false;
 		return {title:field,field}
-	});
+	}).filter(Boolean);
 
 	let rows=[];
 	if (data && data.listResult) rows=data.listResult;
+
+	if (layouts && layouts[object] && layouts[object].List && layouts[object].List.columns){
+		columns=layouts[object].List.columns;
+	}
 
   return <Box display="flex">
 		<ObjectWrapper object={object}>
@@ -64,6 +71,7 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 						</Grid>
 					</Toolbar>
 				</AppBar>
+
 		     <AutoTable
 		        columns={columns}
 		        data={rows}
@@ -78,6 +86,8 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes})=>{
 export default function List(props){
 	let { object } = useParams();
 	let schema=useContext(SchemaContext);
+
+
 	let def=schema.objects[object];
 	if (!def) return "Could not find object "+object+" in "+Object.keys(schema.objects);
 	let {fields}=def;
@@ -87,5 +97,5 @@ export default function List(props){
 				${q.join("\n")}
 			}
 	}`;
-	return <RetrieveData query={query} object={object} fields={q}/>;
+	return <RetrieveData query={query} object={object} fields={q} columns={props.columns}/>;
 };

@@ -16,11 +16,32 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 
+import PersonFields from './queryitems/PersonFields';
 
 import "./queryStyles.css";
 
+function RenderJSON(props){
+	return JSON.stringify(props);
+};
 
-function RenderItem({item,onRemove}){
+const allQueryItems = [
+  { label: "Person Fields", type:"PersonFields"},
+  { label: "Banana",type:"bar"},
+  { label: "orange",type:"123"},
+].map(d=>{
+	d.id=uuid();
+	return d;
+});
+
+
+function EditItem({item,values={},onRemove}){
+	if (!item.type) return "Trying to render, no type in "+Object.keys(item || {error_no_item:true});
+	let Edit=null;
+	switch(item.type){
+		case "PersonFields":Edit=PersonFields.Edit; break;
+		default:
+			Edit=RenderJSON;
+	}
 	return <Card>
 	<CardHeader title={item.label}
 	action={onRemove&&
@@ -32,7 +53,7 @@ function RenderItem({item,onRemove}){
         }
 	/>
 	<CardContent>
-	Fooo
+		<Edit values={values}/>
 	</CardContent>
 	</Card>;
 }
@@ -49,17 +70,17 @@ const getRenderItem = (items, className) => (provided, snapshot, rubric) => {
 				style={provided.draggableProps.style}
 				className={snapshot.isDragging ? "dragging" : ""}
 			>
-			<RenderItem item={item}/>
+			<h3 item={item}>{item.label}</h3>
 		</ListItem>
 		</React.Fragment>
   );
 };
 
-function Copyable(props) {
+function QueryItems(props) {
   return (
     <Droppable
       renderClone={getRenderItem(props.items, props.className)}
-      droppableId={props.droppableId}
+      droppableId="QUERYITEMS"
       isDropDisabled={true}
     >
       {(provided, snapshot) => (
@@ -69,7 +90,7 @@ function Copyable(props) {
             return (
               <React.Fragment key={item.id}>
                 {shouldRenderClone ? (
-                  <ListItem className="react-beatiful-dnd-copy"><RenderItem item={item}/></ListItem>
+                  <ListItem className="react-beatiful-dnd-copy"><h3 item={item}>{item.label}</h3></ListItem>
                 ) : (
                   <Draggable draggableId={item.id} index={index}>
                     {(provided, snapshot) => (
@@ -80,7 +101,7 @@ function Copyable(props) {
                           {...provided.dragHandleProps}
                           className={snapshot.isDragging ? "dragging" : ""}
                         >
-                          <RenderItem item={item}/>
+													<h3 item={item}>{item.label}</h3>
                         </ListItem>
                       </React.Fragment>
                     )}
@@ -96,9 +117,6 @@ function Copyable(props) {
   );
 }
 
-function QueryOptions(props) {
-  return <Copyable droppableId="QUERYOPTIONS" className="query-options" items={props.items} />;
-}
 
 function Query(props) {
   return (
@@ -115,7 +133,7 @@ function Query(props) {
                   {...provided.dragHandleProps}
                   style={provided.draggableProps.style}
                 >
-                  <RenderItem item={item} onRemove={()=>props.onRemove(item)}/>
+                  <EditItem item={item} onRemove={()=>props.onRemove(item)}/>
                 </ListItem>
               )}
             </Draggable>
@@ -126,12 +144,6 @@ function Query(props) {
     </Droppable>
   );
 }
-
-const allQueryOptions = [
-  { id: uuid(), label: "Apple", type:"foo" },
-  { id: uuid(), label: "Banana",type:"bar" },
-  { id: uuid(), label: "orange",type:"123" }
-];
 
 const remove = (list, index) => {
   list.splice(index, 1);
@@ -151,7 +163,6 @@ const copy = (source, destination, droppableSource, droppableDestination) => {
 };
 
 export default withStyles(commonStyles)(function({classes}){
-	//let {queryOptions}=React.useContext(SchemaContext);
   const [queryItems, setQueryItems] = React.useState([]);
   const onDragEnd = React.useCallback(
     result => {
@@ -168,9 +179,9 @@ export default withStyles(commonStyles)(function({classes}){
             return JSON.parse(JSON.stringify(newItems));
           });
           break;
-        case "QUERYOPTIONS":
+        case "QUERYITEMS":
           setQueryItems(currentItems =>{
-						let newItems=copy(allQueryOptions, currentItems, source, destination);
+						let newItems=copy(allQueryItems, currentItems, source, destination);
             return JSON.parse(JSON.stringify(newItems));
 					}
           );
@@ -216,7 +227,7 @@ export default withStyles(commonStyles)(function({classes}){
 
 					<Grid item xs={3} className="query-options-wrapper">
 		        <h2>Query Options</h2>
-		        <QueryOptions items={allQueryOptions} />
+		        <QueryItems items={allQueryItems} />
 					</Grid>
 				</Grid>
       </DragDropContext>
