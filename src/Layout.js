@@ -14,6 +14,7 @@ import Sidebar from './components/Sidebar';
 import AppHeader from './components/AppHeader';
 import List from './components/List';
 import Edit from './components/Edit';
+import Home from './layouts/Home';
 import {Switch,Route} from 'react-router-dom';
 import JSONPretty from 'react-json-pretty';
 
@@ -33,8 +34,6 @@ function SchemaDisplay(){
 	let schema=useContext(SchemaContext);
 	return <JSONPretty id="schema-json" data={schema}/>
 }
-
-
 
 function Layout(props) {
   const { classes } = props;
@@ -70,6 +69,7 @@ function Layout(props) {
 							<SchemaProvider>
 							<CustomLayoutProvider>
 				    		<Switch>
+									<Route path='/'><Home/></Route>
 									<Route path='/schema'><SchemaDisplay/></Route>
 									<Route path='/obj/:object/:id'><Edit/></Route>
 									<Route path='/obj/:object/edit/:id'><Edit/></Route>
