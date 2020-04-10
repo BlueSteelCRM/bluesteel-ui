@@ -34,7 +34,7 @@ const allQueryItems = [
 });
 
 
-function EditItem({item,values={},onRemove}){
+function EditItem({item,values={},onRemove,setValues}){
 	if (!item.type) return "Trying to render, no type in "+Object.keys(item || {error_no_item:true});
 	let Edit=null;
 	switch(item.type){
@@ -53,7 +53,7 @@ function EditItem({item,values={},onRemove}){
         }
 	/>
 	<CardContent>
-		<Edit values={values}/>
+		<Edit values={values} setValues={setValues}/>
 	</CardContent>
 	</Card>;
 }
@@ -119,7 +119,11 @@ function QueryItems(props) {
 
 
 function Query(props) {
+	const [values,setValues]=React.useState({});
+
   return (
+		<div id="query">
+		CurentValues={JSON.stringify(values)}
     <Droppable droppableId="QUERY">
       {(provided, snapshot) => (
         <List ref={provided.innerRef} className="query-items">
@@ -133,7 +137,7 @@ function Query(props) {
                   {...provided.dragHandleProps}
                   style={provided.draggableProps.style}
                 >
-                  <EditItem item={item} onRemove={()=>props.onRemove(item)}/>
+                  <EditItem item={item} onRemove={()=>props.onRemove(item)} setValues={setValues}/>
                 </ListItem>
               )}
             </Draggable>
@@ -142,6 +146,7 @@ function Query(props) {
         </List>
       )}
     </Droppable>
+		</div>
   );
 }
 

@@ -44,7 +44,7 @@ function Edit(props){
 
 	return <React.Fragment>
 				<AutoForm
-					onSubmit={setValues}
+					onChange={setValues}
 					fields={fields}
 					values={values}
 					submit={false}

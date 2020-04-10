@@ -22,7 +22,8 @@ export default function AutoForm(props){
 	// required, errors, etc, etc, but does require a 'register' method to be called
 	// on form elements
 	let hiddenValues={}
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register, errors,getValues } = useForm();
+
   const onSubmit = _values => {
 		let values=Object.assign(_values,hiddenValues);
     if (props.onSubmit){
@@ -32,7 +33,8 @@ export default function AutoForm(props){
 			return false;
 		}
   };
-	let {fields,values}=props;
+
+	let {fields,values,submit_button=true,onChange}=props;
 	if (!Array.isArray(fields)) return "fields must be an array";
 
   return (
@@ -50,12 +52,16 @@ export default function AutoForm(props){
 						defaultValue={values[f.name]}
 						error={errors[f.name]}
 						helperText={errors[f.name] && errors[f.name].message}
+						onChange={ev=>{
+							let v=getValues();
+							if (typeof onChange=='function') onChange(v);
+						}}
 						/>
 				</div>;
 			})}
-			<Button variant="contained" color="primary" type="submit">
-        Save
-      </Button>
+			{submit_button &&
+				<Button variant="contained" color="primary" type="submit">Save</Button>
+			}
     </form>
   );
 };

@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
 import Sidebar from './components/Sidebar';
 import AppHeader from './components/AppHeader';
+import Icons from './icons';
 import List from './components/List';
 import Edit from './components/Edit';
 import {Switch,Route} from 'react-router-dom';
@@ -70,6 +71,7 @@ function Layout(props) {
 							<SchemaProvider>
 							<CustomLayoutProvider>
 				    		<Switch>
+									<Route path='/icons'><Icons/></Route>
 									<Route path='/schema'><SchemaDisplay/></Route>
 									<Route path='/obj/:object/:id'><Edit/></Route>
 									<Route path='/obj/:object/edit/:id'><Edit/></Route>
