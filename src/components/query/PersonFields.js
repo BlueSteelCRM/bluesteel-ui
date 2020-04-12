@@ -47,7 +47,7 @@ function Edit(props){
 					onChange={setValues}
 					fields={fields}
 					values={values}
-					submit={false}
+					submit_button={false}
 				/>
 				</React.Fragment>
 };

@@ -38,7 +38,7 @@ export default function AutoForm(props){
 	if (!Array.isArray(fields)) return "fields must be an array";
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form autoComplete="off" autocomplete="off" onSubmit={handleSubmit(onSubmit)}>
 			{fields.map((f,i)=>{
 				if (f.hidden){
 					hiddenValues[f.name]=values[f.name];
@@ -49,6 +49,9 @@ export default function AutoForm(props){
 	      return <div key={i}>
 					<TextField key={i} hidden={f.hidden} inputRef={register(reg)}
 						label={f.name} name={f.name}
+						inputProps={{
+					    autocomplete: 'off',
+						}}
 						defaultValue={values[f.name]}
 						error={errors[f.name]}
 						helperText={errors[f.name] && errors[f.name].message}
