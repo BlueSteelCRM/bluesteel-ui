@@ -1,6 +1,6 @@
 import React from 'react';
 import AutoForm from '../AutoForm';
-import {escapeValue} from './common.js';
+import {escapeValue,toCondition,fromCondition} from './common.js';
 
 function View({values}){
 	let list=Object.keys(values).map((k,i)=>{
@@ -25,7 +25,8 @@ function getJSON(values){
 }
 
 function Edit(props){
-	let {values,setValues}=props;
+	let {query,setQuery}=props;
+	if (!query) return "Query required, even if empty";
 	const fields = [
 		{ name: 'given_name'},
 		{ name: 'family_name'},
@@ -38,15 +39,40 @@ function Edit(props){
 			}
 		}
 	];
-	values=values || {
-		email:"foo@test.com"
+	let formValues={};
+	(query.conditions||[]).map(fromCondition).forEach(c=>{
+		formValues[c.name]=c.value;
+	});
+
+/*
+[{
+				and: [{
+					expression: 'family_name = "Zoolander"'
+				}, {
+					or: [{
+						expression: 'given_name="Derek"'
+					},{
+						expression: 'given_name="Larry"'
+					}]
+				}]
+			}]
+*/
+
+	function setQueryValues(v){
+		setQuery({table:"person",conditions:Object.keys(v).map(name=>{
+			let value=v[name];
+			if (!value) return false;
+			let operator="=";
+			return toCondition({name,operator,value});
+		})
+		});
 	}
 
 	return <React.Fragment>
 				<AutoForm
-					onChange={setValues}
+					onChange={setQueryValues}
 					fields={fields}
-					values={values}
+					values={formValues}
 					submit_button={false}
 				/>
 				</React.Fragment>

@@ -11,16 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-.nestable-item{
-	border:1px solid #CCC;
-	background:#FCC;
-	margin:10px;
-}
-
-.query-item{
-	border:1px dashed #CCC;
-	background:#FFF;
-	padding:10px;
-	margin:10px;
-}

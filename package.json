@@ -16,7 +16,6 @@
     "notistack": "^0.9.9",
     "pluralize": "^8.0.0",
     "react": "^16.13.0",
-    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^16.13.0",
     "react-email-editor": "^1.0.0",
     "react-hook-form": "^5.1.1",

@@ -16,45 +16,46 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Nestable from 'react-nestable';
 import PersonFields from './PersonFields';
 import Segments from './Segments';
 import Transactions from './Transactions';
+//import QueryCount from './QueryCount';
 
 import "./queryStyles.css";
 
 let options=[
-	{label:"People Fields",secondary:"Name, Email, etc",type:"",values:{},component:PersonFields},
-	{label:"Segments",type:"",secondary:"Membership and exclusions",values:{},component:Segments},
-	{label:"Transactions",type:"",values:{},component:Transactions},
+	{label:"People Fields",secondary:"Name, Email, etc",type:"PersonFields",component:PersonFields},
+	{label:"Segments",type:"Segments",secondary:"Membership and exclusions",component:Segments},
+	{label:"Transactions",type:"Transactions",component:Transactions},
 ]
-
 
 
 function RenderJSON(props){
 	return JSON.stringify(props);
 };
 
-function EditItem(props){
-	const {values,type,label,removeItem,setValues}=props;
+function EditCondition(props){
+	const {values,type,label,removeCondition,setValues}=props;
+
 	if (!type){
 		return 'No type specified';
 		//return "Trying to render, no type in "+Object.keys(props || {error_no_item:true});
 	}
 	let Edit=null;
-	switch(type){
-		case "PersonFields":Edit=PersonFields.Edit; break;
-		default:
-			Edit=RenderJSON;
+	let element=options.find(d=>d.type===type);
+	Edit=RenderJSON;
+	if (element){
+		Edit=element.component.Edit;
 	}
 	return <Card>
 	<CardHeader title={label || type}
-	action={removeItem&&
+	action={removeCondition&&
           <IconButton aria-label="remove"
-					onClick={removeItem}
+					onClick={removeCondition}
 					>
             <CloseIcon />
           </IconButton>
@@ -67,36 +68,27 @@ function EditItem(props){
 }
 
 
-function QueryDisplay(props){
-		const [items,setItems] = React.useState([
-	  { id: 0, type:"PersonFields",values:{} },
-	  {
-	    id: 1,
-	    children: [
-	      { id: 2, type: 'PersonFields',values:{} }
-	    ]
-	  },
-	  { id: 3, type: 'Segments', values:{} }
-	]);
+function QueryEditor(props){
+	const {conditions,setConditions}=props;
 
-	function removeItem(arr,id){
+	function removeCondition(arr,id){
 		if (!arr) return false;
 		let index=arr.findIndex(d=>d.id===id);
 		if (index>=0){
 			arr.splice(index,1);
-			setItems(JSON.parse(JSON.stringify(items)));
+			setConditions(JSON.parse(JSON.stringify(conditions)));
 			return false;
 		}
-		arr.forEach(a=>removeItem(a.children,id));
+		arr.forEach(a=>removeCondition(a.children,id));
 	}
 
-	function getItem(arr,id){
+	function getCondition(arr,id){
 		let item=arr.find(d=>d.id===id);
 		if (item) return item;
-		//look in each items children
+		//look in each conditions children
 		item=arr.map(el=>{
 			if (!el.children) return false;
-			return getItem(el.children,id);
+			return getCondition(el.children,id);
 		}).filter(Boolean);
 		if (!item[0]){
 			console.error("Could not find id",id);
@@ -107,41 +99,92 @@ function QueryDisplay(props){
 
 	function setValues(id){
 		return function(values){
-			let item=getItem(items,id);
+			let item=getCondition(conditions,id);
 			if (!item){
-				console.error("Could not find item "+id+" in ",items);
+				console.error("Could not find item "+id+" in ",conditions);
 				return false;
 			}
 			item.values=values;
-			setItems(JSON.parse(JSON.stringify(items)));
+			setConditions(JSON.parse(JSON.stringify(conditions)));
 		}
 	}
 
-	const renderItem = ({ item }) => {
+	const renderCondition = ({ item:condition }) => {
 			return <div className="query-item">
-			<EditItem {...item} removeItem={()=>removeItem(items,item.id)} setValues={setValues(item.id)}/>
+			<EditCondition {...condition} removeCondition={()=>removeCondition(conditions,condition.id)} setValues={setValues(condition.id)}/>
 			</div>;
 	};
 
   return <div>
-	{JSON.stringify(items)}
-	<Button onClick={e=>setItems(items.concat({id:uuid(),text:uuid()}))}>Add</Button>
 	<Nestable
-    items={items}
-    renderItem={renderItem}
+    items={conditions}
+    renderItem={renderCondition}
+		maxDepth={1}
   />
+	{JSON.stringify(conditions)}
 	</div>
-
 }
 
+
+function toQuery(conditions){
+	let o=
+}
+
+
+/*
+let sample={
+	outputs: [{
+	name: 'total',
+	expression: 'count(*)',
+	}],
+	conditions:[{
+		and: [
+		{
+			expression: 'family_name = "Zoolander"'
+		},
+		{
+			target: 'Transaction',
+			having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'
+		},
+		{
+			or: [{
+				expression: 'given_name="Derek"'
+			},{
+				expression: 'given_name="Larry"'
+			}]
+		}]
+	}]
+}
+*/
+
 export default withStyles(commonStyles)(function({classes}){
+
+	const [conditions,setConditions] = React.useState(
+		[
+			{ id: 0, type:"PersonFields",target:"person",expression:"family_name='Zoolander'"},
+			{
+				id: 1,
+				type:"and",
+				children: [
+					{ id: 2, type: 'PersonFields',target:"person",expression:"email='none_at_none'"},
+					{ id: 2, type: 'Tranaction',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
+				]
+			},
+			{ id: 3, type: 'Segments', values:{} }
+		]
+	);
+
+	function addCondition(item){
+		let newConditions=conditions.concat({id:uuid(),type:item.type});
+		setConditions(JSON.parse(JSON.stringify(newConditions)));
+	}
 
   return (
 		<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
 			<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
 				<Toolbar>
-					<Grid container spacing={2} alignItems="center">
+					<Grid container spacing={2} alignConditions="center">
 						<Grid item>
 							Query Editor
 						</Grid>
@@ -152,7 +195,7 @@ export default withStyles(commonStyles)(function({classes}){
 			</AppBar>
 				<Grid container>
 					<Grid item xs={9}>
-						<QueryDisplay/>
+						<QueryEditor conditions={conditions} setConditions={setConditions}/>
 					</Grid>
 					<Grid item xs={3} className="query-options-wrapper">
 		        <h2>Query Options</h2>
@@ -165,7 +208,7 @@ export default withStyles(commonStyles)(function({classes}){
                 />
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="add">
-                    <AddIcon />
+                    <AddIcon onClick={e=>addCondition(o)}/>
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
