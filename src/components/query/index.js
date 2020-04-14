@@ -33,9 +33,8 @@ let options=[
 	{label:"Transactions",type:"Transactions",component:Transactions},
 ]
 
-
 function RenderJSON(props){
-	return JSON.stringify(props);
+	return <pre>{JSON.stringify(props,null,2)}</pre>;
 };
 
 function EditCondition(props){
@@ -51,25 +50,29 @@ function EditCondition(props){
 	if (element){
 		Edit=element.component.Edit;
 	}
-	return <Card>
-	<CardHeader title={label || type}
-	action={removeCondition&&
-          <IconButton aria-label="remove"
-					onClick={removeCondition}
-					>
-            <CloseIcon />
-          </IconButton>
-        }
-	/>
-	<CardContent>
+	return <ListItem>
+	<ListItemText primary={label || type}/>
 		<Edit values={values} setValues={setValues}/>
-	</CardContent>
-	</Card>;
+	<ListItemSecondaryAction>
+	          <IconButton aria-label="remove"
+						onClick={removeCondition}
+						>
+	            <CloseIcon />
+	          </IconButton>
+	</ListItemSecondaryAction>
+	</ListItem>;
 }
 
 
 function QueryEditor(props){
 	const {conditions,setConditions}=props;
+
+/*
+	function addConditionGroup(item){
+		let newConditions=conditions.unshift({id:uuid(),type:item.type});
+		setConditions(JSON.parse(JSON.stringify(newConditions)));
+	}
+*/
 
 	function removeCondition(arr,id){
 		if (!arr) return false;
@@ -110,6 +113,16 @@ function QueryEditor(props){
 	}
 
 	const renderCondition = ({ item:condition }) => {
+		if (!condition.type) return <div>ERROR -- no condition type</div>;
+		if (condition.type==="and" || condition.type==="or"){
+				return <ListItem>
+				<ListItemText primary={condition.type}/>
+				<ListItemSecondaryAction>
+				   <IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>
+				</ListItemSecondaryAction>
+				</ListItem>;
+		};
+
 			return <div className="query-item">
 			<EditCondition {...condition} removeCondition={()=>removeCondition(conditions,condition.id)} setValues={setValues(condition.id)}/>
 			</div>;
@@ -117,19 +130,14 @@ function QueryEditor(props){
 
   return <div>
 	<Nestable
+		onChange={(items)=>setConditions(items)}
     items={conditions}
     renderItem={renderCondition}
-		maxDepth={1}
+		maxDepth={3}
   />
-	{JSON.stringify(conditions)}
+	<RenderJSON json={conditions}/>
 	</div>
 }
-
-
-function toQuery(conditions){
-	let o=
-}
-
 
 /*
 let sample={
@@ -160,18 +168,20 @@ let sample={
 export default withStyles(commonStyles)(function({classes}){
 
 	const [conditions,setConditions] = React.useState(
-		[
-			{ id: 0, type:"PersonFields",target:"person",expression:"family_name='Zoolander'"},
-			{
-				id: 1,
-				type:"and",
-				children: [
-					{ id: 2, type: 'PersonFields',target:"person",expression:"email='none_at_none'"},
-					{ id: 2, type: 'Tranaction',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
-				]
-			},
-			{ id: 3, type: 'Segments', values:{} }
-		]
+		[{ id:uuid(),
+			type:"and",
+			children:[
+				{ id: uuid(), type:"PersonFields",target:"person",expression:"family_name='Zoolander'"},
+				{
+					id: uuid(),
+					type:"or",
+					children: [
+						{ id: uuid(), type: 'PersonFields',target:"person",expression:"email='none_at_none'"},
+						{ id: uuid(), type: 'Transaction',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
+					]
+				}
+			]
+		}]
 	);
 
 	function addCondition(item){
@@ -207,8 +217,8 @@ export default withStyles(commonStyles)(function({classes}){
                   secondary={o.secondary?o.secondary:null}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="add">
-                    <AddIcon onClick={e=>addCondition(o)}/>
+                  <IconButton edge="end" aria-label="add" onClick={e=>addCondition(o)}>
+                    <AddIcon/>
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
