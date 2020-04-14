@@ -14,15 +14,12 @@ export default function SaveableForm({object,fields:_fields, values}){
 		if (typeof f=='string'){
 			f={name:f};
 		}
-		if (f==='id'){
-			f.hidden=true;
-			return f;
-		};
-		if (f.name.slice(-3)==='_id'){
-			return false;
-		};
 		return f;
-	}).filter(Boolean);
+	}).filter(({name}) => {
+		if(name === 'id' || name.slice(-3) === '_id') return false;
+		if(name === 'created_at' || name === 'updated_at') return false;
+		return true;
+	});
 
 	let SAVE_MUTATION=`mutation($record:${object}Save!){
 			save_result:${object}Save(record:$record){

@@ -48,6 +48,7 @@ export default function AutoForm(props){
 				delete reg.name; // registration names handled across a whole form
 	      return <div key={i}>
 					<TextField key={i} hidden={f.hidden} inputRef={register(reg)}
+						fullWidth
 						label={f.name} name={f.name}
 						inputProps={{
 					    autocomplete: 'off',
