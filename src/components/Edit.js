@@ -16,12 +16,11 @@ import {useQuery} from 'urql';
 
 import {useParams} from 'react-router-dom';
 
-
 function RetrieveData({object,variables,fields,children}){
 	let query=`query($id:ID!){
-			values:${object}(id:$id){
-				${fields.map(d=>d.name).join("\n")}
-			}
+		values:${object}(id:$id) {
+			${fields.map(d=>d.name).join("\n")}
+		}
 	}`;
 
 	const [result] = useQuery({
@@ -34,13 +33,15 @@ function RetrieveData({object,variables,fields,children}){
 	return children(values);
 };
 
-export default withStyles(commonStyles)(function({classes}){
+export default withStyles(commonStyles)(function({classes,isNew}){
 	let { object,id } = useParams();
 	let schema=useContext(SchemaContext);
 	let layouts=useContext(CustomLayoutContext);
 	let def=schema.objects[object];
 	if (!object) return "Could not find object "+object;
 	let {fields}=def;
+
+	if(isNew) id = undefined;
 
 	return <Box display="flex">
 			<ObjectWrapper object={object}>

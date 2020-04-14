@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+import {useHistory} from 'react-router';
 
 import Alert from '@material-ui/lab/Alert';
 
@@ -14,9 +15,10 @@ export default function SaveableForm({object,fields:_fields, values}){
 		if (typeof f=='string'){
 			f={name:f};
 		}
+		if(f.name === 'id') f.hidden = true;
 		return f;
 	}).filter(({name}) => {
-		if(name === 'id' || name.slice(-3) === '_id') return false;
+		if(name.slice(-3) === '_id') return false;
 		if(name === 'created_at' || name === 'updated_at') return false;
 		return true;
 	});
@@ -28,6 +30,7 @@ export default function SaveableForm({object,fields:_fields, values}){
 	}`;
 
 	const [state, executeMutation] = useMutation(SAVE_MUTATION);
+	const history = useHistory();
 
   const saveRecord = React.useCallback((newVals) => {
 		//These are managed by the database
@@ -37,6 +40,9 @@ export default function SaveableForm({object,fields:_fields, values}){
       if (result.error) {
 				setError(result.error);
       }else{
+				const {data}=result;
+				console.log(data);
+				if(data.save_result.id && !values.id) history.push(`/obj/${object}/${data.save_result.id}/edit`);
 				notify("Saved");
 			}
     });

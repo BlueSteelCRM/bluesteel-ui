@@ -72,9 +72,8 @@ function Layout(props) {
 				    		<Switch>
 									<Route path='/icons'><Icons/></Route>
 									<Route path='/schema'><SchemaDisplay/></Route>
+									<Route path='/obj/:object/edit'><Edit isNew/></Route>
 									<Route path='/obj/:object/:id'><Edit/></Route>
-									<Route path='/obj/:object/edit/:id'><Edit/></Route>
-									<Route path='/obj/:object/edit'><Edit/></Route>
 									<Route path='/obj/:object'><List/></Route>
 									<Route path='/'><Home/></Route>
 								</Switch>
