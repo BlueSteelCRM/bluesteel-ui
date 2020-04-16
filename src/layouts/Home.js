@@ -41,7 +41,7 @@ function PeopleStats() {
 		}`
 	});
 	if(fetching) return '...';
-	if(error) return error;
+	if(error) return error.toString();
 	const {total,last_week}=data;
 
 	const totalValue = total.results[0].value;

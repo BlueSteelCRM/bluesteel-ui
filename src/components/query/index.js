@@ -10,10 +10,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
-import Card from '@material-ui/core/Card';
-
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import QueryCount from './QueryCount';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 //import Button from '@material-ui/core/Button';
@@ -37,8 +36,8 @@ function RenderJSON(props){
 	return <pre>{JSON.stringify(props,null,2)}</pre>;
 };
 
-function EditCondition(props){
-	const {values,type,label,removeCondition,setValues}=props;
+function EditCondition({condition,setCondition}){
+	const {type,label,removeCondition}=condition;
 
 	if (!type){
 		return 'No type specified';
@@ -52,7 +51,7 @@ function EditCondition(props){
 	}
 	return <ListItem>
 	<ListItemText primary={label || type}/>
-		<Edit values={values} setValues={setValues}/>
+		<Edit condition={condition} setCondition={setCondition}/>
 	<ListItemSecondaryAction>
 	          <IconButton aria-label="remove"
 						onClick={removeCondition}
@@ -100,14 +99,14 @@ function QueryEditor(props){
 		return item[0];
 	}
 
-	function setValues(id){
-		return function(values){
+	function getSetCondition(id){
+		return function(condition){
 			let item=getCondition(conditions,id);
 			if (!item){
 				console.error("Could not find item "+id+" in ",conditions);
 				return false;
 			}
-			item.values=values;
+			item=Object.assign(item,condition);
 			setConditions(JSON.parse(JSON.stringify(conditions)));
 		}
 	}
@@ -115,24 +114,29 @@ function QueryEditor(props){
 	const renderCondition = ({ item:condition }) => {
 		if (!condition.type) return <div>ERROR -- no condition type</div>;
 		if (condition.type==="and" || condition.type==="or"){
-				return <ListItem>
-				<ListItemText primary={condition.type}/>
-				<ListItemSecondaryAction>
-				   <IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>
-				</ListItemSecondaryAction>
-				</ListItem>;
+				return <div className={`query-condition-${condition.type}`}>
+					<div>{condition.type}</div>
+					<IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>
+				</div>
 		};
 
-			return <div className="query-item">
-			<EditCondition {...condition} removeCondition={()=>removeCondition(conditions,condition.id)} setValues={setValues(condition.id)}/>
+			return <div className="query-condition">
+			<EditCondition condition={condition} removeCondition={()=>removeCondition(conditions,condition.id)} setCondition={getSetCondition(condition.id)}/>
 			</div>;
 	};
 
-  return <div>
+	function confirmChange(dragItem,destinationParent){
+		if (!destinationParent) return true;
+		if (["and","or"].indexOf(destinationParent.type)>=0) return true;
+		return false;
+	}
+
+  return <div className="query-editor">
 	<Nestable
 		onChange={(items)=>setConditions(items)}
     items={conditions}
     renderItem={renderCondition}
+		confirmChange={confirmChange}
 		maxDepth={3}
   />
 	<RenderJSON json={conditions}/>
@@ -199,6 +203,7 @@ export default withStyles(commonStyles)(function({classes}){
 							Query Editor
 						</Grid>
 						<Grid item xs>
+							<QueryCount conditions={[]}/>
 						</Grid>
 					</Grid>
 				</Toolbar>
@@ -206,6 +211,27 @@ export default withStyles(commonStyles)(function({classes}){
 				<Grid container>
 					<Grid item xs={9}>
 						<QueryEditor conditions={conditions} setConditions={setConditions}/>
+						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+						<Button
+				        variant="contained"
+				        color="default"
+				        className={classes.button}
+				        startIcon={<AddIcon />}
+								aria-label="add" onClick={e=>addCondition({type:"and"})}
+				      >
+				        Add "AND" group
+				      </Button>
+							<Button
+					        variant="contained"
+					        color="default"
+					        className={classes.button}
+					        startIcon={<AddIcon />}
+									aria-label="add" onClick={e=>addCondition({type:"or"})}
+					      >
+					        Add "OR" group
+					      </Button>
+						</ButtonGroup>
+
 					</Grid>
 					<Grid item xs={3} className="query-options-wrapper">
 		        <h2>Query Options</h2>

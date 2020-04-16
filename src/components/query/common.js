@@ -15,7 +15,7 @@ function unescapeValue(v){
 	turns a {name,operator,value} into a {expression}
 */
 function toCondition(vals){
-	let value=vals.value;
+	let value=vals.value || "";
 	if (Array.isArray(value)){
 			value="("+value.map(escapeValue).join(",")+")";
 	}else{
@@ -29,6 +29,9 @@ function fromCondition(condition){
 	let exp=condition.expression || condition;
 	if (!exp) return null;
 	let m=exp.match(/(.*?)([<>=!]+| LIKE | IN | NOT IN)(.*)/i);
+
+	if (!m || !m[3]) return {error:"Invalid expressions:"+exp};
+
 	let value=m[3].trim();
 	if (value.match(/^\(.*\)/)){
 		value=value.slice(1,-1).split(",").map(d=>unescapeValue(d.trim()));

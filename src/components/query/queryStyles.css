@@ -12,9 +12,27 @@
 	margin:10px;
 }
 
-.query-item{
-	border:1px dashed #CCC;
+.query-condition-and,.query-condition-or{
+	font-size:1.8em;
+	padding:5px;
+	display:flex;
+	justify-content:space-between;
+}
+.query-condition-or{
+}
+
+.query-condition{
 	background:#FFF;
+	padding:0;
+	margin:0px;
+}
+
+.query-editor{
+	margin:0px;
 	padding:10px;
-	margin:10px;
+}
+
+.query-editor .auto-form{
+	display:flex;
+	justify-content:space-between;
 }

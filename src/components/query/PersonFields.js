@@ -24,25 +24,32 @@ function getJSON(values){
 	}
 }
 
-function Edit(props){
-	let {query,setQuery}=props;
-	if (!query) return "Query required, even if empty";
+function Edit({condition,setCondition}){
+	if (!condition) return "Condition required, even if empty";
+	if (typeof setCondition!='function') return "setCondition must be a function";
 	const fields = [
-		{ name: 'given_name'},
-		{ name: 'family_name'},
-	 	{ name:"email",
-			type:"email",
-			required: 'Required',
-			pattern: {
-				value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-				message: "invalid email address"
+		{name:"field",type:"select",
+			values:{
+					"given_name":"First Name",
+					"family_name":"Last Name",
+					"email":"Email"
 			}
-		}
+		},
+		{name:"operator",type:"select",
+			values:{
+					"=":"Equals",
+					"!=":"Not qquals",
+					"starts_with":"Starts with",
+					"ends_with":"Ends with",
+					"contains":"Contains",
+					"not like":"Does not contain",
+					"in":"Is in list",
+					"!in":"Is not in list"
+			}
+		},
+		{name:"value"}
 	];
-	let formValues={};
-	(query.conditions||[]).map(fromCondition).forEach(c=>{
-		formValues[c.name]=c.value;
-	});
+	let formValues=fromCondition(condition);
 
 /*
 [{
@@ -58,19 +65,14 @@ function Edit(props){
 			}]
 */
 
-	function setQueryValues(v){
-		setQuery({table:"person",conditions:Object.keys(v).map(name=>{
-			let value=v[name];
-			if (!value) return false;
-			let operator="=";
-			return toCondition({name,operator,value});
-		})
-		});
+	function onChange(v){
+		let newCondition=Object.assign({},condition,toCondition(v));
+		setCondition(newCondition)
 	}
 
 	return <React.Fragment>
 				<AutoForm
-					onChange={setQueryValues}
+					onChange={onChange}
 					fields={fields}
 					values={formValues}
 					submit_button={false}
