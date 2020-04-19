@@ -129,7 +129,6 @@ function QueryEditor(props){
 		confirmChange={confirmChange}
 		maxDepth={3}
   />
-	<RenderJSON json={conditions}/>
 	</div>
 }
 
@@ -254,7 +253,7 @@ export default withStyles(commonStyles)(function({classes}){
 					        Add "OR" group
 					      </Button>
 						</ButtonGroup>
-
+						<RenderJSON json={conditions}/>
 					</Grid>
 					<Grid item xs={3} className="query-options-wrapper">
 		        <h2>Query Options</h2>
