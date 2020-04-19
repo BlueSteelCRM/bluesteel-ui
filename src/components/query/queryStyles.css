@@ -33,6 +33,24 @@
 }
 
 .query-editor .auto-form{
+	width:100%;
 	display:flex;
-	justify-content:space-between;
+	//justify-content:space-between;
+	flex-wrap:wrap;
+}
+
+.auto-form-field{
+	padding:0px;
+	margin:0 10px;
+}
+.auto-form-field-select{
+	min-width:200px
+}
+.auto-form-field-no-display{
+	display:none;
+}
+
+
+.nestable .nestable-list{
+	padding:0;
 }

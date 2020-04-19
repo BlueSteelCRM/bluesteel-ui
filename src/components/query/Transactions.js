@@ -1,49 +1,50 @@
-import React from 'react';
-import AutoForm from '../AutoForm';
-import {escapeValue} from './common.js';
-import {useQuery} from 'urql';
+//import React from 'react';
+import {toExpression,fromExpression} from './common';
+import {BaseEdit,BaseView} from './ConditionBase';
 
-let query=`query($id:ID!){
-		values:Segment{
-			id
-			label
+const fields=[
+	{name:"total_filter",
+		type:"select",
+		options:{
+				">=":"Has more than",
+				"<":"Has less than",
 		}
-}`;
+	},
+	{name:"total",type:"number",description:"In total giving"},
+	{name:"date_filter",
+		type:"select",
+		options:{
+				"":"All Time",
+				">=":"Since",
+				"<":"Before",
+		}
+	},
+	{name:"date",type:"date",display:v=>!!v.date_filter}
+];
 
-
-function View({values}){
-	let list=Object.keys(values).map((k,i)=>{
-		let v=values[k];
-		if (v==="") return false;
-		return <li key={i}>{k}={v}</li>
-	}).filter(Boolean);
-
-	if (list.length===0) return "No filters";
-	return <ul>{list}</ul>;
-};
-
-function getJSON(values){
-	let conditions=["$in","$nin"].map(cond=>{
-		if (!values[cond] || values[cond].length===0) return false;
-		return "segment_id in ("+values[cond].map(v=>escapeValue(v)+")");
-	}).filter(Boolean);
-	if (conditions.length>0) return false;
-	return {
-		table:"person_segment",
-		conditions
+function toCondition(values){
+	let {total_filter,total,date_filter,date}=values;
+	let condition={
+		target:"Transactions",
+		expression:date_filter?toExpression({field:"ts",operator:date_filter,value:date}):"",
+		having:toExpression({field:"sum(amount)",operator:total_filter,value:total})
 	}
+	return condition;
 }
 
-function Edit(props){
-	let {values,setValues}=props;
-	const [result] = useQuery({query});
-	if (result.fetching) return "Loading segments..";
-	if (result.data && result.data.values){
-		values=result.data.values;
+function fromCondition(condition){
+	let values={};
+	{let {operator,value}=fromExpression(condition.expression);
+	 	Object.assign(values,{date_filter:operator,date:value});
 	}
-	return <React.Fragment>
-			{JSON.stringify(values)}
-				</React.Fragment>;
-};
+	{let {operator,value}=fromExpression(condition.having);
+	 	Object.assign(values,{total_filter:operator,total:value});
+	}
+	console.log("Transaction parsed values ",values);
+	return values;
+}
 
-export default {Edit,View,getJSON,label:"Segments"};
+function Edit(props){return BaseEdit(Object.assign({},props,{fields,fromCondition,toCondition}));}
+function View(props){return BaseView(Object.assign({},props,{fields,fromCondition,toCondition}));}
+
+export default {Edit,View,label:"Transactions"};

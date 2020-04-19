@@ -36,8 +36,8 @@ function RenderJSON(props){
 	return <pre>{JSON.stringify(props,null,2)}</pre>;
 };
 
-function EditCondition({condition,setCondition}){
-	const {type,label,removeCondition}=condition;
+function EditCondition({condition,setCondition,removeCondition}){
+	const {type,label}=condition;
 
 	if (!type){
 		return 'No type specified';
@@ -50,9 +50,8 @@ function EditCondition({condition,setCondition}){
 		Edit=element.component.Edit;
 	}
 	return <ListItem>
-	<ListItemText primary={label || type}/>
 		<Edit condition={condition} setCondition={setCondition}/>
-	<ListItemSecondaryAction>
+			<ListItemSecondaryAction>
 	          <IconButton aria-label="remove"
 						onClick={removeCondition}
 						>
@@ -172,7 +171,12 @@ let sample={
 export default withStyles(commonStyles)(function({classes}){
 
 	const [conditions,setConditions] = React.useState(
-		[{ id:uuid(),
+		[
+			{ id: uuid(), type: 'Transactions',
+				target:"Transactions",
+				expression: 'date_created >= "2019-01-01"',
+				having: 'sum(amount) >= 100'},
+			{ id:uuid(),
 			type:"and",
 			children:[
 				{ id: uuid(), type:"PersonFields",target:"person",expression:"family_name='Zoolander'"},
@@ -181,7 +185,7 @@ export default withStyles(commonStyles)(function({classes}){
 					type:"or",
 					children: [
 						{ id: uuid(), type: 'PersonFields',target:"person",expression:"email='none_at_none'"},
-						{ id: uuid(), type: 'Transaction',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
+						//{ id: uuid(), type: 'Transactions',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
 					]
 				}
 			]

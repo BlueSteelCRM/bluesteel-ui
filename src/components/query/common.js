@@ -12,22 +12,32 @@ function unescapeValue(v){
 
 
 /*
-	turns a {name,operator,value} into a {expression}
+	turns a {field,operator,value} into a {expression}
 */
 function toCondition(vals){
-	let value=vals.value || "";
+	return {expression:toExpression(vals)};
+}
+
+function toExpression(vals){
+	let {field,operator,value}=vals;
 	if (Array.isArray(value)){
 			value="("+value.map(escapeValue).join(",")+")";
 	}else{
 		value=escapeValue(value);
 	}
-	return {expression:vals.name+" "+vals.operator+" "+value};
+	return field+" "+operator+" "+value;
 }
 
+
 function fromCondition(condition){
-	if (!condition) return null;
-	let exp=condition.expression || condition;
-	if (!exp) return null;
+	if (!condition) return {};
+	return fromExpression(condition.expression);
+}
+
+function fromExpression(exp){
+	if (typeof exp!=='string'){
+		 return {};
+	}
 	let m=exp.match(/(.*?)([<>=!]+| LIKE | IN | NOT IN)(.*)/i);
 
 	if (!m || !m[3]) return {error:"Invalid expressions:"+exp};
@@ -40,15 +50,7 @@ function fromCondition(condition){
 	}
 	let operator=m[2].trim().toUpperCase();
 
-	return {name:m[1],operator,value};
+	return {field:m[1],operator,value};
 }
 
-export {escapeValue,unescapeValue,fromCondition,toCondition};
-/*
-["x=123","y!='abc'",
-	"abc like 'abc%'",
-	"abc like 'a\\'%'",
-	"abc IN (1,2,3)",
-	"abc NOT IN ('1','2','3')"
-].map(c=>console.log(c,fromCondition(c),toCondition(fromCondition(c))));
-*/
+export {escapeValue,unescapeValue,fromCondition,toCondition,toExpression,fromExpression};
