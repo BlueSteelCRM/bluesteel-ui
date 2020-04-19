@@ -1,5 +1,4 @@
 import React from 'react';
-import AutoForm from '../AutoForm';
 import {escapeValue} from './common.js';
 import {useQuery} from 'urql';
 
@@ -35,7 +34,7 @@ function getJSON(values){
 }
 
 function Edit(props){
-	let {values,setValues}=props;
+	let {values}=props;
 	const [result] = useQuery({query});
 	if (result.fetching) return "Loading segments..";
 	if (result.data && result.data.values){

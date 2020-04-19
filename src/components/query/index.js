@@ -19,17 +19,16 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
 import Nestable from 'react-nestable';
-import PersonFields from './PersonFields';
-import Segments from './Segments';
-import Transactions from './Transactions';
-//import QueryCount from './QueryCount';
+import PersonField from './PersonField';
+import Segment from './Segment';
+import Transaction from './Transaction';
 
 import "./queryStyles.css";
 
 let options=[
-	{label:"People Fields",secondary:"Name, Email, etc",type:"PersonFields",component:PersonFields},
-	{label:"Segments",type:"Segments",secondary:"Membership and exclusions",component:Segments},
-	{label:"Transactions",type:"Transactions",component:Transactions},
+	{label:"People Fields",secondary:"Name, Email, etc",target:"PersonField",component:PersonField},
+	{label:"Segments",target:"Segment",secondary:"Membership and exclusions",component:Segment},
+	{label:"Transactions",target:"Transaction",component:Transaction},
 ]
 
 function RenderJSON(props){
@@ -37,18 +36,17 @@ function RenderJSON(props){
 };
 
 function EditCondition({condition,setCondition,removeCondition}){
-	const {type,label}=condition;
+	const {target,label}=condition;
 
-	if (!type){
-		return 'No type specified';
-		//return "Trying to render, no type in "+Object.keys(props || {error_no_item:true});
+	if (!target){
+		return 'No target specified';
 	}
 	let Edit=null;
-	let element=options.find(d=>d.type===type);
-	Edit=RenderJSON;
+	let element=options.find(d=>d.target===target);
 	if (element){
 		Edit=element.component.Edit;
 	}
+	if (!Edit) return "Could not find element with target "+target;
 	return <ListItem>
 		<Edit condition={condition} setCondition={setCondition}/>
 			<ListItemSecondaryAction>
@@ -64,13 +62,6 @@ function EditCondition({condition,setCondition,removeCondition}){
 
 function QueryEditor(props){
 	const {conditions,setConditions}=props;
-
-/*
-	function addConditionGroup(item){
-		let newConditions=conditions.unshift({id:uuid(),type:item.type});
-		setConditions(JSON.parse(JSON.stringify(newConditions)));
-	}
-*/
 
 	function removeCondition(arr,id){
 		if (!arr) return false;
@@ -111,10 +102,10 @@ function QueryEditor(props){
 	}
 
 	const renderCondition = ({ item:condition }) => {
-		if (!condition.type) return <div>ERROR -- no condition type</div>;
-		if (condition.type==="and" || condition.type==="or"){
-				return <div className={`query-condition-${condition.type}`}>
-					<div>{condition.type}</div>
+		if (!condition.target) return <div>ERROR -- no condition target</div>;
+		if (condition.target==="and" || condition.target==="or"){
+				return <div className={`query-condition-${condition.target}`}>
+					<div>{condition.target}</div>
 					<IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>
 				</div>
 		};
@@ -126,7 +117,7 @@ function QueryEditor(props){
 
 	function confirmChange(dragItem,destinationParent){
 		if (!destinationParent) return true;
-		if (["and","or"].indexOf(destinationParent.type)>=0) return true;
+		if (["and","or"].indexOf(destinationParent.target)>=0) return true;
 		return false;
 	}
 
@@ -172,19 +163,23 @@ export default withStyles(commonStyles)(function({classes}){
 
 	const [conditions,setConditions] = React.useState(
 		[
-			{ id: uuid(), type: 'Transactions',
+			/*{ id: uuid(),
 				target:"Transactions",
 				expression: 'date_created >= "2019-01-01"',
 				having: 'sum(amount) >= 100'},
+				*/
 			{ id:uuid(),
-			type:"and",
+			target:"and",
 			children:[
-				{ id: uuid(), type:"PersonFields",target:"person",expression:"family_name='Zoolander'"},
+				{ id: uuid(),
+					target:"PersonField",
+					expression:"email like '%gmail.com'"},
 				{
 					id: uuid(),
-					type:"or",
+					target:"or",
 					children: [
-						{ id: uuid(), type: 'PersonFields',target:"person",expression:"email='none_at_none'"},
+						{ id: uuid(), target: 'PersonField',
+						expression:"family_name like 'Smith%'"},
 						//{ id: uuid(), type: 'Transactions',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
 					]
 				}
@@ -193,8 +188,32 @@ export default withStyles(commonStyles)(function({classes}){
 	);
 
 	function addCondition(item){
-		let newConditions=conditions.concat({id:uuid(),type:item.type});
+		let newConditions=conditions.concat({id:uuid(),target:item.target});
 		setConditions(JSON.parse(JSON.stringify(newConditions)));
+	}
+
+	function cleanConditions(_c){
+		if (typeof _c!='object') return _c;
+		let c=JSON.parse(JSON.stringify(_c));
+		if (Array.isArray(c)){
+			return c.map(d=>{
+				delete d.id;
+				return cleanConditions(d);
+			});
+		}
+		delete c.id;
+		let o={};
+		for (let i in c){
+			if (i==="children") continue;
+			if (i==="target"){
+				if (["and","or"].indexOf(c[i])>=0){
+						o[c[i]]=cleanConditions(c.children||[]);
+				}
+				continue;
+			}
+			o[i]=cleanConditions(c[i]);
+		}
+		return o;
 	}
 
   return (
@@ -207,7 +226,7 @@ export default withStyles(commonStyles)(function({classes}){
 							Query Editor
 						</Grid>
 						<Grid item xs>
-							<QueryCount conditions={[]}/>
+							<QueryCount conditions={cleanConditions(conditions)}/>
 						</Grid>
 					</Grid>
 				</Toolbar>
@@ -221,7 +240,7 @@ export default withStyles(commonStyles)(function({classes}){
 				        color="default"
 				        className={classes.button}
 				        startIcon={<AddIcon />}
-								aria-label="add" onClick={e=>addCondition({type:"and"})}
+								aria-label="add" onClick={e=>addCondition({target:"and"})}
 				      >
 				        Add "AND" group
 				      </Button>
@@ -230,7 +249,7 @@ export default withStyles(commonStyles)(function({classes}){
 					        color="default"
 					        className={classes.button}
 					        startIcon={<AddIcon />}
-									aria-label="add" onClick={e=>addCondition({type:"or"})}
+									aria-label="add" onClick={e=>addCondition({target:"or"})}
 					      >
 					        Add "OR" group
 					      </Button>

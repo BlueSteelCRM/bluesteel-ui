@@ -21,6 +21,7 @@ export function BaseEdit({fields,condition,
 	if (typeof setCondition!='function') return "setCondition must be a function";
 
 	let formValues=(fromConditionOverride || fromCondition)(condition) || {};
+	debugger;
 
 	function onChange(v){
 		let newVals=(toConditionOverride || toCondition)(v)

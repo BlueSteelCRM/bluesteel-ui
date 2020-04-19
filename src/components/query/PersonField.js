@@ -18,7 +18,8 @@ const fields=[
 				"contains":"Contains",
 				"not like":"Does not contain",
 				"in":"Is in list",
-				"!in":"Is not in list"
+				"!in":"Is not in list",
+				"like":"Like",
 		}
 	},
 	{name:"value"}

@@ -48,7 +48,7 @@ function fromExpression(exp){
 	}else{
 		value=unescapeValue(value);
 	}
-	let operator=m[2].trim().toUpperCase();
+	let operator=m[2].trim().toLowerCase();
 
 	return {field:m[1],operator,value};
 }

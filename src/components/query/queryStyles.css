@@ -7,7 +7,8 @@
 }
 
 .nestable-item{
-	border:1px solid #CCC;
+	border:1px solid #DDD;
+	border-radius:5px;
 	background:#EEE;
 	margin:10px;
 }
@@ -35,7 +36,6 @@
 .query-editor .auto-form{
 	width:100%;
 	display:flex;
-	//justify-content:space-between;
 	flex-wrap:wrap;
 }
 
