@@ -10,7 +10,9 @@ const fields=[
 				"<":"Has less than",
 		}
 	},
-	{name:"total",type:"number",description:"In total giving"},
+	{name:"total",type:"currency",
+		description:"In total transaction amount"
+	},
 	{name:"date_filter",
 		type:"select",
 		options:{

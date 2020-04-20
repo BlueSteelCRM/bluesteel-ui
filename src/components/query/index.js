@@ -14,6 +14,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import QueryCount from './QueryCount';
 import AddIcon from '@material-ui/icons/Add';
+import DragHandleIcon from '@material-ui/icons/DragHandle';
 import CloseIcon from '@material-ui/icons/Close';
 //import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -101,18 +102,26 @@ function QueryEditor(props){
 		}
 	}
 
-	const renderCondition = ({ item:condition }) => {
+	const renderCondition = ({ item:condition,handler }) => {
 		if (!condition.target) return <div>ERROR -- no condition target</div>;
 		if (condition.target==="and" || condition.target==="or"){
+			let message="All of the following ('and')";
+			if (condition.target==="or") message="Any of the following ('or')";
 				return <div className={`query-condition-${condition.target}`}>
-					<div>{condition.target}</div>
-					<IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>
+					<div></div>
+					<div>{message}</div>
+					<div>
+						{condition.children?.length===0 && <IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>}
+					</div>
+					{handler}
 				</div>
 		};
 
 			return <div className="query-condition">
-			<EditCondition condition={condition} removeCondition={()=>removeCondition(conditions,condition.id)} setCondition={getSetCondition(condition.id)}/>
-			</div>;
+					<EditCondition condition={condition} removeCondition={()=>removeCondition(conditions,condition.id)} setCondition={getSetCondition(condition.id)}/>
+					{handler}
+				</div>
+			;
 	};
 
 	function confirmChange(dragItem,destinationParent){
@@ -127,6 +136,7 @@ function QueryEditor(props){
     items={conditions}
     renderItem={renderCondition}
 		confirmChange={confirmChange}
+		handler={null}
 		maxDepth={3}
   />
 	</div>
@@ -162,27 +172,21 @@ export default withStyles(commonStyles)(function({classes}){
 
 	const [conditions,setConditions] = React.useState(
 		[
-			/*{ id: uuid(),
-				target:"Transactions",
+			{ id: uuid(),
+				target:"Transaction",
 				expression: 'date_created >= "2019-01-01"',
 				having: 'sum(amount) >= 100'},
-				*/
-			{ id:uuid(),
-			target:"and",
-			children:[
-				{ id: uuid(),
-					target:"PersonField",
-					expression:"email like '%gmail.com'"},
 				{
 					id: uuid(),
 					target:"or",
 					children: [
+						{ id: uuid(),
+							target:"PersonField",
+							expression:"email like '%gmail.com'"},
 						{ id: uuid(), target: 'PersonField',
 						expression:"family_name like 'Smith%'"},
 						//{ id: uuid(), type: 'Transactions',target:"transaction",having: 'amount > 10 and ts > date_sub(now(), interval 6 month)'}
-					]
-				}
-			]
+				]
 		}]
 	);
 

@@ -14,13 +14,21 @@
 }
 
 .query-condition-and,.query-condition-or{
-	font-size:1.8em;
+	font-size:1em;
 	padding:5px;
 	display:flex;
 	justify-content:space-between;
 }
 .query-condition-or{
 }
+
+.query-and-text,.query-or-text{
+	display:none;
+}
+.query-condition-or .query-or-text{
+}
+
+
 
 .query-condition{
 	background:#FFF;

@@ -1,7 +1,10 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import Select from "react-select"
+import DateFnsUtils from '@date-io/date-fns';
+import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
 /*import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 */
@@ -21,8 +24,33 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 */
 
+function DateField(props){
+	const {register,name,value,error,label,onChange,options,setValue,getValues}=props;
+	React.useEffect(() => {
+		register({name});
+	}, [name,register]);
+
+	return <KeyboardDatePicker
+      disableToolbar
+      variant="inline"
+      format="yyyy-MM-dd"
+      margin="normal"
+      id={`auto-form-${name}`}
+      label={label}
+      value={value}
+      onChange={date=>{
+				let d=date.toISOString().slice(0,10);
+				setValue(name,d);
+				onChange();
+			}}
+      KeyboardButtonProps={{
+        'aria-label': 'change date',
+      }}
+    />
+}
+
 function SelectField(props){
-	const {register,name,value,display,error,label,onChange,options,setValue,getValues}=props;
+	const {register,name,value,error,label,onChange,options,setValue,getValues}=props;
 	React.useEffect(() => {
 		register({ name}); // custom register react-select
 	}, [name,register])
@@ -36,10 +64,9 @@ function SelectField(props){
 		));
 	}
 	let defaultValue=opts.find(o=>value===o.value);
-	let displayClass="";
-	if (!display)displayClass=" auto-form-field-no-display";
+
 	return <Select
-			className={`auto-form-field-select${displayClass}`}
+			className={`auto-form-field-select`}
 			defaultValue={defaultValue}
 			value={opts.find(o=>value===o.value)}
 			options={opts}
@@ -61,29 +88,42 @@ function SelectField(props){
 
 
 function Field(props){
-	const {register,display,name,value,error,label,onChange,options}=props;
+	const {register,display,name,value,error,label,description,onChange,options,type}=props;
 	if (!name) return "Name required";
-	if (options) return <SelectField {...props}/>;
-
-	let registerValues=Object.assign({},props);
-	delete registerValues.name;
-	let common={
-		fullWidth:true,
-		label,
-		name,
-		defaultValue:value,
-		error,
-		helperText:error && error.message
-	}
 	let displayClass="";
 	if (!display)displayClass=" auto-form-field-no-display";
 
-	return <div className={`auto-form-field${displayClass}`}><TextField
-		inputRef={register(registerValues)}
-		inputProps={{autocomplete: 'off'}}
-		onChange={onChange}
-		{...common}
-		/></div>
+	let element=null;
+	if (options){
+		 element=<SelectField {...props}/>;
+	}else if (type==="date"){
+		 element=<DateField {...props}/>;
+	 }else{
+
+		let registerValues=Object.assign({},props);
+		delete registerValues.name;
+		let common={
+			fullWidth:true,
+			label,
+			name,
+			defaultValue:value,
+			error,
+			helperText:(error && error.message)||description
+		}
+
+		let InputProps={autocomplete: 'off'};
+		if (type==="currency"){
+				InputProps.startAdornment=<InputAdornment position="start">$</InputAdornment>;
+		}
+
+		element=<TextField
+			inputRef={register(registerValues)}
+			InputProps={InputProps}
+			onChange={onChange}
+			{...common}
+			/>
+		}
+	return <div className={`auto-form-field${displayClass}`}>{element}</div>;
 }
 
 
@@ -117,6 +157,7 @@ export default function AutoForm(props){
 	}
 
   return (
+		<MuiPickersUtilsProvider utils={DateFnsUtils}>
     <form className="auto-form" autoComplete="off" autocomplete="off" onSubmit={handleSubmit(onSubmit)}>
 			{fields.map((f,i)=>{
 				if (!f){
@@ -142,11 +183,12 @@ export default function AutoForm(props){
 					getValues
 				});
 				//delete reg.name; // registration names handled across a whole form
-	      return <div key={i} className="auto-form-field"><Field {...fieldItems}/></div>;
+	      return <Field key={i} {...fieldItems}/>;
 			})}
 			{submit_button &&
 				<Button variant="contained" color="primary" type="submit">Save</Button>
 			}
     </form>
+		</MuiPickersUtilsProvider>
   );
 };

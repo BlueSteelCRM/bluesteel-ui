@@ -1,4 +1,5 @@
 function escapeValue(value){
+	if (!value) return "''";
 	return "'"+value.replace("'","\\'")+"'";
 };
 function unescapeValue(v){
@@ -21,7 +22,7 @@ function toCondition(vals){
 function toExpression(vals){
 	let {field,operator,value}=vals;
 	if (Array.isArray(value)){
-			value="("+value.map(escapeValue).join(",")+")";
+		value="("+value.map(escapeValue).join(",")+")";
 	}else{
 		value=escapeValue(value);
 	}
