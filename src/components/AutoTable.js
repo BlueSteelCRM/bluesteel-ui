@@ -74,7 +74,7 @@ export default function AutoTable(props){
 	return (
 		<MaterialTable
 			icons={tableIcons}
-			title={title || false}
+			title={title || null}
 			columns={columns}
 			data={data}
 			options={Object.assign({},{

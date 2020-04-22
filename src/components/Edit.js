@@ -4,9 +4,10 @@ import {CustomLayoutContext} from '../CustomLayoutContext';
 import SaveableForm from './SaveableForm';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
 import ObjectWrapper from './ObjectWrapper';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -56,6 +57,8 @@ export default withStyles(commonStyles)(function({classes,isNew}){
 						if (id){
 							if (values.given_name && values.family_name){
 								 	title="Edit "+values.given_name+" "+values.family_name;
+							}else if (values.label){
+								title="Edit "+values.label;
 							}else{
 								title="Edit "+object;
 							}
@@ -63,12 +66,12 @@ export default withStyles(commonStyles)(function({classes,isNew}){
 
 						return <div className={classes.contentWrapper}>
 							<Paper className={classes.paper}>
-								<Card>
-									<CardHeader title={title}/>
-										<CardContent>
-											<SaveableForm object={object} id={id} fields={fields} values={values}/>
-										</CardContent>
-								</Card>
+								<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+									<Toolbar><Typography variant="h6">{title}</Typography></Toolbar>
+								</AppBar>
+								<Box p={3} >
+									<SaveableForm object={object} id={id} fields={fields} values={values}/>
+								</Box>
 							</Paper>
 						</div>;
 					}

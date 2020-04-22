@@ -1,7 +1,10 @@
 import React, { useEffect,useState } from 'react';
 import { getIntrospectionQuery } from 'graphql';
+import {upper} from './util';
+
 const endpoint=process.env.REACT_APP_DATA_LAYER;
 const QueryOptions=require('./QueryOptions');
+
 
 const SchemaContext = React.createContext();
 
@@ -36,7 +39,11 @@ function SchemaProvider(props) {
 						let objects=[];
 						t.fields.forEach(t=>{
 							if (t.type && (t.type.kind==='OBJECT' || t.type.kind==='LIST')) objects.push(t);
-							else fields.push(t);
+							else fields.push({
+								name:t.name,
+								label:upper(t.name),
+								type:t.type?.ofType?.name ?? 'String'
+							});
 						});
 						t.fields=fields;
 						t.objects=objects;
@@ -49,7 +56,7 @@ function SchemaProvider(props) {
 
 				// Query fields and options
 				s.queryOptions=QueryOptions;
-
+				console.log("Setting schema to:",s);
 				setSchema(s);
 			});
   },[]); //Keep the array, that means this should be called only once

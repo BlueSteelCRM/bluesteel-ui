@@ -6,7 +6,7 @@ import {Router} from 'react-router-dom';
 import { createBrowserHistory } from "history";
 
 import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
-import { cacheExchange } from '@urql/exchange-graphcache';
+//import { cacheExchange } from '@urql/exchange-graphcache';
 
 let endpoint=process.env.REACT_APP_DATA_LAYER;
 
@@ -15,9 +15,7 @@ const client = createClient({
   exchanges: [
     dedupExchange,
     // Replace the default cacheExchange with the new one
-    cacheExchange({
-      /* config */
-    }),
+    // cacheExchange({}),
     fetchExchange,
   ],
 });

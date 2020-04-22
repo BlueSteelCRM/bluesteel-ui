@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Select from "react-select"
 import DateFnsUtils from '@date-io/date-fns';
@@ -111,7 +112,7 @@ function Field(props){
 			helperText:(error && error.message)||description
 		}
 
-		let InputProps={autocomplete: 'off'};
+		let InputProps={autoComplete: 'off'};
 		if (type==="currency"){
 				InputProps.startAdornment=<InputAdornment position="start">$</InputAdornment>;
 		}
@@ -158,7 +159,7 @@ export default function AutoForm(props){
 
   return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
-    <form className="auto-form" autoComplete="off" autocomplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <form className="auto-form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
 			{fields.map((f,i)=>{
 				if (!f){
 					throw new Error("You must include a value field array");
@@ -186,7 +187,7 @@ export default function AutoForm(props){
 	      return <Field key={i} {...fieldItems}/>;
 			})}
 			{submit_button &&
-				<Button variant="contained" color="primary" type="submit">Save</Button>
+				<Box mt={3}> <Button variant="contained" color="primary" type="submit">Save</Button></Box>
 			}
     </form>
 		</MuiPickersUtilsProvider>

@@ -43,6 +43,7 @@ function PeopleStats() {
 	if(fetching) return '...';
 	if(error) return error.toString();
 	const {total,last_week}=data;
+	if (!total) return "Invalid response";
 
 	const totalValue = total.results[0].value;
 	const lastWeekValue = last_week.results[0].value;

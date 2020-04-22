@@ -12,7 +12,7 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	const [saveState, executeSaveMutation] = useMutation(saveMutation);
 	const [deleteState, executeDeleteMutation] = useMutation(deleteMutation);
 	if (saveState.fetching){
-		return "Refetching results";
+		return null;
 	}
 
 	const saveRecord = (newData,cb) => {
@@ -28,9 +28,12 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 			}
 		}
 
-    return executeSaveMutation({record:newData}).then(notify,notifyErr).then(e=>{
-			reexecuteQuery({ requestPolicy: 'network-only' });
-			if (typeof cb=='function') cb();
+    return executeSaveMutation({record:newData})
+			.then(o=>{
+					if (o.error) return notifyErr(o.error);
+					reexecuteQuery({ requestPolicy: 'network-only' });
+					if (typeof cb=='function') cb();
+					notify();
 		});
   };
 
@@ -62,7 +65,7 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
   return <AutoTable
 					title={title}
 	        columns={columns}
-	        data={JSON.parse(JSON.stringify(rows))}
+	        data={rows}
 					onRowAdd={(newData,cb)=>saveRecord(newData)}
 					onRowUpdate={(newData,oldData)=>saveRecord(newData)}
 					onRowDelete={(oldData)=>deleteRecord(oldData)}

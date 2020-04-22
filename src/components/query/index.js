@@ -14,7 +14,7 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import QueryCount from './QueryCount';
 import AddIcon from '@material-ui/icons/Add';
-import DragHandleIcon from '@material-ui/icons/DragHandle';
+//import DragHandleIcon from '@material-ui/icons/DragHandle';
 import CloseIcon from '@material-ui/icons/Close';
 //import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -37,7 +37,7 @@ function RenderJSON(props){
 };
 
 function EditCondition({condition,setCondition,removeCondition}){
-	const {target,label}=condition;
+	const {target}=condition;
 
 	if (!target){
 		return 'No target specified';
@@ -224,11 +224,11 @@ export default withStyles(commonStyles)(function({classes}){
 		<Paper className={classes.paper}>
 			<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
 				<Toolbar>
-					<Grid container spacing={2} alignConditions="center">
-						<Grid item>
+					<Grid container spacing={2} alignItems="center">
+						<Grid item xs>
 							Query Editor
 						</Grid>
-						<Grid item xs>
+						<Grid item>
 							<QueryCount conditions={cleanConditions(conditions)}/>
 						</Grid>
 					</Grid>

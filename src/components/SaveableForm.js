@@ -46,7 +46,7 @@ export default function SaveableForm({object,fields:_fields, values}){
 				notify("Saved");
 			}
     });
-  }, [executeMutation,notify]);
+  }, [executeMutation,notify,history,object,values]);
 
 	if (state.fetching) return null;
 
