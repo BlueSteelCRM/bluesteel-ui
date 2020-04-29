@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 
 import ObjectWrapper from './ObjectWrapper';
 
-import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
 
 import {useQuery} from 'urql';
@@ -34,8 +33,9 @@ function RetrieveData({object,variables,fields,children}){
 	return children(values);
 };
 
-export default withStyles(commonStyles)(function({classes,isNew}){
+export default function({isNew}){
 	let { object,id } = useParams();
+	const classes=commonStyles();
 	let schema=useContext(SchemaContext);
 	let layouts=useContext(CustomLayoutContext);
 	let def=schema.objects[object];
@@ -46,8 +46,7 @@ export default withStyles(commonStyles)(function({classes,isNew}){
 
 	return <Box display="flex">
 			<ObjectWrapper object={object}>
-				<RetrieveData variables={{id}} object={object} fields={fields}>{(_values)=>{
-					const values=JSON.parse(JSON.stringify(_values));
+				<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{
 					if (layouts && layouts[object] && layouts[object].Edit){
 						console.log("Using custom layout for ",object);
 						return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
@@ -69,7 +68,7 @@ export default withStyles(commonStyles)(function({classes,isNew}){
 								<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
 									<Toolbar><Typography variant="h6">{title}</Typography></Toolbar>
 								</AppBar>
-								<Box p={3} >
+								<Box p={3}>
 									<SaveableForm object={object} id={id} fields={fields} values={values}/>
 								</Box>
 							</Paper>
@@ -79,4 +78,4 @@ export default withStyles(commonStyles)(function({classes,isNew}){
 				</RetrieveData>
 			</ObjectWrapper>
 		</Box>
-});
+};

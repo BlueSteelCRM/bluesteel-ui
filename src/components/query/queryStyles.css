@@ -62,3 +62,7 @@
 .nestable .nestable-list{
 	padding:0;
 }
+.list-item-top-right{
+	top:20px;
+	right:0
+}

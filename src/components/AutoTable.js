@@ -18,6 +18,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 
+
 const tableIcons = {
 	Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
 	Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
@@ -38,9 +39,8 @@ const tableIcons = {
 	ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-
 export default function AutoTable(props){
-	const {title,data}=props;
+	const {title,data,detailPanel}=props;
 
 	const columns=props.columns || [];
 	let editable=null;
@@ -84,6 +84,9 @@ export default function AutoTable(props){
 			onRowClick={props.onRowClick}
 			editable={editable}
 			actions={actions}
+			detailPanel={detailPanel && (row=>{
+				return React.createElement(detailPanel,{row});
+			})}
 		/>
 	);
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
 import {sidebarStyles} from '../theme/Styles.js';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -55,10 +54,10 @@ const categories = [
   }
 ];
 
-
-function Sidebar(props) {
-  const { classes, ...other } = props;
+export default function Sidebar(props) {
+	const classes =sidebarStyles();
 	let location = useLocation();
+	const {...other } = props;
 
   return (
     <Drawer variant="permanent" {...other}>
@@ -116,5 +115,3 @@ function Sidebar(props) {
     </Drawer>
   );
 }
-
-export default withStyles(sidebarStyles)(Sidebar);

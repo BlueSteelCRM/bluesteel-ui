@@ -6,7 +6,7 @@ import {useQuery,useMutation} from 'urql';
 import useNotifiers from '../util/Notifiers';
 
 
-const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,title})=>{
+const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,title,onRowClick})=>{
 	const [result,reexecuteQuery] = useQuery({query,variables});
 	const {notify,notifyErr} = useNotifiers();
 	const [saveState, executeSaveMutation] = useMutation(saveMutation);
@@ -55,8 +55,6 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	if (error){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
-	console.log("Retrieved data",data);
-
 
 	let rows=[];
 	if (data && data.listResult) rows=data.listResult;
@@ -69,11 +67,12 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 					onRowAdd={(newData,cb)=>saveRecord(newData)}
 					onRowUpdate={(newData,oldData)=>saveRecord(newData)}
 					onRowDelete={(oldData)=>deleteRecord(oldData)}
+					onRowClick={onRowClick}
 			/>
 };
 
-export default function QueryTable(props){
-	let {object,fields,filter}=props;
+export default function SaveableTable(props){
+	let {object,fields,filter,onRowClick}=props;
 	let schema=useContext(SchemaContext);
 
 	let def=schema.objects[object];
@@ -120,5 +119,8 @@ export default function QueryTable(props){
 			}
 	}`;
 
-	return <RetrieveData title={props.title} query={query} saveMutation={saveMutation} deleteMutation={deleteMutation} expandedFields={expandedFields} variables={{filter}}/>;
+	return <RetrieveData title={props.title} query={query} saveMutation={saveMutation} deleteMutation={deleteMutation}
+		expandedFields={expandedFields} variables={{filter}}
+		onRowClick={onRowClick}
+		/>;
 };

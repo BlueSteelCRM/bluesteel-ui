@@ -1,22 +1,37 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
-import SaveableTable from '../components/SaveableTable';
-import SaveableForm from '../components/SaveableForm';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
+import SaveableTable from '../components/SaveableTable';
+import SaveableForm from '../components/SaveableForm';
+
 
 function TabPanel({index,value,classes,children}){
 	return <Paper hidden={index!==value} style={{"padding":"10px"}}>{children}</Paper>
 }
 
+function NewPerson(props){
+	const {classes}=props;
+	return (
+		<div className={classes.contentWrapper}>
+			<Paper className={classes.paper}>
+				<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+					<Toolbar><Typography variant="h6">Add a new Person</Typography></Toolbar>
+				</AppBar>
+		 		<SaveableForm {...props}/>
+		 </Paper>
+		 </div>
+	 );
+};
+
 export default function PersonEdit(props){
-	let {classes}=props;
+	const {classes}=props;
 	const [tabIndex, setTabIndex] = React.useState(0);
+	if (!props.id) return <NewPerson {...props}/>;
 	const title=[props.values.given_name,props.values.family_name].filter(Boolean).join(" ");
 	return	<div className={classes.contentWrapper}>
 	<Paper className={classes.paper}>

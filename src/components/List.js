@@ -18,11 +18,11 @@ import Paper from '@material-ui/core/Paper';
 import {useQuery} from 'urql';
 import {useParams} from 'react-router-dom';
 import ObjectWrapper from './ObjectWrapper';
-import { withStyles } from '@material-ui/core/styles';
 import {commonStyles} from '../theme/Styles';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
 
-const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes,columns})=>{
+function RetrieveData({object,query,fields,columns}){
+	const classes=commonStyles();
 	const [result] = useQuery({query});
 	const history=useHistory();
 	let layouts=useContext(CustomLayoutContext);
@@ -43,6 +43,15 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes,column
 	if (layouts && layouts[object] && layouts[object].List && layouts[object].List.columns){
 		columns=layouts[object].List.columns;
 	}
+	let detailPanel=layouts[object]?.List?.detailPanel;
+	let onRowClick=null;
+
+	if (detailPanel){
+		onRowClick=layouts[object]?.List?.onRowClick || ((event, rowData, togglePanel) => togglePanel());
+	}else{
+		onRowClick=layouts[object]?.List?.onRowClick || ((e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")});
+	}
+
 
   return <Box display="flex">
 		<ObjectWrapper object={object}>
@@ -75,18 +84,23 @@ const RetrieveData=withStyles(commonStyles)(({object,query,fields,classes,column
 		     <AutoTable
 		        columns={columns}
 		        data={rows}
-						onRowClick={(e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")}}
+						onRowClick={onRowClick}
+						detailPanel={detailPanel}
 						/>
 			</Paper>
 			</div>
 		</ObjectWrapper>
 	</Box>
-});
+};
 
 export default function List(props){
 	let { object } = useParams();
 	let schema=useContext(SchemaContext);
+	let layouts=useContext(CustomLayoutContext);
 
+	if (typeof (layouts[object]?.List)==='function'){
+		return layouts[object].List(props);
+	}
 
 	let def=schema.objects[object];
 	if (!def) return "Could not find object "+object+" in "+Object.keys(schema.objects);
@@ -97,5 +111,6 @@ export default function List(props){
 				${q.join("\n")}
 			}
 	}`;
+
 	return <RetrieveData query={query} object={object} fields={q} columns={props.columns}/>;
 };

@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme,makeStyles } from '@material-ui/core/styles';
 
 let themeCore = createMuiTheme({
   palette: {
@@ -125,17 +125,47 @@ export const theme=Object.assign(themeCore,{overrides:{
 
 export const drawerWidth = 235;
 
-export const layoutStyles = {
+export const layoutStyles = makeStyles({
   root: {
     display: 'flex',
     minHeight: '100vh',
   },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
+	drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
   },
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  content: {
+    flexGrow: 1,
+		flex:1,
+		flexDirection:"column",
+		display:"flex",
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+	contentIsSmall: {
+		marginLeft: 0,
+	},
   app: {
     flex: 1,
     display: 'flex',
@@ -151,10 +181,10 @@ export const layoutStyles = {
     padding: theme.spacing(2),
     background: '#eaeff1',
   },
-};
+});
 
 
-export const sidebarStyles = theme => ({
+export const sidebarStyles = makeStyles(theme => ({
   categoryHeader: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
@@ -193,11 +223,11 @@ export const sidebarStyles = theme => ({
   divider: {
     marginTop: theme.spacing(2),
   },
-});
+}));
 
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-export const headerStyles = theme => ({
+export const headerStyles = makeStyles(theme => ({
   secondaryBar: {
     zIndex: 0,
   },
@@ -217,9 +247,9 @@ export const headerStyles = theme => ({
   button: {
     borderColor: lightColor,
   },
-});
+}));
 
-export const commonStyles = theme => ({
+export const commonStyles = makeStyles(theme => ({
   paper: {
     //maxWidth: 936,
     margin: 'auto',
@@ -242,4 +272,4 @@ export const commonStyles = theme => ({
     margin: '8px 8px',
 		padding: 0
   }
-});
+}));

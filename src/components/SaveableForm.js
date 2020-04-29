@@ -6,11 +6,13 @@ import Alert from '@material-ui/lab/Alert';
 import {useMutation} from 'urql';
 import useNotifiers from '../util/Notifiers';
 
+
 import AutoForm from './AutoForm';
 
 export default function SaveableForm({object,fields:_fields, values}){
 	const {notify} = useNotifiers();
 	const [error,setError]=useState(null);
+	const history = useHistory();
 	let fields=_fields.map(f=>{
 		if (typeof f=='string'){
 			f={name:f};
@@ -25,13 +27,12 @@ export default function SaveableForm({object,fields:_fields, values}){
 
 	let SAVE_MUTATION=`mutation($record:${object}Save!){
 			save_result:${object}Save(record:$record){
+				id
 				${fields.map(d=>d.name).join("\n")}
 			}
 	}`;
 
 	const [state, executeMutation] = useMutation(SAVE_MUTATION);
-	const history = useHistory();
-
   const saveRecord = React.useCallback((newVals) => {
 		//These are managed by the database
 		delete newVals.created_at;
@@ -40,29 +41,20 @@ export default function SaveableForm({object,fields:_fields, values}){
       if (result.error) {
 				setError(result.error);
       }else{
+				setError(null);
 				const {data}=result;
-				console.log(data);
-				if(data.save_result.id && !values.id) history.push(`/obj/${object}/${data.save_result.id}/edit`);
+				if(data.save_result.id && !values.id){
+						history.push(`/obj/${object}/${data.save_result.id}/edit`);
+				}else{
+					Object.assign(values,data.save_result);
+				}
 				notify("Saved");
 			}
     });
   }, [executeMutation,notify,history,object,values]);
 
-	if (state.fetching) return null;
-
-	/*
-	const fields = [
-		{ name: 'given_name'},
-	 	{ name:"email",
-			type:"email",
-			required: 'Required',
-			pattern: {
-				value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-				message: "invalid email address"
-			}
-		}];
-	*/
-
+	if (state.error) return error;
+	//if (state.fetching) return null; //this will cause the UI to 'flash'
 
 	return <React.Fragment>
 				{error && <Alert severity="error">{JSON.stringify(error)}</Alert>}

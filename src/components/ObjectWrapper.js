@@ -28,7 +28,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import pluralize from 'pluralize';
 
-import { withStyles} from '@material-ui/core/styles';
 import {headerStyles} from '../theme/Styles.js';
 import {useHistory} from 'react-router-dom';
 
@@ -58,8 +57,9 @@ function SideContent(props){
 }
 
 
-const ObjectWrapperWithDrawer=withStyles(headerStyles)((props)=>{
-  let { classes,title,object } = props;
+function ObjectWrapperWithDrawer(props){
+	const classes=headerStyles();
+  let { title,object } = props;
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
@@ -110,7 +110,7 @@ const ObjectWrapperWithDrawer=withStyles(headerStyles)((props)=>{
 						</div>
 					</Box>
 			</Box>);
-	});
+}
 export {ObjectWrapperWithDrawer};
 
 function ObjectWrapper(props){
