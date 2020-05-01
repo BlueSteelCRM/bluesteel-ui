@@ -11,9 +11,6 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	const {notify,notifyErr} = useNotifiers();
 	const [saveState, executeSaveMutation] = useMutation(saveMutation);
 	const [deleteState, executeDeleteMutation] = useMutation(deleteMutation);
-	if (saveState.fetching){
-		return null;
-	}
 
 	const saveRecord = (newData,cb) => {
 		//These are managed by the database
@@ -38,13 +35,14 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
   };
 
 	const deleteRecord = (oldData,cb) => {
+		debugger;
     return executeDeleteMutation({id:oldData.id}).then(()=>notify("Deleted"),notifyErr).then(e=>{
 			reexecuteQuery({ requestPolicy: 'network-only' });
 			if (typeof cb=='function') cb();
 		});
   };
 
-	if (saveState.fetching || deleteState.fetching) return null;
+	if (deleteState.fetching) return null;
 
 	let columns=expandedFields.filter(f=>f.display).map(field=>{
 		return {title:field.label || field.name,field:field.name}
@@ -66,7 +64,10 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	        data={rows}
 					onRowAdd={(newData,cb)=>saveRecord(newData)}
 					onRowUpdate={(newData,oldData)=>saveRecord(newData)}
-					onRowDelete={(oldData)=>deleteRecord(oldData)}
+					onRowDelete={(oldData,e)=>{
+							debugger;
+							deleteRecord(oldData)
+					}}
 					onRowClick={onRowClick}
 			/>
 };

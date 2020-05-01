@@ -60,13 +60,15 @@ export default function AutoTable(props){
 						resolve();
 					});
 				})),
-			onRowDelete: props.onRowDelete && (oldData =>
-				new Promise((resolve, reject) => {
+			onRowDelete: props.onRowDelete && (oldData =>{
+				debugger;
+				return new Promise((resolve, reject) => {
 					props.onRowDelete(oldData,()=>{
-						console.log("Added new row");
+						console.log("Deleted row");
 						resolve();
 					});
-				}))
+				})
+			})
 		};
 	};
 	let actions=[];

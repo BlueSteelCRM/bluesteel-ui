@@ -16,6 +16,7 @@ import {NavLink} from 'react-router-dom';
 import {useLocation } from 'react-router-dom'
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import TelegramIcon from '@material-ui/icons/Telegram';
+import PublishIcon from '@material-ui/icons/Publish';
 //import EmailIcon from '@material-ui/icons/Email';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
@@ -36,6 +37,7 @@ const categories = [
       { id: 'People', icon: <PersonIcon />, active: true,link:"/obj/Person" },
 			{ id: 'Segments', icon: <PeopleIcon />, active: true,link:"/obj/Segment" },
 			{ id: 'Queries', icon: <PeopleIcon />, active: true,link:"/obj/PersonQuery" },
+			{ id: 'Imports', icon: <PublishIcon />, active: true,link:"/obj/FileImport" },
     ],
   },
   {

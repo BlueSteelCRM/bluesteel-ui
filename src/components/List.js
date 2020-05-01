@@ -32,6 +32,10 @@ function RetrieveData({object,query,fields,columns}){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
 
+	if (layouts && layouts[object] && layouts[object].List && layouts[object].List.columns){
+		columns=layouts[object].List.columns;
+	}
+
 	if (!columns) columns=fields.map(field=>{
 		if (field==='id' || field.slice(-3)==='_id' || field==='created_at') return false;
 		return {title:field,field}
@@ -40,9 +44,7 @@ function RetrieveData({object,query,fields,columns}){
 	let rows=[];
 	if (data && data.listResult) rows=data.listResult;
 
-	if (layouts && layouts[object] && layouts[object].List && layouts[object].List.columns){
-		columns=layouts[object].List.columns;
-	}
+
 	let detailPanel=layouts[object]?.List?.detailPanel;
 	let onRowClick=null;
 

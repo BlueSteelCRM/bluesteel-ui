@@ -53,7 +53,6 @@ export default function SaveableForm({object,fields:_fields, values}){
     });
   }, [executeMutation,notify,history,object,values]);
 
-	if (state.error) return error;
 	//if (state.fetching) return null; //this will cause the UI to 'flash'
 
 	return <React.Fragment>

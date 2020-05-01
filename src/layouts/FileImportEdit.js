@@ -1,29 +1,31 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
-import SaveableTable from '../components/SaveableTable';
-import SaveableForm from '../components/SaveableForm';
+//import SaveableForm from '../components/SaveableForm';
+import {DropzoneArea} from 'material-ui-dropzone'
 
 
 function TabPanel({index,value,classes,children}){
 	return <Paper hidden={index!==value} style={{"padding":"10px"}}>{children}</Paper>
 }
 
-function NewPerson(props){
+function NewFile(props){
 	const {classes}=props;
+	const [files,changeFiles]=React.useState([]);
+
 	return (
 		<div className={classes.contentWrapper}>
 			<Paper className={classes.paper}>
 				<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-					<Toolbar><Typography variant="h6">Add a new Person</Typography></Toolbar>
+					<Toolbar><Typography variant="h6">Import a file</Typography></Toolbar>
 				</AppBar>
 				<Paper style={{"padding":"10px"}}>
-		 			<SaveableForm {...props}/>
+		 			<DropzoneArea onChange={changeFiles}/>
+					{JSON.stringify(files)}
 				</Paper>
 		 </Paper>
 		 </div>
@@ -33,7 +35,7 @@ function NewPerson(props){
 export default function PersonEdit(props){
 	const {classes}=props;
 	const [tabIndex, setTabIndex] = React.useState(0);
-	if (!props.id) return <NewPerson {...props}/>;
+	if (!props.id) return <NewFile {...props}/>;
 	const title=[props.values.given_name,props.values.family_name].filter(Boolean).join(" ");
 	return	<div className={classes.contentWrapper}>
 	<Paper className={classes.paper}>
@@ -41,26 +43,14 @@ export default function PersonEdit(props){
 			<Toolbar>
 				<Typography variant="h6">{title}</Typography>
 				<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
-					<Tab label="Contact" id="tab-contact"/>
-					<Tab label="Segments" id="tab-segments"/>
-					<Tab label="Transactions" id="tab-transactions"/>
+					<Tab label="Settings" id="tab-0"/>
+					<Tab label="Status" id="tab-1"/>
 				</Tabs>
 			</Toolbar>
 		</AppBar>
+			<TabPanel value={tabIndex} index={0} classes={classes}>TODO</TabPanel>
+			<TabPanel value={tabIndex} index={1} classes={classes}>TODO</TabPanel>
 
-			<TabPanel value={tabIndex} index={0} classes={classes}>
-				<Grid container spacing={4}>
-			 		<Grid item xs={12} md={6}>
-						<SaveableForm {...props}/>
-			 		</Grid>
-			 		<Grid item xs={12} md={6}>
-						<SaveableTable title="Emails" object="PersonEmail" filter={{person_id:parseInt(props.id)}} fields={['email']}/>
-						<SaveableTable title="Phones" object="PersonPhone" filter={{person_id:parseInt(props.id)}} fields={['phone']}/>
-					</Grid>
-				</Grid>
-			</TabPanel>
-			<TabPanel value={tabIndex} index={1} classes={classes}><SaveableTable object='SegmentPerson' title="Segments"/></TabPanel>
-			<TabPanel value={tabIndex} index={2} classes={classes}><SaveableTable object='Transaction'title="Transactions"/></TabPanel>
 		</Paper>
 	</div>;
 }
