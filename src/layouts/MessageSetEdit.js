@@ -8,7 +8,6 @@ import SaveableTable from '../components/SaveableTable';
 import {useHistory} from 'react-router';
 
 
-
 export default function Edit(props){
 	let {id,values,classes}=props;
 	const history = useHistory();
@@ -16,9 +15,10 @@ export default function Edit(props){
 			<div className={classes.contentWrapper}>
 				<Paper className={classes.paper}>
 						<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-							<Toolbar><Typography variant="h6">{values.label}</Typography></Toolbar>
+							<Toolbar><Typography variant="h6">{values.label || ("Message Set "+id)}</Typography></Toolbar>
 						</AppBar>
 						<Box p={3}>
+						<h6>Emails</h6>
 					<SaveableTable title="" object="EmailBlast" filter={{message_set_id:parseInt(id)}} fields={['label']}
 					onRowClick={(e,row)=>{history.push("/obj/EmailBlast/"+row.id+"/edit");}}
 					/>

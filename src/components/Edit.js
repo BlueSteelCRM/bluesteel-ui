@@ -44,6 +44,9 @@ export default function({isNew}){
 
 	if(isNew) id = undefined;
 
+	//ids should be integers
+	if (id && parseInt(id)!==Number(id)) return "Invalid id:"+id;
+
 	return <Box display="flex">
 			<ObjectWrapper object={object}>
 				<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{

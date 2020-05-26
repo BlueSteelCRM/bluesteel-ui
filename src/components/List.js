@@ -21,7 +21,7 @@ import ObjectWrapper from './ObjectWrapper';
 import {commonStyles} from '../theme/Styles';
 import {useHistory} from 'react-router-dom';
 
-function RetrieveData({object,query,fields,columns}){
+function RetrieveData({object,query,columns}){
 	const classes=commonStyles();
 	const [result] = useQuery({query});
 	const history=useHistory();
@@ -32,26 +32,34 @@ function RetrieveData({object,query,fields,columns}){
 		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
 	}
 
-	if (layouts && layouts[object] && layouts[object].List && layouts[object].List.columns){
+	let rows=[];
+	if (data && data.listResult){
+		rows=data.listResult.map(row=>{
+			for (let i in row){
+				if (typeof row[i]=='object') row[i]=JSON.stringify(row[i]);
+			}
+			return Object.assign({},row);
+		});
+	}
+
+	let CustomLayout=layouts[object]?.List;
+	if (typeof CustomLayout=='function'){
+		console.log("Using custom layout for ",object);
+		return React.createElement(layouts[object].List,{object,rows,classes});
+	};
+
+	if (CustomLayout?.columns){
 		columns=layouts[object].List.columns;
 	}
 
-	if (!columns) columns=fields.map(field=>{
-		if (field==='id' || field.slice(-3)==='_id' || field==='created_at') return false;
-		return {title:field,field}
-	}).filter(Boolean);
 
-	let rows=[];
-	if (data && data.listResult) rows=data.listResult;
-
-
-	let detailPanel=layouts[object]?.List?.detailPanel;
+	let detailPanel=CustomLayout?.detailPanel;
 	let onRowClick=null;
 
 	if (detailPanel){
-		onRowClick=layouts[object]?.List?.onRowClick || ((event, rowData, togglePanel) => togglePanel());
+		onRowClick=CustomLayout?.onRowClick || ((event, rowData, togglePanel) => togglePanel());
 	}else{
-		onRowClick=layouts[object]?.List?.onRowClick || ((e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")});
+		onRowClick=CustomLayout?.onRowClick || ((e,row)=>{history.push("/obj/"+object+"/"+row.id+"/edit")});
 	}
 
 
@@ -99,8 +107,10 @@ export default function List(props){
 	let { object } = useParams();
 	let schema=useContext(SchemaContext);
 	let layouts=useContext(CustomLayoutContext);
+	console.log("Listing ",object);
 
 	if (typeof (layouts[object]?.List)==='function'){
+		console.log("Returning custom object");
 		return layouts[object].List(props);
 	}
 
@@ -113,6 +123,11 @@ export default function List(props){
 				${q.join("\n")}
 			}
 	}`;
+	let columns=props.columns;
+	if (!columns) columns=q.map(field=>{
+		if (field==='id' || field.slice(-3)==='_id' || field==='created_at') return false;
+		return {title:field,field}
+	}).filter(Boolean);
 
-	return <RetrieveData query={query} object={object} fields={q} columns={props.columns}/>;
+	return <RetrieveData query={query} object={object} columns={columns}/>;
 };

@@ -23,7 +23,6 @@ function PeopleStats() {
 					value
 				}
 			}
-
 			last_week: PersonStats(query: {
 				outputs: [{
 					name: "last_week",
@@ -38,16 +37,29 @@ function PeopleStats() {
 					value
 				}
 			}
+			last_week_trans: TransactionStats(query: {
+				outputs: [{
+					name: "last_week_trans",
+					expression: "count(*)"
+				}],
+				conditions: [{
+					expression: "ts > date_sub(now(), interval 1 week)"
+				}]
+			}) {
+				results {
+					key
+					value
+				}
+			}
 		}`
 	});
 	if(fetching) return '...';
 	if(error) return error.toString();
-	const {total,last_week}=data;
+	const {total,last_week,last_week_trans}=data;
 	if (!total) return "Invalid response";
 
 	const totalValue = total.results[0].value;
 	const lastWeekValue = last_week.results[0].value;
-
 	return <React.Fragment>
 		<Grid item md={3}>
 			<Card>
@@ -57,6 +69,11 @@ function PeopleStats() {
 		<Grid item md={3}>
 			<Card>
 				<CardHeader title={lastWeekValue} subheader='Joined this week' />
+			</Card>
+		</Grid>
+		<Grid item md={3}>
+			<Card>
+				<CardHeader title={last_week_trans.results[0].value} subheader='Transactions this week' />
 			</Card>
 		</Grid>
 	</React.Fragment>;
