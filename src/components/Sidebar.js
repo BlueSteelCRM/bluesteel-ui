@@ -45,7 +45,8 @@ const categories = [
     children: [
       { id: 'Campaigns', icon: <AccountTreeIcon />,link:"/obj/Campaign" },
 			{ id: 'Emails', icon: <TelegramIcon />,link:"/obj/EmailBlast" },
-			{ id: 'Email Templates', icon: <DashboardIcon />,link:"/obj/EmailTemplate" }
+			{ id: 'Email Templates', icon: <DashboardIcon />,link:"/obj/EmailTemplate" },
+			{ id: 'Forms', icon: <DashboardIcon />,link:"/obj/Form" }
     ],
   },
 	{

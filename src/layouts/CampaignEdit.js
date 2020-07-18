@@ -5,8 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
-import {useHistory} from 'react-router';
-import Nestable from 'react-nestable';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -16,13 +14,53 @@ import ArrowRight from '@material-ui/icons/ArrowRight';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import SaveableForm from '../components/SaveableForm';
+import Alert from '@material-ui/lab/Alert';
+import {useHistory} from 'react-router';
+import Nestable from 'react-nestable';
+import {useQuery} from 'urql';
+
+
 
 function getType(item){
 	return item.id.split("-")[0];
 }
 function MessageSetList(props){
+	const {campaign_id}=props;
 	const history=useHistory();
-	const {rows}=props;
+	let query=`query ($filter:MessageSetFilter){
+			listResult: MessageSetList(filter:$filter){
+				id
+				label
+				EmailBlastList{
+					id
+					label
+					source_code
+					status
+				}
+			}
+	}`;
+	const [result] = useQuery({query,variables:{filter:{campaign_id}}});
+	const { data, fetching, error } = result;
+	if (fetching) return null;
+	if (error){
+		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
+	}
+
+	let items=data.listResult.map(set=>{
+		return {
+			id:"MessageSet-"+set.id,
+			label:set.label,
+			children:set.EmailBlastList.map(m=>{
+				return {id:"EmailBlast-"+m.id,
+				label:m.label,
+				status:m.status,
+				source_code:m.source_code
+			};
+		})
+		}
+	});
+
+
 
 	const handleClick=(item,history)=>{
 		let type=getType(item);
@@ -60,14 +98,6 @@ function MessageSetList(props){
 	      </ListItem>
 	};
 
-	let items=[
-		{id:"MessageSet-456",label:"Message set",
-				children:[{
-					id:"EmailBlast-123",
-					label:"Email Blast"
-				}]
-			}
-		];
 
 	function confirmChange(item,parent){
 		//return true;
@@ -104,14 +134,15 @@ export default function CampaignEdit(props){
 
 	return	<div className={classes.contentWrapper}>
 	<Paper className={classes.paper}>
-		<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
+		<AppBar className={classes.searchBar} position="static" style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"baseline",padding:"0px 20px"}}>
+			<Typography variant="h6">{title}</Typography>
 			<Toolbar>
-				<Typography variant="h6">{title}</Typography>
 				<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
 					<Tab label="Campaign Info" id="tab-contact"/>
 					{id && <Tab label="Messages" id="tab-message"/>}
 				</Tabs>
 			</Toolbar>
+			<div></div>
 		</AppBar>
 			<TabPanel value={tabIndex} index={0} classes={classes}>
 				<SaveableForm {...props}/>

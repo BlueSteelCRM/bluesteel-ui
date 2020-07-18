@@ -1,0 +1,14 @@
+// Palette variables
+$primaryColor: #EEE;
+$secondaryColor: #ddd;
+$tertiaryColor: #804f7b;
+$quaternaryColor: #d278c9;
+
+// ...
+.gjs-cv-canvas {
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@import "grapesjs/src/styles/scss/main.scss";

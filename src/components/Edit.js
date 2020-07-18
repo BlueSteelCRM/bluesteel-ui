@@ -11,27 +11,14 @@ import Typography from '@material-ui/core/Typography';
 import ObjectWrapper from './ObjectWrapper';
 
 import {commonStyles} from '../theme/Styles';
-
-import {useQuery} from 'urql';
+import {RetrieveData} from './GraphQL.js';
 
 import {useParams} from 'react-router-dom';
 
-function RetrieveData({object,variables,fields,children}){
-	let query=`query($id:ID!){
-		values:${object}(id:$id) {
-			${fields.map(d=>d.name).join("\n")}
-		}
-	}`;
-
-	const [result] = useQuery({
-    query,
-		variables
-  });
-	if (result.fetching) return null;
-	let values={};
-	if (result.data && result.data.values) values=result.data.values;
-	return children(values);
-};
+function Data(props){
+	if (props.variables.id===undefined) return props.children({});
+	return <RetrieveData {...props}/>;
+}
 
 export default function({isNew}){
 	let { object,id } = useParams();
@@ -49,7 +36,7 @@ export default function({isNew}){
 
 	return <Box display="flex">
 			<ObjectWrapper object={object}>
-				<RetrieveData variables={{id}} object={object} fields={fields}>{(values)=>{
+				<Data variables={{id}} object={object} fields={fields}>{(values)=>{
 					if (layouts && layouts[object] && layouts[object].Edit){
 						console.log("Using custom layout for ",object);
 						return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
@@ -78,7 +65,7 @@ export default function({isNew}){
 						</div>;
 					}
 				}}
-				</RetrieveData>
+				</Data>
 			</ObjectWrapper>
 		</Box>
 };

@@ -5,15 +5,45 @@ import AppBar from '@material-ui/core/AppBar';
 //import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+import {useHistory} from 'react-router-dom';
+import ArrowBack from '@material-ui/icons/ArrowBack';
+
+import {useQuery} from 'urql';
 
 import EmailEditor from 'react-email-editor'
+
+function NavBack(props){
+	const {id}=props;
+	const history=useHistory();
+	let query=`query ($id){
+			EmailBlast(id:$id){
+				MessageSetList{
+					id
+					label
+					Campaign{
+						id
+						label
+					}
+				}
+			}
+	}`;
+	const [result] = useQuery({query,variables:{id}});
+	const { data, fetching, error } = result;
+	if (fetching) return null;
+	if (error){
+		console.error(error); return null;
+	}
+	return <ArrowBack onClick={e=>history.push("/obj/Campaign/"+data?.EmailBlast?.MessageSet?.Campaign?.id)} />
+
+}
+
 
 function TabPanel({index,value,classes,children}){
 	return <Paper hidden={index!==value}>{children}</Paper>
 }
 
 export default function Edit(props){
-	let {classes}=props;
+	let {classes,id}=props;
 	const [tabIndex, setTabIndex] = React.useState(0);
 	let editor=null;
 
@@ -27,15 +57,17 @@ export default function Edit(props){
 	if (exportHtml){}
 	return	<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
-			<AppBar position="static">
-			<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
-				<Tab label="Overview" id="tab-overview"/>
-				<Tab label="HTML" id="tab-html"/>
-				<Tab label="Text" id="tab-text"/>
-			</Tabs>
+			<AppBar position="static" style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
+				<NavBack id={id}/>
+				<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
+					<Tab label="Overview" id="tab-overview"/>
+					<Tab label="HTML" id="tab-html"/>
+					<Tab label="Text" id="tab-text"/>
+				</Tabs>
+				<div></div>
 			</AppBar>
 			<TabPanel value={tabIndex} index={0} classes={classes}>
-					<Paper style={{padding:"10px"}}><SaveableForm {...Object.assign({},props,{fields:["subject","from_name","from_email"]})}/></Paper>
+					<Paper style={{padding:"10px"}}><SaveableForm {...Object.assign({},props,{fields:["label","source_code","subject","from_name","from_email"]})}/></Paper>
 			</TabPanel>
 			<TabPanel value={tabIndex} index={1} classes={classes}>
 				<EmailEditor ref={_editor => editor = _editor}/>

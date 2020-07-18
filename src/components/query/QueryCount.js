@@ -16,6 +16,7 @@ export default function QueryCount(props){
 		console.error("Query error",result.error);
 		return "(Invalid query)";
 	}
+	if (!result.data.ExecutePersonQuery) return "N/A";
 	return <React.Fragment>
 			{result.data.ExecutePersonQuery.count}
 			{/*<pre>{JSON.stringify(conditions,null,2)}</pre>*/}
