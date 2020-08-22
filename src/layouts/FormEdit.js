@@ -7,6 +7,7 @@ import SaveableForm from '../components/SaveableForm';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import {TabPanel} from '../components/Tabs';
+import HTMLEditor from './HTMLEditor';
 
 import './FormEdit.scss';
 
@@ -49,12 +50,14 @@ function EditForm(props){
 			<Typography variant="h6">{values.label}</Typography>
 			<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
 				<Tab label="Settings" id="tab-0"/>
-				<Tab label="Preview" id="tab-1"/>
+				<Tab label="HTML" id="tab-1"/>
+				<Tab label="Preview" id="tab-2"/>
 			</Tabs>
 		</Toolbar>
 	</AppBar>
 		<TabPanel value={tabIndex} index={0} classes={classes}><SaveableForm {...props} fields={fields} /></TabPanel>
-		<TabPanel value={tabIndex} index={1} classes={classes}>
+		<TabPanel value={tabIndex} index={1} classes={classes}><HTMLEditor/></TabPanel>
+		<TabPanel value={tabIndex} index={2} classes={classes}>
 		{JSON.stringify(values)}
 		<iframe title="form_preview"><html><body>
 		{values.header}

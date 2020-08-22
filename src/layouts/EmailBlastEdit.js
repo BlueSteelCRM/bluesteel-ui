@@ -5,14 +5,18 @@ import AppBar from '@material-ui/core/AppBar';
 //import Grid from '@material-ui/core/Grid';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
+/*
 import {useHistory} from 'react-router-dom';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import {useQuery} from 'urql';
+*/
 
 import EmailEditor from 'react-email-editor'
 
+/*
 function NavBack(props){
+
 	const {id}=props;
 	const history=useHistory();
 	let query=`query ($id){
@@ -34,8 +38,8 @@ function NavBack(props){
 		console.error(error); return null;
 	}
 	return <ArrowBack onClick={e=>history.push("/obj/Campaign/"+data?.EmailBlast?.MessageSet?.Campaign?.id)} />
-
 }
+*/
 
 
 function TabPanel({index,value,classes,children}){
@@ -43,7 +47,7 @@ function TabPanel({index,value,classes,children}){
 }
 
 export default function Edit(props){
-	let {classes,id}=props;
+	let {classes}=props;
 	const [tabIndex, setTabIndex] = React.useState(0);
 	let editor=null;
 
@@ -58,7 +62,6 @@ export default function Edit(props){
 	return	<div className={classes.contentWrapper}>
 		<Paper className={classes.paper}>
 			<AppBar position="static" style={{display:"flex",flexDirection:"row",justifyContent:"space-between"}}>
-				<NavBack id={id}/>
 				<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
 					<Tab label="Overview" id="tab-overview"/>
 					<Tab label="HTML" id="tab-html"/>
