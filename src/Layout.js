@@ -25,8 +25,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="http://bluesteelcrm.com/">
-				Blue Steel CRM
+      <Link color="inherit" href="http://steamengine.io/">
+				SteamEngine.io CRM
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}

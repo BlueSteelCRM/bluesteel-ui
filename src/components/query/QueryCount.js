@@ -1,7 +1,7 @@
 import React from 'react';
 import {useQuery} from 'urql';
 
-let query=`query ($conditions:[BlueSteelQueryComponentInput]){
+let query=`query ($conditions:[SteamEngineQueryComponentInput]){
   ExecutePersonQuery(conditions:$conditions){
   	count
 	}
