@@ -1,7 +1,13 @@
 import { createMuiTheme,makeStyles } from '@material-ui/core/styles';
 
-let themeCore = createMuiTheme({
-  palette: {
+const palette = {
+  primary: { main: '#0D47A1' },
+  secondary: { main: '#F57C00' }
+};
+const themeName = 'Tory Blue Gold Drop Chicken';
+
+let themeCore = createMuiTheme({palette,themeName
+  /*palette: {
     primary: {
       light: '#63ccff',
       main: '#009be5',
@@ -27,11 +33,11 @@ let themeCore = createMuiTheme({
     toolbar: {
       minHeight: 48,
     },
-  },
+  },*/
 });
 
 export const theme=Object.assign(themeCore,{overrides:{
-
+/*
 	MuiDrawer: {
 		paper: {
 			backgroundColor: '#18202c',
@@ -119,8 +125,8 @@ export const theme=Object.assign(themeCore,{overrides:{
 			width: 32,
 			height: 32,
 		},
-	}
-}});
+	}*/
+} });
 
 
 export const drawerWidth = 235;
@@ -185,17 +191,18 @@ export const layoutStyles = makeStyles({
 
 
 export const sidebarStyles = makeStyles(theme => ({
+
   categoryHeader: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
   categoryHeaderPrimary: {
-    color: theme.palette.common.white,
+    //color: theme.palette.common.white,
   },
   item: {
     paddingTop: 1,
     paddingBottom: 1,
-    color: 'rgba(255, 255, 255, 0.7)',
+    //color: 'rgba(255, 255, 255, 0.7)',
     '&:hover,&:focus': {
       backgroundColor: 'rgba(255, 255, 255, 0.08)',
     },
@@ -211,7 +218,7 @@ export const sidebarStyles = makeStyles(theme => ({
     color: theme.palette.common.white,
   },
   itemActiveItem: {
-    color: '#4fc3f7',
+    //color: '#4fc3f7',
   },
   itemPrimary: {
     fontSize: 'inherit',
@@ -228,6 +235,7 @@ export const sidebarStyles = makeStyles(theme => ({
 const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 export const headerStyles = makeStyles(theme => ({
+	/*
   secondaryBar: {
     zIndex: 0,
   },
@@ -247,9 +255,11 @@ export const headerStyles = makeStyles(theme => ({
   button: {
     borderColor: lightColor,
   },
+	*/
 }));
 
 export const commonStyles = makeStyles(theme => ({
+	/*
   paper: {
     //maxWidth: 936,
     margin: 'auto',
@@ -272,4 +282,5 @@ export const commonStyles = makeStyles(theme => ({
     margin: '8px 8px',
 		padding: 0
   }
+	*/
 }));
