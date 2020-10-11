@@ -1,8 +1,13 @@
 import React from 'react';
 import './styles/App.css';
 import Layout from './Layout';
+import Boot from './componentsBoot';
+import "bootstrap/dist/css/bootstrap.css";
+import "./assets/scss/paper-dashboard.scss?v=1.2.0";
+import "./assets/demo/demo.css";
 
-import {Router} from 'react-router-dom';
+
+import {Switch,Route,Router} from 'react-router-dom';
 import { createBrowserHistory } from "history";
 
 import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
@@ -24,7 +29,11 @@ function App() {
   return (
 		<Router history={createBrowserHistory()}>
 				<Provider value={client}>
-					<Layout/>
+				<Switch>
+					<Route path='/boot'><Boot/></Route>
+					<Route path='/'><Layout/></Route>
+				</Switch>
+
 				</Provider>
 		</Router>
   );
