@@ -1,19 +1,51 @@
 import { createMuiTheme,makeStyles } from '@material-ui/core/styles';
+/*
+const sunset={
+	#6465A5  //dark purple
+	#6975A6  //light purple
+	#F3E96B //yellow
+	#F28A30 //orange
+	#F05837 /bright orange
+}
+
+winterbarn={
+		#E0E8F0 //white Blue
+		#51A2D9 //dark Blue
+		#53C0F0 //mid Blue
+		#B9E5F3 //light blue
+		#8A140E //Dark red  *LOVE
+}
+
+
+iterated={
+		#faf9f9 //whitish
+		#e9b997 //tan
+		#8a140e //maroon
+		#a59cae// light purple
+		#d97934 //dark orange
+
+		///Bootstrap variatals:
+		Tamarillo	#8a130e	Primary
+		Red Damask	#d97934	Info
+		Fern Green	#5f803c	Success
+		Bamboo	#dc7004	Warning
+		Pomegranate	#f44336	Danger
+*/
+
 
 const palette = {
-  primary: { main: '#0D47A1' },
-  secondary: { main: '#F57C00' }
+	primary: {
+		light: '#63ccff',
+		main: '#009be5',
+		dark: '#006db3',
+	},
+  //primary: { main: '#0D47A1' },
+  //secondary: { main: '#F57C00' }
 };
 const themeName = 'Tory Blue Gold Drop Chicken';
 
 let themeCore = createMuiTheme({palette,themeName
-  /*palette: {
-    primary: {
-      light: '#63ccff',
-      main: '#009be5',
-      dark: '#006db3',
-    },
-  },
+  /*
   typography: {
     h5: {
       fontWeight: 500,
@@ -139,6 +171,7 @@ export const layoutStyles = makeStyles({
 	drawer: {
     width: drawerWidth,
     flexShrink: 0,
+		fontSize:'10px'
   },
   drawerPaper: {
     width: drawerWidth,
@@ -208,7 +241,7 @@ export const sidebarStyles = makeStyles(theme => ({
     },
   },
   itemCategory: {
-    backgroundColor: '#232f3e',
+    //backgroundColor: '#232f3e',
     boxShadow: '0 -1px 0 #404854 inset',
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
@@ -232,7 +265,7 @@ export const sidebarStyles = makeStyles(theme => ({
   },
 }));
 
-const lightColor = 'rgba(255, 255, 255, 0.7)';
+//const lightColor = 'rgba(255, 255, 255, 0.7)';
 
 export const headerStyles = makeStyles(theme => ({
 	/*

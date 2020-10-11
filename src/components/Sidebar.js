@@ -68,6 +68,7 @@ export default function Sidebar(props) {
 				<img src="/images/blue-steel-logo-horizontal.png" alt="logo" height="80px" className="logo"/>
         <ListItem className={clsx(classes.item, classes.itemCategory)}
 				component={NavLink} to="/"
+				button
 				>
           <ListItemIcon className={classes.itemIcon}>
             <HomeIcon />
@@ -82,7 +83,7 @@ export default function Sidebar(props) {
         </ListItem>
         {categories.map(({ id, children }) => (
           <React.Fragment key={id}>
-            <ListItem className={classes.categoryHeader}>
+            <ListItem className={classes.categoryHeader} button>
               <ListItemText
                 classes={{
                   primary: classes.categoryHeaderPrimary,
@@ -99,6 +100,7 @@ export default function Sidebar(props) {
                 key={childId}
                 className={clsx(classes.item, active && classes.itemActiveItem)}
 								 component={link && NavLink} to={link}
+								 button
               >
                 <ListItemIcon className={classes.itemIcon}>{icon}</ListItemIcon>
                 <ListItemText
