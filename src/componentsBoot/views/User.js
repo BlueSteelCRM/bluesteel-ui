@@ -18,20 +18,15 @@
 */
 import React from "react";
 
-// reactstrap components
+// react-bootstrap components
 import {
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
   FormGroup,
   Form,
-  Input,
   Row,
   Col,
-} from "reactstrap";
+} from "react-bootstrap";
 
 class User extends React.Component {
   render() {
@@ -47,7 +42,7 @@ class User extends React.Component {
                     src={require("../../assets/img/damir-bosnjak.jpg")}
                   />
                 </div>
-                <CardBody>
+                <Card.Body>
                   <div className="author">
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
                       <img
@@ -63,8 +58,8 @@ class User extends React.Component {
                     "I like the way you work it <br />
                     No diggity <br />I wanna bag it up"
                   </p>
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="button-container">
                     <Row>
@@ -88,13 +83,13 @@ class User extends React.Component {
                       </Col>
                     </Row>
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
               <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Team Members</CardTitle>
-                </CardHeader>
-                <CardBody>
+                <Card.Header>
+                  <Card.Title tag="h4">Team Members</Card.Title>
+                </Card.Header>
+                <Card.Body>
                   <ul className="list-unstyled team-members">
                     <li>
                       <Row>
@@ -184,21 +179,21 @@ class User extends React.Component {
                       </Row>
                     </li>
                   </ul>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
             <Col md="8">
               <Card className="card-user">
-                <CardHeader>
-                  <CardTitle tag="h5">Edit Profile</CardTitle>
-                </CardHeader>
-                <CardBody>
+                <Card.Header>
+                  <Card.Title tag="h5">Edit Profile</Card.Title>
+                </Card.Header>
+                <Card.Body>
                   <Form>
                     <Row>
                       <Col className="pr-1" md="5">
                         <FormGroup>
                           <label>Company (disabled)</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Creative Code Inc."
                             disabled
                             placeholder="Company"
@@ -209,7 +204,7 @@ class User extends React.Component {
                       <Col className="px-1" md="3">
                         <FormGroup>
                           <label>Username</label>
-                          <Input
+                          <Form.Control
                             defaultValue="michael23"
                             placeholder="Username"
                             type="text"
@@ -221,7 +216,7 @@ class User extends React.Component {
                           <label htmlFor="exampleInputEmail1">
                             Email address
                           </label>
-                          <Input placeholder="Email" type="email" />
+                          <Form.Control placeholder="Email" type="email" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -229,7 +224,7 @@ class User extends React.Component {
                       <Col className="pr-1" md="6">
                         <FormGroup>
                           <label>First Name</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Chet"
                             placeholder="Company"
                             type="text"
@@ -239,7 +234,7 @@ class User extends React.Component {
                       <Col className="pl-1" md="6">
                         <FormGroup>
                           <label>Last Name</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Faker"
                             placeholder="Last Name"
                             type="text"
@@ -251,7 +246,7 @@ class User extends React.Component {
                       <Col md="12">
                         <FormGroup>
                           <label>Address</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Melbourne, Australia"
                             placeholder="Home Address"
                             type="text"
@@ -263,7 +258,7 @@ class User extends React.Component {
                       <Col className="pr-1" md="4">
                         <FormGroup>
                           <label>City</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Melbourne"
                             placeholder="City"
                             type="text"
@@ -273,7 +268,7 @@ class User extends React.Component {
                       <Col className="px-1" md="4">
                         <FormGroup>
                           <label>Country</label>
-                          <Input
+                          <Form.Control
                             defaultValue="Australia"
                             placeholder="Country"
                             type="text"
@@ -283,7 +278,7 @@ class User extends React.Component {
                       <Col className="pl-1" md="4">
                         <FormGroup>
                           <label>Postal Code</label>
-                          <Input placeholder="ZIP Code" type="number" />
+                          <Form.Control placeholder="ZIP Code" type="number" />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -291,7 +286,7 @@ class User extends React.Component {
                       <Col md="12">
                         <FormGroup>
                           <label>About Me</label>
-                          <Input
+                          <Form.Control
                             type="textarea"
                             defaultValue="Oh so, your weak rhyme You doubt I'll bother, reading into it"
                           />
@@ -310,7 +305,7 @@ class User extends React.Component {
                       </div>
                     </Row>
                   </Form>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

@@ -18,17 +18,14 @@
 */
 import React from "react";
 
-// reactstrap components
+// react-bootstrap components
 import {
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
   Table,
   Row,
   Col,
-} from "reactstrap";
+} from "react-bootstrap";
 
 class Upgrade extends React.Component {
   render() {
@@ -38,14 +35,14 @@ class Upgrade extends React.Component {
           <Row>
             <Col className="ml-auto mr-auto" md="8">
               <Card className="card-upgrade">
-                <CardHeader className="text-center">
-                  <CardTitle tag="h4">Paper Dashboard PRO</CardTitle>
+                <Card.Header className="text-center">
+                  <Card.Title tag="h4">Paper Dashboard PRO</Card.Title>
                   <p className="card-category">
                     Are you looking for more components? Please check our
                     Premium Version of Paper Dashboard PRO.
                   </p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   <Table responsive>
                     <thead>
                       <tr>
@@ -140,7 +137,7 @@ class Upgrade extends React.Component {
                       </tr>
                     </tbody>
                   </Table>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

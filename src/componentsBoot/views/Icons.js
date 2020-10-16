@@ -18,8 +18,8 @@
 */
 import React from "react";
 
-// reactstrap components
-import { Card, CardHeader, CardBody, CardTitle, Row, Col } from "reactstrap";
+// react-bootstrap components
+import { Card, Row, Col } from "react-bootstrap";
 
 class Icons extends React.Component {
   render() {
@@ -29,14 +29,14 @@ class Icons extends React.Component {
           <Row>
             <Col md="12">
               <Card className="demo-icons">
-                <CardHeader>
-                  <CardTitle tag="h5">100 Awesome Nucleo Icons</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h5">100 Awesome Nucleo Icons</Card.Title>
                   <p className="card-category">
                     Handcrafted by our friends from{" "}
                     <a href="https://nucleoapp.com/?ref=1712">NucleoApp</a>
                   </p>
-                </CardHeader>
-                <CardBody className="all-icons">
+                </Card.Header>
+                <Card.Body className="all-icons">
                   <div id="icons-wrapper">
                     <section>
                       <ul>
@@ -543,7 +543,7 @@ class Icons extends React.Component {
                       </ul>
                     </section>
                   </div>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

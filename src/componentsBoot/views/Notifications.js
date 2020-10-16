@@ -18,18 +18,14 @@
 */
 /*eslint-disable*/
 import React from "react";
-// reactstrap components
+// react-bootstrap components
 import {
-  UncontrolledAlert,
   Alert,
   Button,
   Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
   Row,
   Col,
-} from "reactstrap";
+} from "react-bootstrap";
 
 class Notifications extends React.Component {
   state = {
@@ -82,8 +78,8 @@ class Notifications extends React.Component {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>
-                  <CardTitle tag="h5">Notifications</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h5">Notifications</Card.Title>
                   <p className="card-category">
                     Handcrafted by our colleague{" "}
                     <a
@@ -100,24 +96,24 @@ class Notifications extends React.Component {
                       full documentation.
                     </a>
                   </p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   <Row>
                     <Col md="6">
                       <Card className="card-plain">
-                        <CardHeader>
-                          <CardTitle tag="h5">Notifications Style</CardTitle>
-                        </CardHeader>
-                        <CardBody>
+                        <Card.Header>
+                          <Card.Title tag="h5">Notifications Style</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
                           <Alert color="info">
                             <span>This is a plain notification</span>
                           </Alert>
-                          <UncontrolledAlert color="info" fade={false}>
+                          <Alert color="info" fade={false}>
                             <span>
                               This is a notification with close button.
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert
+                          </Alert>
+                          <Alert
                             className="alert-with-icon"
                             color="info"
                             fade={false}
@@ -129,8 +125,8 @@ class Notifications extends React.Component {
                             <span data-notify="message">
                               This is a notification with close button and icon.
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert
+                          </Alert>
+                          <Alert
                             className="alert-with-icon"
                             color="info"
                             fade={false}
@@ -146,67 +142,67 @@ class Notifications extends React.Component {
                               This is a beautiful notification. So you don't
                               have to worry about the style.
                             </span>
-                          </UncontrolledAlert>
-                        </CardBody>
+                          </Alert>
+                        </Card.Body>
                       </Card>
                     </Col>
                     <Col md="6">
                       <Card className="card-plain">
-                        <CardHeader>
-                          <CardTitle tag="h5">Notification states</CardTitle>
-                        </CardHeader>
-                        <CardBody>
-                          <UncontrolledAlert color="primary" fade={false}>
+                        <Card.Header>
+                          <Card.Title tag="h5">Notification states</Card.Title>
+                        </Card.Header>
+                        <Card.Body>
+                          <Alert color="primary" fade={false}>
                             <span>
                               <b>Primary - </b>
                               This is a regular notification made with
                               color="primary"
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert color="info" fade={false}>
+                          </Alert>
+                          <Alert color="info" fade={false}>
                             <span>
                               <b>Info - </b>
                               This is a regular notification made with
                               color="info"
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert color="success" fade={false}>
+                          </Alert>
+                          <Alert color="success" fade={false}>
                             <span>
                               <b>Success - </b>
                               This is a regular notification made with
                               color="success"
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert color="warning" fade={false}>
+                          </Alert>
+                          <Alert color="warning" fade={false}>
                             <span>
                               <b>Warning - </b>
                               This is a regular notification made with
                               color="warning"
                             </span>
-                          </UncontrolledAlert>
-                          <UncontrolledAlert color="danger" fade={false}>
+                          </Alert>
+                          <Alert color="danger" fade={false}>
                             <span>
                               <b>Danger - </b>
                               This is a regular notification made with
                               color="danger"
                             </span>
-                          </UncontrolledAlert>
-                        </CardBody>
+                          </Alert>
+                        </Card.Body>
                       </Card>
                     </Col>
                   </Row>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>
           <Row>
             <Col md="12">
               <Card>
-                <CardBody>
+                <Card.Body>
                   <div className="places-buttons">
                     <Row>
                       <Col className="ml-auto mr-auto text-center" md="6">
-                        <CardTitle tag="h4">Notifications Places</CardTitle>
+                        <Card.Title tag="h4">Notifications Places</Card.Title>
                         <p className="category">Click to view notifications</p>
                       </Col>
                     </Row>
@@ -277,7 +273,7 @@ class Notifications extends React.Component {
                       </Col>
                     </Row>
                   </div>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

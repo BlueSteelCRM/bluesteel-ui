@@ -21,7 +21,7 @@ import React from "react";
 import PerfectScrollbar from "perfect-scrollbar";
 import { Route, Switch } from "react-router-dom";
 
-import DemoNavbar from "./Navbars/DemoNavbar.js";
+import DemoNavbar from "../components/Header.js";
 import Footer from "./Footer/Footer.js";
 import Sidebar from "./Sidebar/Sidebar.js";
 import FixedPlugin from "./FixedPlugin/FixedPlugin.js";
@@ -51,12 +51,7 @@ class Dashboard extends React.Component {
       document.body.classList.toggle("perfect-scrollbar-on");
     }
   }
-  componentDidUpdate(e) {
-    if (e.history.action === "PUSH") {
-      this.mainPanel.current.scrollTop = 0;
-      document.scrollingElement.scrollTop = 0;
-    }
-  }
+
   handleActiveClick = (color) => {
     this.setState({ activeColor: color });
   };

@@ -11,8 +11,12 @@ import HomeIcon from '@material-ui/icons/Home';
 import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 
+import { NavLink } from "react-router-dom";
+import { Accordion,Nav } from "react-bootstrap";
+
+
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import {NavLink} from 'react-router-dom';
+
 import {useLocation } from 'react-router-dom'
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import TelegramIcon from '@material-ui/icons/Telegram';
@@ -20,20 +24,11 @@ import PublishIcon from '@material-ui/icons/Publish';
 //import EmailIcon from '@material-ui/icons/Email';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 
-/*
-import DnsRoundedIcon from '@material-ui/icons/DnsRounded';
-import PermMediaOutlinedIcon from '@material-ui/icons/PhotoSizeSelectActual';
-import PublicIcon from '@material-ui/icons/Public';
-import SettingsInputComponentIcon from '@material-ui/icons/SettingsInputComponent';
-import TimerIcon from '@material-ui/icons/Timer';
-import PhonelinkSetupIcon from '@material-ui/icons/PhonelinkSetup';
-*/
-
 
 const categories = [
   {
     id: 'People',
-    children: [
+    items: [
       { id: 'People', icon: <PersonIcon />, active: true,link:"/obj/Person" },
 			{ id: 'Segments', icon: <PeopleIcon />, active: true,link:"/obj/Segment" },
 			{ id: 'Queries', icon: <PeopleIcon />, active: true,link:"/obj/PersonQuery" },
@@ -42,7 +37,7 @@ const categories = [
   },
   {
     id: 'Messaging',
-    children: [
+    items: [
       { id: 'Campaigns', icon: <AccountTreeIcon />,link:"/obj/Campaign" },
 			{ id: 'Emails', icon: <TelegramIcon />,link:"/obj/EmailBlast" },
 			{ id: 'Email Templates', icon: <DashboardIcon />,link:"/obj/EmailTemplate" },
@@ -51,11 +46,41 @@ const categories = [
   },
 	{
     id: 'Transactions',
-    children: [
+    items: [
       { id: 'Donations', icon: <AttachMoneyIcon />,link:"/obj/Transaction" }
     ],
   }
 ];
+
+export function SidebarBoot(props){
+
+	return <div
+		className="sidebar"
+		data-color={props.bgColor}
+		data-active-color={props.activeColor}
+	>
+		<div className="logo">
+			<a href="/"><img src="/images/blue-steel-logo-horizontal.png" alt="logo" height="80px" className="logo"/></a>
+		</div>
+		<div className="sidebar-wrapper" >
+		<Accordion defaultActiveKey={1}>
+		  <Nav>
+				{categories.map(({ id, items },i) => {
+          return <li key={id}>
+						<Accordion.Toggle eventKey={i+1}>
+			        {id}
+			      </Accordion.Toggle>
+						<Accordion.Collapse eventKey={i+1}>
+						<React.Fragment>{items.map(({ id: childId, icon, link },j)=><li key={j}><NavLink to={link}>{childId}</NavLink></li>)}</React.Fragment>
+						</Accordion.Collapse>
+					</li>;
+			})}
+		  </Nav>
+		</Accordion>
+		</div>
+	</div>
+}
+
 
 export default function Sidebar(props) {
 	const classes =sidebarStyles();

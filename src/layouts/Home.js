@@ -2,12 +2,12 @@ import React from 'react';
 
 import {useQuery} from 'urql';
 
-import Grid from '@material-ui/core/Grid';
-
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-
-import { makeStyles } from '@material-ui/core/styles';
+import {
+	Container,
+  Row,
+  Col,
+} from "react-bootstrap";
+import StatCard from '../components/StatCard';
 
 function PeopleStats() {
 	const [{fetching,data,error}]=useQuery({
@@ -60,34 +60,21 @@ function PeopleStats() {
 
 	const totalValue = total.results[0].value;
 	const lastWeekValue = last_week.results[0].value;
-	return <React.Fragment>
-		<Grid item md={3}>
-			<Card>
-				<CardHeader title={totalValue} subheader='Total People' />
-			</Card>
-		</Grid>
-		<Grid item md={3}>
-			<Card>
-				<CardHeader title={lastWeekValue} subheader='Joined this week' />
-			</Card>
-		</Grid>
-		<Grid item md={3}>
-			<Card>
-				<CardHeader title={last_week_trans.results[0].value} subheader='Transactions this week' />
-			</Card>
-		</Grid>
-	</React.Fragment>;
+	return <Row>
+		<Col md={3}>
+			<StatCard stat={totalValue} title="Total People" icon=""/>
+		</Col>
+		<Col md={3}>
+			<StatCard stat={lastWeekValue} title="Joined this week" icon=""/>
+		</Col>
+		<Col md={3}>
+				<StatCard stat={last_week_trans.results[0].value} title='Transactions this week' />
+		</Col>
+	</Row>;
 }
 
-const useHomeStyles=makeStyles({
-	home: {
-		margin: '3px',
-	}
-});
-
 export default function Home(props) {
-	const styles = useHomeStyles();
-	return <Grid container spacing={2} className={styles.home}>
+	return <Container spacing={2}>
 		<PeopleStats />
-	</Grid>;
+	</Container>;
 };

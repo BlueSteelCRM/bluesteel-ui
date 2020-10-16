@@ -18,8 +18,8 @@
 */
 import React from "react";
 
-// reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+// react-bootstrap components
+import { Card,  Row, Col } from "react-bootstrap";
 
 class Typography extends React.Component {
   render() {
@@ -29,13 +29,13 @@ class Typography extends React.Component {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>
+                <Card.Header>
                   <h5 className="title">Paper Table Heading</h5>
                   <p className="category">
                     Created using Montserrat Font Family
                   </p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   <div className="typography-line">
                     <h1>
                       <span>Header 1</span>
@@ -146,7 +146,7 @@ class Typography extends React.Component {
                       <small>Use "small" tag for the headers</small>
                     </h2>
                   </div>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

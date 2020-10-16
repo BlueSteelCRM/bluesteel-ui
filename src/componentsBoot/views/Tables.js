@@ -18,16 +18,13 @@
 */
 import React from "react";
 
-// reactstrap components
+// react-bootstrap components
 import {
   Card,
-  CardHeader,
-  CardBody,
-  CardTitle,
   Table,
   Row,
   Col,
-} from "reactstrap";
+} from "react-bootstrap";
 
 class Tables extends React.Component {
   render() {
@@ -37,10 +34,10 @@ class Tables extends React.Component {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>
-                  <CardTitle tag="h4">Simple Table</CardTitle>
-                </CardHeader>
-                <CardBody>
+                <Card.Header>
+                  <Card.Title tag="h4">Simple Table</Card.Title>
+                </Card.Header>
+                <Card.Body>
                   <Table responsive>
                     <thead className="text-primary">
                       <tr>
@@ -95,18 +92,18 @@ class Tables extends React.Component {
                       </tr>
                     </tbody>
                   </Table>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
             <Col md="12">
               <Card className="card-plain">
-                <CardHeader>
-                  <CardTitle tag="h4">Table on Plain Background</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h4">Table on Plain Background</Card.Title>
                   <p className="card-category">
                     Here is a subtitle for this table
                   </p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   <Table responsive>
                     <thead className="text-primary">
                       <tr>
@@ -161,7 +158,7 @@ class Tables extends React.Component {
                       </tr>
                     </tbody>
                   </Table>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

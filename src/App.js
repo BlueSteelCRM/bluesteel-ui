@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles/App.css';
-import Layout from './Layout';
+import Layout from './LayoutBoot';
 import Boot from './componentsBoot';
 import "bootstrap/dist/css/bootstrap.css";
 import "./assets/scss/paper-dashboard.scss?v=1.2.0";

@@ -18,7 +18,7 @@
 */
 import React, { Component } from "react";
 
-import { Button } from "reactstrap";
+import { Button } from "react-bootstrap";
 
 class FixedPlugin extends Component {
   constructor(props) {

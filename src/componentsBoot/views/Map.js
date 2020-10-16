@@ -17,8 +17,8 @@
 
 */
 import React from "react";
-// reactstrap components
-import { Card, CardHeader, CardBody, Row, Col } from "reactstrap";
+// react-bootstrap components
+import { Card,  Row, Col } from "react-bootstrap";
 
 
 class Map extends React.Component {
@@ -29,8 +29,8 @@ class Map extends React.Component {
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>Google Maps</CardHeader>
-                <CardBody>
+                <Card.Header>Google Maps</Card.Header>
+                <Card.Body>
                   <div
                     id="map"
                     className="map"
@@ -38,7 +38,7 @@ class Map extends React.Component {
                   >
 Map Maps
                   </div>
-                </CardBody>
+                </Card.Body>
               </Card>
             </Col>
           </Row>

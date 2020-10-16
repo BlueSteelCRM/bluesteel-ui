@@ -19,7 +19,7 @@ winterbarn={
 
 iterated={
 		#faf9f9 //whitish
-		#e9b997 //tan
+		#DEB77D //tan
 		#8a140e //maroon
 		#a59cae// light purple
 		#d97934 //dark orange
@@ -75,7 +75,7 @@ export const theme=Object.assign(themeCore,{overrides:{
 			backgroundColor: '#18202c',
 		},
 	},
-	MuiCardHeader: {
+	MuiCard.Header: {
 		root:{
 			backgroundColor:themeCore.palette.primary.main,
     	color: themeCore.palette.common.white,

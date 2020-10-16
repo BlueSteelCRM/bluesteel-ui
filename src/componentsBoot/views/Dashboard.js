@@ -18,16 +18,12 @@
 */
 import React from "react";
 
-// reactstrap components
+// react-bootstrap components
 import {
   Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  CardTitle,
   Row,
   Col,
-} from "reactstrap";
+} from "react-bootstrap";
 // core components
 
 class Dashboard extends React.Component {
@@ -38,7 +34,7 @@ class Dashboard extends React.Component {
           <Row>
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
-                <CardBody>
+                <Card.Body>
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
@@ -48,23 +44,23 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Capacity</p>
-                        <CardTitle tag="p">150GB</CardTitle>
+                        <Card.Title tag="p">150GB</Card.Title>
                         <p />
                       </div>
                     </Col>
                   </Row>
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="stats">
                     <i className="fas fa-sync-alt" /> Update Now
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
-                <CardBody>
+                <Card.Body>
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
@@ -74,23 +70,23 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Revenue</p>
-                        <CardTitle tag="p">$ 1,345</CardTitle>
+                        <Card.Title tag="p">$ 1,345</Card.Title>
                         <p />
                       </div>
                     </Col>
                   </Row>
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="stats">
                     <i className="far fa-calendar" /> Last day
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
-                <CardBody>
+                <Card.Body>
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
@@ -100,23 +96,23 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Errors</p>
-                        <CardTitle tag="p">23</CardTitle>
+                        <Card.Title tag="p">23</Card.Title>
                         <p />
                       </div>
                     </Col>
                   </Row>
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="stats">
                     <i className="far fa-clock" /> In the last hour
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
             <Col lg="3" md="6" sm="6">
               <Card className="card-stats">
-                <CardBody>
+                <Card.Body>
                   <Row>
                     <Col md="4" xs="5">
                       <div className="icon-big text-center icon-warning">
@@ -126,51 +122,51 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Followers</p>
-                        <CardTitle tag="p">+45K</CardTitle>
+                        <Card.Title tag="p">+45K</Card.Title>
                         <p />
                       </div>
                     </Col>
                   </Row>
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="stats">
                     <i className="fas fa-sync-alt" /> Update now
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
           </Row>
           <Row>
             <Col md="12">
               <Card>
-                <CardHeader>
-                  <CardTitle tag="h5">Users Behavior</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h5">Users Behavior</Card.Title>
                   <p className="card-category">24 Hours performance</p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   Chart
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <hr />
                   <div className="stats">
                     <i className="fa fa-history" /> Updated 3 minutes ago
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
           </Row>
           <Row>
             <Col md="4">
               <Card>
-                <CardHeader>
-                  <CardTitle tag="h5">Email Statistics</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h5">Email Statistics</Card.Title>
                   <p className="card-category">Last Campaign Performance</p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   Chart
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <div className="legend">
                     <i className="fa fa-circle text-primary" /> Opened{" "}
                     <i className="fa fa-circle text-warning" /> Read{" "}
@@ -181,19 +177,19 @@ class Dashboard extends React.Component {
                   <div className="stats">
                     <i className="fa fa-calendar" /> Number of emails sent
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
             <Col md="8">
               <Card className="card-chart">
-                <CardHeader>
-                  <CardTitle tag="h5">NASDAQ: AAPL</CardTitle>
+                <Card.Header>
+                  <Card.Title tag="h5">NASDAQ: AAPL</Card.Title>
                   <p className="card-category">Line Chart with Points</p>
-                </CardHeader>
-                <CardBody>
+                </Card.Header>
+                <Card.Body>
                   Chart
-                </CardBody>
-                <CardFooter>
+                </Card.Body>
+                <Card.Footer>
                   <div className="chart-legend">
                     <i className="fa fa-circle text-info" /> Tesla Model S{" "}
                     <i className="fa fa-circle text-warning" /> BMW 5 Series
@@ -202,7 +198,7 @@ class Dashboard extends React.Component {
                   <div className="card-stats">
                     <i className="fa fa-check" /> Data information certified
                   </div>
-                </CardFooter>
+                </Card.Footer>
               </Card>
             </Col>
           </Row>
