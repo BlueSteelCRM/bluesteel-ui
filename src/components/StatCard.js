@@ -5,7 +5,7 @@ import {
   Col,
 } from "react-bootstrap";
 
-export default function StatCard({isNew}){
+export default function StatCard({stat,title,subtitle}){
 	return <Card className="card-stats">
     <Card.Body>
       <Row>
@@ -16,18 +16,17 @@ export default function StatCard({isNew}){
         </Col>
         <Col md="8" xs="7">
           <div className="numbers">
-            <p className="card-category">Revenue</p>
-            <Card.Title tag="p">$ 1,345</Card.Title>
+            <p className="card-category">{title}</p>
+            <Card.Title>{stat}</Card.Title>
             <p />
           </div>
         </Col>
       </Row>
     </Card.Body>
+		{subtitle?
     <Card.Footer>
       <hr />
-      <div className="stats">
-        <i className="far fa-calendar" /> Last day
-      </div>
-    </Card.Footer>
+      <div className="stats">{subtitle}</div>
+    </Card.Footer>:""}
 		</Card>
 };

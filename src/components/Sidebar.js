@@ -12,7 +12,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 
 import { NavLink } from "react-router-dom";
-import { Accordion,Nav } from "react-bootstrap";
+import { Accordion,Nav,Button } from "react-bootstrap";
 
 
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -60,14 +60,20 @@ export function SidebarBoot(props){
 		data-active-color={props.activeColor}
 	>
 		<div className="logo">
-			<a href="/"><img src="/images/blue-steel-logo-horizontal.png" alt="logo" height="80px" className="logo"/></a>
+		<a
+			href="/"
+			className="simple-text logo-normal"
+		>
+			Steam Engine
+
+			</a>
 		</div>
 		<div className="sidebar-wrapper" >
 		<Accordion defaultActiveKey={1}>
 		  <Nav>
 				{categories.map(({ id, items },i) => {
           return <li key={id}>
-						<Accordion.Toggle eventKey={i+1}>
+						<Accordion.Toggle as={Button} variant="link" eventKey={i+1}>
 			        {id}
 			      </Accordion.Toggle>
 						<Accordion.Collapse eventKey={i+1}>
