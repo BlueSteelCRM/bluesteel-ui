@@ -12,7 +12,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonIcon from '@material-ui/icons/Person';
 
 import { NavLink } from "react-router-dom";
-import { Accordion,Nav,Button } from "react-bootstrap";
+import { Accordion,Nav,Button,ListGroup } from "react-bootstrap";
 
 
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
@@ -64,24 +64,23 @@ export function SidebarBoot(props){
 			href="/"
 			className="simple-text logo-normal"
 		>
-			Steam Engine
-
+			<img src="/images/logos/text_logo_white.png" alt="logo" className="logo"/>
 			</a>
 		</div>
 		<div className="sidebar-wrapper" >
 		<Accordion defaultActiveKey={1}>
-		  <Nav>
+		  <ListGroup>
 				{categories.map(({ id, items },i) => {
-          return <li key={id}>
-						<Accordion.Toggle as={Button} variant="link" eventKey={i+1}>
+          return <React.Fragment key={id}>
+						<Accordion.Toggle as={ListGroup.Item} variant="link" eventKey={i+1}>
 			        {id}
 			      </Accordion.Toggle>
 						<Accordion.Collapse eventKey={i+1}>
 						<React.Fragment>{items.map(({ id: childId, icon, link },j)=><li key={j}><NavLink to={link}>{childId}</NavLink></li>)}</React.Fragment>
 						</Accordion.Collapse>
-					</li>;
+					</React.Fragment>;
 			})}
-		  </Nav>
+		  </ListGroup>
 		</Accordion>
 		</div>
 	</div>
@@ -96,7 +95,7 @@ export default function Sidebar(props) {
   return (
     <Drawer variant="permanent" {...other}>
       <List disablePadding>
-				<img src="/images/blue-steel-logo-horizontal.png" alt="logo" height="80px" className="logo"/>
+				<img src="/images/logos/logo.png" alt="logo" height="80px" className="logo"/>
         <ListItem className={clsx(classes.item, classes.itemCategory)}
 				component={NavLink} to="/"
 				button

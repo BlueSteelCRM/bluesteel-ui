@@ -35,6 +35,25 @@
         .navbar-form{
             border: none;
         }
+				.list-group-item{
+					color:#FFF;
+
+					background:none;
+					font-size:1.3em;
+					font-weight:bold;
+					border:0px;
+				}
+				.list-group{
+					padding:0px 20px;
+					li,a{
+						color:#FFF;
+						padding:10px 0px 10px 25px;
+						font-size:1.1em;
+					}
+					li{
+						list-style: none;
+					}
+				}
     }
 
     .navbar-minimize{
@@ -45,20 +64,7 @@
 
       @extend .animation-transition-general;
     }
-    .logo-tim{
-      border-radius: 50%;
-      border: 1px solid #333;
-      display: block;
-      height: 61px;
-      width: 61px;
-      float: left;
-      overflow: hidden;
 
-      img{
-          width: 60px;
-          height: 60px;
-      }
-    }
 
     .nav{
         margin-top: 20px;
@@ -69,7 +75,6 @@
             position: absolute;
             right: 10px;
         }
-
         li{
             > a + div .nav li > a{
                 margin-top: 7px;
@@ -81,7 +86,6 @@
                 display: block;
                 text-decoration: none;
                 position: relative;
-                text-transform: uppercase;
                 cursor: pointer;
                 font-size: 12px;
                 padding: 10px 8px;
@@ -176,17 +180,6 @@
             @include transform-translate-x(0px);
         }
 
-        &:after{
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 15px;
-            height: 1px;
-            width: calc(100% - 30px);
-            background-color: $opacity-5;
-
-        }
-
         p{
             float: left;
             font-size: 20px;
@@ -197,7 +190,6 @@
         }
 
         .simple-text{
-            text-transform: uppercase;
             padding: $padding-base-vertical 0;
             display: block;
             white-space: nowrap;
@@ -207,21 +199,6 @@
             font-weight: $font-weight-normal;
             line-height: 30px;
             overflow: hidden;
-        }
-    }
-
-    .logo-tim{
-        border-radius: 50%;
-        border: 1px solid #333;
-        display: block;
-        height: 61px;
-        width: 61px;
-        float: left;
-        overflow: hidden;
-
-        img{
-            width: 60px;
-            height: 60px;
         }
     }
 
