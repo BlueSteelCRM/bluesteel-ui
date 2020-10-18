@@ -1,6 +1,6 @@
 import React from 'react';
 import {useQuery} from 'urql';
-import Alert from '@material-ui/lab/Alert';
+import {Alert} from 'react-bootstrap';
 
 
 export function RetrieveData({object,variables,fields,children}){
@@ -15,7 +15,7 @@ export function RetrieveData({object,variables,fields,children}){
 		variables
   });
 	if (result.fetching) return null;
-	if (result.error) return <Alert severity="error">{JSON.stringify(result.error)}</Alert>;
+	if (result.error) return <Alert variant="error">{JSON.stringify(result.error)}</Alert>;
 	let values={};
 	if (result.data && result.data.values) values=result.data.values;
 	return children(values);

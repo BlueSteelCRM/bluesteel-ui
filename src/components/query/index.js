@@ -1,28 +1,17 @@
 import React from "react";
 import { v4 as uuid } from "uuid";
-//import {SchemaContext} from '../SchemaContext';
-import {commonStyles} from '../../theme/Styles';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import {Row,Col,ListGroup,Button,ButtonGroup} from 'react-bootstrap';
 
-import Paper from '@material-ui/core/Paper';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
+import {RichListItem} from '../RichListItem';
 import QueryCount from './QueryCount';
-import AddIcon from '@material-ui/icons/Add';
-//import DragHandleIcon from '@material-ui/icons/DragHandle';
-import CloseIcon from '@material-ui/icons/Close';
-//import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Toolbar from '@material-ui/core/Toolbar';
+
 import Nestable from 'react-nestable';
 import PersonField from './PersonField';
 import Segment from './Segment';
 import Transaction from './Transaction';
+
+import {X,Plus} from 'react-bootstrap-icons';
+
 
 import "./queryStyles.css";
 
@@ -48,16 +37,10 @@ function EditCondition({condition,setCondition,removeCondition}){
 		Edit=element.component.Edit;
 	}
 	if (!Edit) return "Could not find element with target "+target;
-	return <ListItem>
-		<Edit condition={condition} setCondition={setCondition}/>
-			<ListItemSecondaryAction>
-	          <IconButton aria-label="remove"
-						onClick={removeCondition}
-						>
-	            <CloseIcon />
-	          </IconButton>
-	</ListItemSecondaryAction>
-	</ListItem>;
+	return <ListGroup.Item>
+			<Edit condition={condition} setCondition={setCondition}/>
+			<X onClick={removeCondition}/>
+	</ListGroup.Item>;
 }
 
 
@@ -111,7 +94,7 @@ function QueryEditor(props){
 					<div></div>
 					<div>{message}</div>
 					<div>
-						{condition.children?.length===0 && <IconButton aria-label="remove" onClick={()=>removeCondition(conditions,condition.id)}><CloseIcon /></IconButton>}
+						{condition.children?.length===0 && <X onClick={()=>removeCondition(conditions,condition.id)}/>}
 					</div>
 					{handler}
 				</div>
@@ -169,7 +152,6 @@ let sample={
 */
 
 export default function(props){
-	const classes=commonStyles();
 	const [conditions,setConditions] = React.useState(
 		[
 			{ id: uuid(),
@@ -220,65 +202,45 @@ export default function(props){
 	}
 
   return (
-		<div className={classes.contentWrapper}>
-		<Paper className={classes.paper}>
-			<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-				<Toolbar>
-					<Grid container spacing={2} alignItems="center">
-						<Grid item xs>
-							Query Editor
-						</Grid>
-						<Grid item>
-							<QueryCount conditions={cleanConditions(conditions)}/>
-						</Grid>
-					</Grid>
-				</Toolbar>
-			</AppBar>
-				<Grid container>
-					<Grid item xs={9}>
+		<div className="content-wrapper">
+			<Row><Col><h2>Query Editor</h2>
+			<QueryCount conditions={cleanConditions(conditions)}/>
+			</Col></Row>
+				<Row>
+					<Col xs={9}>
 						<QueryEditor conditions={conditions} setConditions={setConditions}/>
 						<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
 						<Button
-				        variant="contained"
-				        color="default"
-				        className={classes.button}
-				        startIcon={<AddIcon />}
-								aria-label="add" onClick={e=>addCondition({target:"and"})}
+				        variant="default"
+								aria-label="add"
+								onClick={e=>addCondition({target:"and"})}
 				      >
 				        Add "AND" group
 				      </Button>
 							<Button
-					        variant="contained"
-					        color="default"
-					        className={classes.button}
-					        startIcon={<AddIcon />}
+					        variant="default"
 									aria-label="add" onClick={e=>addCondition({target:"or"})}
 					      >
 					        Add "OR" group
 					      </Button>
 						</ButtonGroup>
 						<RenderJSON json={conditions}/>
-					</Grid>
-					<Grid item xs={3} className="query-options-wrapper">
+					</Col>
+					<Col xs={3} className="query-options-wrapper">
 		        <h2>Query Options</h2>
-						<List>
+						<ListGroup>
 						{options.map((o,i)=>(
-							<ListItem key={i}>
-                <ListItemText
+							<ListGroup.Item key={i}>
+                <RichListItem
                   primary={o.label}
                   secondary={o.secondary?o.secondary:null}
                 />
-                <ListItemSecondaryAction className="list-item-top-right">
-                  <IconButton edge="end" aria-label="add" onClick={e=>addCondition(o)}>
-                    <AddIcon/>
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
+                  <Plus onClick={e=>addCondition(o)}/>
+              </ListGroup.Item>
 							))}
-						</List>
-					</Grid>
-				</Grid>
-		</Paper>
+						</ListGroup>
+					</Col>
+				</Row>
 		</div>
   );
 };

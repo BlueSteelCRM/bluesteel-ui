@@ -2,15 +2,9 @@ import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
 import {CustomLayoutContext} from '../CustomLayoutContext';
 import SaveableForm from './SaveableForm';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import ObjectWrapper from './ObjectWrapper';
 
-import {commonStyles} from '../theme/Styles';
 import {RetrieveData} from './GraphQL.js';
 
 import {useParams} from 'react-router-dom';
@@ -22,7 +16,6 @@ function Data(props){
 
 export default function({isNew}){
 	let { object,id } = useParams();
-	const classes=commonStyles();
 	let schema=useContext(SchemaContext);
 	let layouts=useContext(CustomLayoutContext);
 	let def=schema.objects[object];
@@ -34,12 +27,12 @@ export default function({isNew}){
 	//ids should be integers
 	if (id && parseInt(id)!==Number(id)) return "Invalid id:"+id;
 
-	return <Box display="flex">
+	return <div display="flex">
 			<ObjectWrapper object={object}>
 				<Data variables={{id}} object={object} fields={fields}>{(values)=>{
 					if (layouts && layouts[object] && layouts[object].Edit){
 						console.log("Using custom layout for ",object);
-						return React.createElement(layouts[object].Edit,{object,id,fields,values,classes});
+						return React.createElement(layouts[object].Edit,{object,id,fields,values});
 					}else{
 						console.log("Not using custom layout for ",object,layouts[object]);
 						let title="Create "+object;
@@ -53,19 +46,13 @@ export default function({isNew}){
 							}
 						}
 
-						return <div className={classes.contentWrapper}>
-							<Paper className={classes.paper}>
-								<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-									<Toolbar><Typography variant="h6">{title}</Typography></Toolbar>
-								</AppBar>
-								<Box p={3}>
+						return <div className={"edit-object"}>
+							<h2>{title}</h2>
 									<SaveableForm object={object} id={id} fields={fields} values={values}/>
-								</Box>
-							</Paper>
 						</div>;
 					}
 				}}
 				</Data>
 			</ObjectWrapper>
-		</Box>
+		</div>
 };

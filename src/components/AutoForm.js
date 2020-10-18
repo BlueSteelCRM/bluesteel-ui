@@ -1,58 +1,35 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import Select from "react-select"
-import DateFnsUtils from '@date-io/date-fns';
-import {MuiPickersUtilsProvider,KeyboardDatePicker} from '@material-ui/pickers';
-/*import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-*/
-import {useForm } from "react-hook-form";
-/*
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Button from '@material-ui/core/Button';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import InputLabel from '@material-ui/core/InputLabel';
+import {parseISO,format} from 'date-fns';
 
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-*/
+import {Button} from 'react-bootstrap';
+import {
+	Form,
+	Row,
+	Col
+} from 'react-bootstrap';
+
+import ReactDatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select"
+
+import {useForm,Controller } from "react-hook-form";
 
 function DateField(props){
-	const {register,name,value,label="FOO",onChange,options,setValue,getValues}=props;
-	const [selectedDate, handleDateChange] = React.useState(value);
+	const {name,value,label,control}=props;
 
-	React.useEffect(() => {
-		register({name});
-	}, [name,register]);
-
-	return <KeyboardDatePicker
-	 		clearable
-      format="yyyy-MM-dd"
-      id={`auto-form-${name}`}
-			label={label}
-      value={selectedDate}
-			onChange={(d,o)=>{
-				handleDateChange(d);
-				if (d && d.toString()==="Invalid Date"){
-					return;
-				}
-				let newDate=d.toISOString().slice(0,10);
-				setValue(name,newDate);
-				onChange();
-			}}
-      KeyboardButtonProps={{
-        'aria-label': label,
-      }}
-    />
+	return <>{name}:<Controller
+              as={<ReactDatePicker dateFormat="yyyy-MM-dd"/>}
+              control={control}
+              valueName="selected" // DateSelect value's name is selected
+              onChange={([selected]) =>{
+								debugger;
+								return selected;
+							}}
+              name={name}
+              className="input"
+              placeholderText="Select date"
+            /></>;
 }
 
 function SelectField(props){
@@ -128,17 +105,12 @@ function Field(props){
 			helperText:(error && error.message)||description
 		}
 
-		let InputProps={autoComplete: 'off'};
-		if (type==="currency"){
-				InputProps.startAdornment=<InputAdornment position="start">$</InputAdornment>;
-		}
+		//let InputProps={autoComplete: 'off'};
 
-		element=<TextField
-			inputRef={register(registerValues)}
-			InputProps={InputProps}
-			onChange={onChange}
-			{...common}
-			/>
+		element=<Form.Control
+						{...common}
+            ref={register(registerValues)}
+          ></Form.Control>
 		}
 	return <div className={`auto-form-field${displayClass}`}>{element}</div>;
 }
@@ -148,9 +120,14 @@ export default function AutoForm(props){
 	//The useForm / react-hook-form library is a VERY fast react form library that handles
 	// required, errors, etc, etc, but does require a 'register' method to be called
 	// on form elements
-
 	let {fields,values={},submit_button=true}=props;
+
+	fields.filter(t=>t.type==="date").forEach(d=>{
+		if (values[d.name] && typeof values[d.name]=='string') values[d.name]=parseISO(values[d.name]);
+	});
+
   const { control,handleSubmit, register, errors,getValues,setValue } = useForm({defaultValues:values});
+
 	if (!Array.isArray(fields)) return "fields must be an array";
 	if (!values) return "Values required, not found in "+Object.keys(props);
 	let hiddenValues={};
@@ -179,40 +156,38 @@ export default function AutoForm(props){
 	}
 
   return (
-		<MuiPickersUtilsProvider utils={DateFnsUtils}>
-	    <form className="auto-form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
-				<Grid container>
-					{fields.map((f,i)=>{
-						if (!f){
-							throw new Error("You must include a value field array");
-						}
-						if (f.hidden){
-							hiddenValues[f.name]=values[f.name];
-							return null;
-						}
-						let display=true;
-						if (typeof f.display==='function'){
-							display=f.display(values);
-						}
-						let value=values[f.name];
-						let fieldItems=Object.assign({},f,{
-							value,
-							display,
-							setValue,
-							control,
-							error:errors[f.name],
-							register,
-							onChange:fieldOnChange,
-							getValues
-						});
-						//delete reg.name; // registration names handled across a whole form
-			      return <Grid key={i} item {...sizes}><Field {...fieldItems}/></Grid>;
-					})}
-					{submit_button &&
-						<Box mt={3}> <Button variant="contained" color="primary" type="submit">Save</Button></Box>
+    <form className="auto-form" autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+			<Row>
+				{fields.map((f,i)=>{
+					if (!f){
+						throw new Error("You must include a value field array");
 					}
-				</Grid>
-	    </form>
-		</MuiPickersUtilsProvider>
+					if (f.hidden){
+						hiddenValues[f.name]=values[f.name];
+						return null;
+					}
+					let display=true;
+					if (typeof f.display==='function'){
+						display=f.display(values);
+					}
+					let value=values[f.name];
+					let fieldItems=Object.assign({},f,{
+						value,
+						display,
+						setValue,
+						control,
+						error:errors[f.name],
+						register,
+						onChange:fieldOnChange,
+						getValues
+					});
+					//delete reg.name; // registration names handled across a whole form
+		      return <Col key={i} {...sizes}><Field {...fieldItems}/></Col>;
+				})}
+				{submit_button &&
+					<Button variant="primary" type="submit">Save</Button>
+				}
+			</Row>
+    </form>
   );
 };

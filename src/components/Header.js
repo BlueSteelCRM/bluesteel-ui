@@ -1,128 +1,35 @@
-/*!
+import React from 'react';
 
-=========================================================
-* Paper Dashboard React - v1.2.0
-=========================================================
+import {Nav,Navbar,NavDropdown} from 'react-bootstrap';
 
-* Product Page: https://www.creative-tim.com/product/paper-dashboard-react
-* Copyright 2020 Creative Tim (https://www.creative-tim.com)
+export default function Header(props) {
+  const { onSidebarToggle=()=>{} } = props;
 
-* Licensed under MIT (https://github.com/creativetimofficial/paper-dashboard-react/blob/master/LICENSE.md)
+  return (
+		<Navbar bg="primary" expand="lg">
+			<button onClick={e=>onSidebarToggle()} aria-controls="basic-navbar-nav" type="button" aria-label="Toggle navigation" class="navbar-toggler collapsed"><span class="navbar-toggler-icon"></span></button>
+			<button
+				type="button"
+				className="navbar-toggler"
+				onClick={e => onSidebarToggle()}
+			>
+			for
+			</button>
 
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-import React from "react";
-
-import {
-  Navbar,
-  Container,
-} from "react-bootstrap";
-
-
-export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-      dropdownOpen: false,
-      color: "transparent",
-    };
-    this.toggle = this.toggle.bind(this);
-    this.dropdownToggle = this.dropdownToggle.bind(this);
-    this.sidebarToggle = React.createRef();
-  }
-  toggle() {
-    if (this.state.isOpen) {
-      this.setState({
-        color: "transparent",
-      });
-    } else {
-      this.setState({
-        color: "dark",
-      });
-    }
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-  dropdownToggle(e) {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
-  getBrand() {
-    let brandName = "Default Brand";
-    return brandName;
-  }
-  openSidebar() {
-    document.documentElement.classList.toggle("nav-open");
-    this.sidebarToggle.current.classList.toggle("toggled");
-  }
-  // function that adds color dark/transparent to the navbar on resize (this is for the collapse)
-  updateColor() {
-    if (window.innerWidth < 993 && this.state.isOpen) {
-      this.setState({
-        color: "dark",
-      });
-    } else {
-      this.setState({
-        color: "transparent",
-      });
-    }
-  }
-  componentDidMount() {
-    window.addEventListener("resize", this.updateColor.bind(this));
-  }
-  componentDidUpdate(e) {
-    if (
-      window.innerWidth < 993 &&
-      e.history.location.pathname !== e.location.pathname &&
-      document.documentElement.className.indexOf("nav-open") !== -1
-    ) {
-      document.documentElement.classList.toggle("nav-open");
-      this.sidebarToggle.current.classList.toggle("toggled");
-    }
-  }
-  render() {
-    return (
-      // add or remove classes depending if we are on full-screen-maps page or not
-      <Navbar
-        color={
-             this.state.color
-        }
-        expand="lg"
-        className={
-           "navbar-absolute fixed-top " +
-              (this.state.color === "transparent" ? "navbar-transparent " : "")
-        }
-      >
-        <Container fluid>
-          <div className="navbar-wrapper">
-            <div className="navbar-toggle">
-              <button
-                type="button"
-                ref={this.sidebarToggle}
-                className="navbar-toggler"
-                onClick={() => this.openSidebar()}
-              >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
-              </button>
-            </div>
-            <Navbar.Brand href="/">{this.getBrand()}</Navbar.Brand>
-          </div>
-        </Container>
-      </Navbar>
-    );
-  }
+		  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+		  <Navbar.Collapse id="basic-navbar-nav">
+		    <Nav className="mr-auto">
+		      <Nav.Link href="#home">Home</Nav.Link>
+		      <Nav.Link href="#link">Link</Nav.Link>
+		      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+		        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+		        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+		        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+		        <NavDropdown.Divider />
+		        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+		      </NavDropdown>
+		    </Nav>
+		  </Navbar.Collapse>
+		</Navbar>
+  );
 }
-//export default function(props){return "HEADER HEADER";}
-
-
-//export default Header;

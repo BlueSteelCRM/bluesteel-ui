@@ -3,33 +3,20 @@ import {SchemaContext} from '../SchemaContext';
 import {CustomLayoutContext} from '../CustomLayoutContext';
 import AutoTable from './AutoTable';
 
-import Alert from '@material-ui/lab/Alert';
-import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Toolbar from '@material-ui/core/ToolBar';
-import TextField from '@material-ui/core/TextField';
-import SearchIcon from '@material-ui/icons/Search';
-import AddIcon from '@material-ui/icons/Add';
-
-import Paper from '@material-ui/core/Paper';
-
+import {Alert} from 'react-bootstrap';
 
 import {useQuery} from 'urql';
 import {useParams} from 'react-router-dom';
-import ObjectWrapper from './ObjectWrapper';
-import {commonStyles} from '../theme/Styles';
 import {useHistory} from 'react-router-dom';
 
 function RetrieveData({object,query,columns}){
-	const classes=commonStyles();
 	const [result] = useQuery({query});
 	const history=useHistory();
 	let layouts=useContext(CustomLayoutContext);
 	const { data, fetching, error } = result;
 	if (fetching) return null;
 	if (error){
-		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
+		return <Alert variant="danger">{JSON.stringify(error)}</Alert>;
 	}
 
 	let rows=[];
@@ -45,7 +32,7 @@ function RetrieveData({object,query,columns}){
 	let CustomLayout=layouts[object]?.List;
 	if (typeof CustomLayout=='function'){
 		console.log("Using custom layout for ",object);
-		return React.createElement(layouts[object].List,{object,rows,classes});
+		return React.createElement(layouts[object].List,{object,rows});
 	};
 
 	if (CustomLayout?.columns){
@@ -63,44 +50,20 @@ function RetrieveData({object,query,columns}){
 	}
 
 
-  return <Box display="flex">
-		<ObjectWrapper object={object}>
-			<div className={classes.contentWrapper}>
-			<Paper className={classes.paper}>
-				<AppBar className={classes.searchBar} position="static" color="default" elevation={0}>
-					<Toolbar>
-						<Grid container spacing={2} alignItems="center">
-							<Grid item>
-								<SearchIcon className={classes.block} color="inherit" />
-							</Grid>
-							<Grid item xs>
-								<TextField
-									fullWidth
-									placeholder="Search"
-									InputProps={{
-										disableUnderline: true,
-										className: classes.searchInput,
-									}}
-								/>
-							</Grid>
-							<Grid item>
-								<AddIcon className={classes.block} color="inherit"
-								onClick={e=>history.push("/obj/"+object+"/edit")}/>
-							</Grid>
-						</Grid>
-					</Toolbar>
-				</AppBar>
-
-		     <AutoTable
+	return <div>
+			<AutoTable
 		        columns={columns}
 		        data={rows}
 						onRowClick={onRowClick}
 						detailPanel={detailPanel}
 						/>
-			</Paper>
-			</div>
-		</ObjectWrapper>
-	</Box>
+
+				<button
+				onClick={e=>history.push("/obj/"+object+"/edit")}
+				>
+				Add Item
+				</button>
+			</div>;
 };
 
 export default function List(props){

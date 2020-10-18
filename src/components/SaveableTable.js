@@ -1,7 +1,7 @@
 import React,{useContext} from 'react';
 import {SchemaContext} from '../SchemaContext';
 import AutoTable from './AutoTable';
-import Alert from '@material-ui/lab/Alert';
+import {Alert} from 'react-bootstrap';
 import {useQuery,useMutation} from 'urql';
 import useNotifiers from '../util/Notifiers';
 
@@ -51,7 +51,7 @@ const RetrieveData=({saveMutation,deleteMutation,query,variables,expandedFields,
 	const { data, fetching, error } = result;
 	if (fetching) return null;
 	if (error){
-		return <Alert severity="error">{JSON.stringify(error)}</Alert>;
+		return <Alert variant="danger">{JSON.stringify(error)}</Alert>;
 	}
 
 	let rows=[];

@@ -123,18 +123,18 @@ function MessageSetList(props){
 }
 
 
-function TabPanel({index,value,classes,children}){
+function TabPanel({index,value,children}){
 	return <Paper hidden={index!==value} style={{"padding":"10px"}}>{children}</Paper>
 }
 
 export default function CampaignEdit(props){
-	let {id,values,classes}=props;
+	let {id,values}=props;
 	const [tabIndex, setTabIndex] = React.useState(0);
 	const title=id?"Edit "+values.label:"Create a new Campaign";
 
-	return	<div className={classes.contentWrapper}>
-	<Paper className={classes.paper}>
-		<AppBar className={classes.searchBar} position="static" style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"baseline",padding:"0px 20px"}}>
+	return	<div >
+	<Paper >
+		<AppBar position="static" style={{display:"flex",flexDirection:"row",justifyContent:"space-between",alignItems:"baseline",padding:"0px 20px"}}>
 			<Typography variant="h6">{title}</Typography>
 			<Toolbar>
 				<Tabs value={tabIndex} onChange={(e,t)=>setTabIndex(t)}>
@@ -144,10 +144,10 @@ export default function CampaignEdit(props){
 			</Toolbar>
 			<div></div>
 		</AppBar>
-			<TabPanel value={tabIndex} index={0} classes={classes}>
+			<TabPanel value={tabIndex} index={0}>
 				<SaveableForm {...props}/>
 			</TabPanel>
-			<TabPanel value={tabIndex} index={1} classes={classes}>
+			<TabPanel value={tabIndex} index={1}>
 				{id && <MessageSetList object="MessageSet" filter={{campaign_id:parseInt(props.id)}} fields={['label']}/>}
 			</TabPanel>
 		</Paper>

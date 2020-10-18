@@ -1,5 +1,6 @@
 function escapeValue(value){
 	if (!value) return "''";
+	if (value.getTime) return "'"+value.toISOString()+"'";
 	return "'"+value.replace("'","\\'")+"'";
 };
 function unescapeValue(v){

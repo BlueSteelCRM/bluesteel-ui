@@ -36,7 +36,7 @@
             border: none;
         }
 				.list-group-item{
-					color:#FFF;
+					color:$white-color;
 
 					background:none;
 					font-size:1.3em;
@@ -46,7 +46,7 @@
 				.list-group{
 					padding:0px 20px;
 					li,a{
-						color:#FFF;
+						color:$white-color;
 						padding:10px 0px 10px 25px;
 						font-size:1.1em;
 					}
@@ -180,6 +180,16 @@
             @include transform-translate-x(0px);
         }
 
+				&:after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 15px;
+            height: 1px;
+            width: calc(100% - 30px);
+            background-color: $opacity-5;
+        }
+
         p{
             float: left;
             font-size: 20px;
@@ -280,7 +290,7 @@
     > .content{
         padding: 0 30px 30px;
         min-height: calc(100vh - 123px);
-        margin-top: 93px;
+        margin-top: 20px;
     }
 
     > .navbar{
