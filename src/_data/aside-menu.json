@@ -24,6 +24,45 @@
         "type": "link",
         "text": "Segments",
         "link": "/obj/Segment"
+      },
+			{
+        "id": "imports",
+        "type": "link",
+        "text": "Imports",
+        "link": "/obj/FileImport"
+      }
+		]
+		},
+		{
+      "id": "transaction",
+      "type": "link",
+      "text": "Donations",
+      "icon": "far fa-people",
+      "link": "#",
+      "childs": [{
+        "id": "person",
+        "type": "link",
+        "text": "All Donations",
+        "link": "/obj/Transaction"
+      }
+		]},
+		{
+      "id": "messaging",
+      "type": "link",
+      "text": "Messaging",
+      "icon": "far fa-people",
+      "link": "#",
+      "childs": [{
+        "id": "email_blast",
+        "type": "link",
+        "text": "Emails",
+        "link": "/obj/EmailBlast"
+      },
+			{
+        "id": "email_template",
+        "type": "link",
+        "text": "Email Templates",
+        "link": "/obj/EmailTemplate"
       }
 		]
 		},

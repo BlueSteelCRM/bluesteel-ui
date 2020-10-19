@@ -21,26 +21,26 @@ export default function(){
             </div>
           </header>
 
-					<div class="aside-menu overflow-hidden">
+					<div className="aside-menu overflow-hidden">
 
-			      <nav id="stacked-menu" class="stacked-menu">
+			      <nav id="stacked-menu" className="stacked-menu">
 
-			        <ul class="menu">
+			        <ul className="menu">
 							{menu["aside-menu"].map((levelMenu,key)=>{
 								return <li key={key} className={`menu-item has-active${levelMenu.isSlim && "menu-item-slim"}${levelMenu.childs&& "has-child"}`}>
-								  <a href="{{levelMenu.link}}" class="menu-link">
+								  <a href={levelMenu.link} className="menu-link">
 								    {levelMenu.icon &&
-								    <span class="menu-icon {{levelMenu.icon}}"></span>}
+								    <span className={`menu-icon ${levelMenu.icon}`}></span>}
 
 								    {levelMenu.text &&
-								    <span class="menu-text">{levelMenu.text}</span>}
+								    <span className="menu-text">{levelMenu.text}</span>}
 								    {levelMenu.indicator &&
-								    <span class="{{levelMenu.indicatorClasses}}">{levelMenu.indicator}</span>}
+								    <span className={levelMenu.indicatorClasses}>{levelMenu.indicator}</span>}
 								  </a>
 								  {levelMenu.childs &&
-									<ul class="menu">
+									<ul className="menu">
 									  {levelMenu.childs.map((menuItem,i)=>{
-											return <li class="menu-item">
+											return <li className="menu-item">
 									    <a href={menuItem.link} className="menu-link">
 									      {menuItem.text}
 									    </a>

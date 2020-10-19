@@ -9,6 +9,7 @@ import {SchemaContext} from './services/SchemaContext';
 import JSONPretty from 'react-json-pretty';
 import Person from './obj/person/index.js';
 import Segment from './obj/segment/index.js';
+import DefaultObject from './obj/';
 
 
 function TestSchemaDisplay(){
@@ -27,6 +28,7 @@ function App() {
 						<Route path='/schema'><TestSchemaDisplay/></Route>
 						<Route path='/obj/person'><Person/></Route>
 						<Route path='/obj/segment'><Segment/></Route>
+						<Route path='/obj/:object'><DefaultObject/></Route>
 						<Route path='/'>
 										<Index/>
 						</Route>

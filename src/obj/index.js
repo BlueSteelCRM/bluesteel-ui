@@ -1,22 +1,14 @@
+import React from 'react';
+import {useParams} from 'react-router-dom';
+import FullList from 'components/FullList';
 
-import PersonEdit from './PersonEdit.js';
-import PersonList from './PersonList.js';
-import PersonQueryEdit from './PersonQueryEdit.js';
-import CampaignEdit from './CampaignEdit.js';
-import CampaignList from './CampaignList.js';
-import MessageSetEdit from './MessageSetEdit.js';
+function name(props){
+	return props.label || props.name || "(no name)";
+}
 
-import EmailBlastEdit from './EmailBlastEdit.js';
-import FormEdit from './FormEdit.js';
 
-import FileImportEdit from './FileImportEdit.js';
+export default function(props){
+	const {object}=useParams();
 
-export default {
-	Person:{Edit:PersonEdit,List:PersonList},
-	Form:{Edit:FormEdit},
-	FileImport:{Edit:FileImportEdit},
-	Campaign:{Edit:CampaignEdit,List:CampaignList},
-	MessageSet:{Edit:MessageSetEdit},
-	PersonQuery:{Edit:PersonQueryEdit},
-	EmailBlast:{Edit:EmailBlastEdit}
-};
+	return <FullList nameFunc={name} object={object}/>;
+}
