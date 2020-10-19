@@ -1,0 +1,25 @@
+// put your own variables to customize and override the theme variables
+/*
+iterated={
+		#faf9f9 //whitish
+		#e9b997 //tan
+		#8a140e //maroon
+		#a59cae// light purple
+		#d97934 //dark orange
+		///Bootstrap variatals:
+		Tamarillo	#8a130e	Primary
+		Red Damask	#d97934	Info
+		Fern Green	#5f803c	Success
+		Bamboo	#dc7004	Warning
+		Pomegranate	#f44336	Danger
+*/
+
+
+$primary:       #8a130e;
+$secondary:     #e9b997;
+$success:      	#5f803c;
+$info:          #d97934;
+$warning:       #dc7004;
+$danger:        #f44336;
+$light:         $gray-100;
+$dark:          $gray-800;

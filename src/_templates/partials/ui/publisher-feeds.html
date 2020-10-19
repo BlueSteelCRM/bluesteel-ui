@@ -1,0 +1,38 @@
+
+<div class="media">
+  <figure class="user-avatar user-avatar-md">
+    <img src="assets/images/avatars/profile.jpg" alt="">
+  </figure>
+  
+  <div class="media-body">
+    
+    {% if include.keepFocus %}
+    <div class="publisher keep-focus focus">
+    {% else %}
+    <div class="publisher">
+    {% endif %}
+      
+      <div class="publisher-input">
+        <textarea class="form-control" placeholder="What happening?"></textarea>
+      </div>
+      
+      
+      <div class="publisher-actions">
+        
+        <div class="publisher-tools mr-auto">
+          <div class="btn btn-light btn-icon fileinput-button">
+            <i class="fa fa-paperclip"></i>
+            <input type="file" id="pfAttachment" name="pfAttachment[]" multiple>
+          </div>
+          <button type="button" class="btn btn-light btn-icon"><i class="far fa-smile"></i></button>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Publish</button>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+

@@ -1,0 +1,39 @@
+
+<div class="media">
+  <figure class="user-avatar user-avatar-md mr-2">
+    <img src="assets/images/avatars/uifaces18.jpg" alt="">
+  </figure>
+  
+  <div class="media-body">
+    
+    {% if keepFocus %}
+    <div class="publisher keep-focus focus">
+    {% else %}
+    <div class="publisher">
+    {% endif %}
+      <label for="publisherInput2" class="publisher-label">Reply to: The Conductor</label>
+      
+      <div class="publisher-input">
+        <textarea id="publisherInput2" class="form-control" placeholder="Write a comment"></textarea>
+      </div>
+      
+      
+      <div class="publisher-actions">
+        
+        <div class="publisher-tools mr-auto">
+          <div class="btn btn-light btn-icon fileinput-button">
+            <i class="fa fa-paperclip"></i>
+            <input type="file" id="attachment2" name="attachment2[]" multiple>
+          </div>
+          <button type="button" class="btn btn-light btn-icon"><i class="far fa-smile"></i></button>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Publish</button>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+

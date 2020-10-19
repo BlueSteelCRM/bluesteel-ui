@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+
+    {% include head.html %}
+
+  </head>
+
+  {% if page.hasScrollSpy == true %}
+  <body data-spy="scroll" data-target="#nav-content" data-offset="76">
+  {% else %}
+  <body>
+  {% endif %}
+    
+    <div class="app">
+      <!--[if lt IE 10]>
+      <div class="page-message" role="alert">You are using an <strong>outdated</strong> browser. Please <a class="alert-link" href="http://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</div>
+      <![endif]-->
+
+      
+      {% include header.html %}
+      
+
+      
+      {% include aside.html %}
+      
+
+      
+      <main class="app-main">
+        
+        <div class="wrapper">
+          {{content}}
+        </div>
+
+        {% include footer.html %}
+        
+      </main>
+      
+    </div>
+    
+
+    {% include scripts.html %}
+
+  </body>
+</html>

@@ -1,0 +1,63 @@
+{% for project in site.data.projects %}
+
+<div class="col-lg-6 col-xl-4">
+  
+  <div class="card">
+    
+    <div class="card-body">
+      
+      <div class="media align-items-center mb-3">
+        <a href="page-project.html" class="tile tile-lg bg-{{project.color}} mr-3">{{project.initial}}</a>
+        
+        <div class="media-body">
+          <h5 class="card-title">
+            <a href="page-project.html">{{project.name}}</a>
+            {% if project.finished %}
+            <i class="fa fa-fw fa-check-circle text-teal" data-toggle="tooltip" title="Finished"></i>
+            {% endif %}
+          </h5>
+          <p class="card-subtitle text-muted">Progress in {{project.completed | times: 100 | divided_by: project.tasks | round}}% - Last update {{project.lastUpdate}}</p>
+        </div>
+        
+      </div>
+      
+
+      
+      <div class="row">
+        
+        <div class="col-6">
+          <strong>Deadline</strong>
+          <span class="d-block">{{project.deadline}}</span>
+        </div>
+        
+        
+        <div class="col">
+          <strong>Budget</strong>
+          <span class="d-block">{{project.budget}}$</span>
+        </div>
+        
+        
+        <div class="col">
+          <strong>Tasks</strong>
+          <span class="d-block">{{project.tasks | minus: project.completed}}</span>
+        </div>
+        
+      </div>
+      
+    </div>
+    
+
+    {% if project.finished == false %}
+    
+    <div class="progress progress-xs" data-toggle="tooltip" title="{{project.completed | times: 100 | divided_by: project.tasks}}%">
+      <div class="progress-bar bg-{{project.color}}" role="progressbar" aria-valuenow="{{project.completed}}" aria-valuemin="0" aria-valuemax="100" style="width: {{project.completed | times: 100 | divided_by: project.tasks}}%">
+        <span class="sr-only">{{project.completed | times: 100 | divided_by: project.tasks}}% Complete</span>
+      </div>
+    </div>
+    
+    {% endif %}
+  </div>
+  
+</div>
+
+{% endfor %}

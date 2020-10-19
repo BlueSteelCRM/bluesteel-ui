@@ -1,0 +1,74 @@
+
+<form id="clientBillingEditForm">
+<div class="modal fade" id="clientBillingEditModal" tabIndex="-1" role="dialog" aria-labelledby="clientBillingEditModalLabel" aria-hidden="true">
+  
+  <div class="modal-dialog" role="document">
+    
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h6 id="clientBillingEditModalLabel" class="modal-title inline-editable">
+          <span class="sr-only">Client name</span>
+          <input type="text" class="form-control form-control-lg" value="Zathunicon, Inc." placeholder="E.g. Stilearning, Inc." required>
+        </h6>
+      </div>
+      
+
+      
+      <div class="modal-body">
+        
+        <div class="form-row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="ceStreet">Street</label>
+              <input type="text" id="ceStreet" class="form-control" value="280 Suzanne Throughway">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ceSuite">Suite</label>
+              <input type="text" id="ceSuite" class="form-control" value="Breannabury">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ceZip">Zip</label>
+              <input type="text" id="ceZip" class="form-control" value="45801">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ceCountry">Country</label>
+              <select id="ceCountry" class="custom-select d-block w-100">
+                <option value="">Choose...</option>
+                <option selected>United States</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ceCity">City</label>
+              <select id="ceCity" class="custom-select d-block w-100">
+                <option value="">Choose...</option>
+                <option selected>San Francisco</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+
+      
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+</form>
+

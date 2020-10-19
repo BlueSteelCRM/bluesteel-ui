@@ -1,0 +1,50 @@
+
+<div class="table-responsive">
+  
+  <table class="table">
+    
+    <thead>
+      <tr>
+        <th style="min-width:259px">Task</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th style="min-width: 120px">Hours spent</th>
+        <th style="width:60px"></th>
+      </tr>
+    </thead>
+    
+    
+    <tbody>
+      {% for tracking in site.data.trackings limit:5 offset:0 %}
+      
+      <tr>
+        <td class="align-middle text-truncate">
+          <a href="#tracking">{{tracking.task}}</a>
+        </td>
+        <td class="align-middle">{{tracking.date}}</td>
+        <td class="align-middle">{{tracking.time}}</td>
+        <td class="align-middle">{{tracking.spent}}</td>
+        <td class="align-middle text-right">
+          
+          <div class="dropdown">
+            <button type="button" class="btn btn-sm btn-icon btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i class="fa fa-fw fa-ellipsis-h"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <div class="dropdown-arrow mr-n1"></div>
+              <a href="#" class="dropdown-item">Edit</a>
+              <a href="#" class="dropdown-item">Delete</a>
+            </div>
+          </div>
+          
+        </td>
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+    
+
+  </table>
+  
+</div>
+

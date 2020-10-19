@@ -2,19 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/images/favicon.ico?v=7" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
       name="description"
-      content="SteamEngine Enterprise Open Source CRM"
+      content="SteamEngine: Enterprise, Open Source CRM"
     />
-		<link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/images/apple-touch-icon.png"/>
-		<link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/images/favicon-32x32.png"/>
-		<link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/images/favicon-16x16.png"/>
-		<link rel="manifest" href="%PUBLIC_URL%/manifest.json"/>
-
-
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -44,5 +39,17 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+		<script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/popper.js/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script> <!-- END BASE JS -->
+    <!-- BEGIN PLUGINS JS -->
+    <script src="assets/vendor/pace-progress/pace.min.js"></script>
+    <script src="assets/vendor/stacked-menu/js/stacked-menu.min.js"></script>
+    <script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script src="assets/vendor/toastr/build/toastr.min.js"></script> <!-- END PLUGINS JS -->
+    <!-- BEGIN THEME JS -->
+    <script src="assets/javascript/theme.min.js"></script> <!-- END THEME JS -->
+    <!-- BEGIN PAGE LEVEL JS -->
+    <script src="assets/javascript/pages/toastr-demo.js"></script> <!-- END PAGE LEVEL JS -->
   </body>
 </html>

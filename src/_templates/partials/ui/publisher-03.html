@@ -1,0 +1,27 @@
+
+{% if keepFocus %}
+<div class="publisher publisher-alt keep-focus focus">
+{% else %}
+<div class="publisher publisher-alt">
+{% endif %}
+  
+  <div class="publisher-input">
+    <textarea class="form-control" placeholder="Write something"></textarea>
+  </div>
+  
+  
+  <div class="publisher-actions">
+    
+    <div class="publisher-tools mr-auto">
+      <div class="btn btn-light btn-icon fileinput-button">
+        <i class="fa fa-paperclip"></i>
+        <input type="file" id="attachment3" name="attachment3[]" multiple>
+      </div>
+      <button type="button" class="btn btn-light btn-icon"><i class="far fa-smile"></i></button>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Publish</button>
+  </div>
+  
+</div>
+

@@ -1,15 +1,14 @@
 import React from 'react';
-import './styles/App.css';
-import Layout from './Layout';
-import "bootstrap/dist/css/bootstrap.css";
-import "./assets/scss/steamengine.scss?v=1.2.0";
-import "./assets/demo/demo.css";
+import './App.css';
+import Routes from './Routes';
 
+import "bootstrap/dist/css/bootstrap.css";
+import "./assets/scss/theme.scss?v=1.2.0";
 import {Router} from 'react-router-dom';
 import { createBrowserHistory } from "history";
-
 import { Provider,createClient, dedupExchange, fetchExchange } from 'urql';
 import { cacheExchange } from '@urql/exchange-graphcache';
+import {SchemaProvider} from './services/SchemaContext';
 
 let endpoint=process.env.REACT_APP_DATA_LAYER;
 
@@ -26,9 +25,11 @@ const client = createClient({
 function App() {
   return (
 		<Router history={createBrowserHistory()}>
-				<Provider value={client}>
-					<Layout/>
-				</Provider>
+			<Provider value={client}>
+				<SchemaProvider>
+				<Routes/>
+			</SchemaProvider>
+			</Provider>
 		</Router>
   );
 }

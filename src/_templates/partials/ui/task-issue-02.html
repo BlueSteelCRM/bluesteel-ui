@@ -1,0 +1,43 @@
+{% for task in site.data.tasks2 %}
+{% if forloop.index >= offset %}
+{% if forloop.index <= max %}
+
+<div class="task-issue">
+  
+  <div class="card">
+    
+    <div class="card-body">
+      <h3 class="card-title mb-1"><a href="#">{{task.name}}</a></h3>
+      <ul class="list-inline text-muted">
+        <li class="list-inline-item"><i class="far fa-fw fa-clock"></i> {{task.duedate}}</li>
+        {% if task.todos > 0 %}
+        <li class="list-inline-item"><i class="fa fa-fw fa-tasks"></i> {{task.todosCompleted}}/{{task.todos}}</li>
+        {% endif %}
+      </ul>
+      
+      <div class="d-flex">
+        
+        <div class="avatar-group ml-auto">
+          
+          {% assign limit = task.members %}
+          {% for people in site.data.people %}
+          {% if forloop.index <= limit %}
+          <a href="#" class="user-avatar user-avatar-sm" data-toggle="tooltip" title="{{people.name}}">
+            <img src="assets/images/avatars/{{people.avatar}}" alt="{{people.name}}">
+          </a>
+          {% endif %}
+          {% endfor %}
+          
+        </div>
+        
+      </div>
+      
+    </div>
+    
+  </div>
+  
+</div>
+
+{% endif %}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,70 @@
+
+<div class="section-block">
+  <h2 class="section-title">Navbars</h2>
+  <p class="text-muted">Navbars are responsive meta components that serve as navigation headers for your application or site. They begin collapsed (and are toggleable) and become horizontal as the available viewport width increases.</p>
+</div>
+
+
+
+<div class="card card-fluid">
+  
+  <div class="card-body">
+    {% for navbar in site.data.navbars %}
+    
+    <nav class="navbar navbar-expand-lg {{navbar.context}} {{navbar.bg}} mb-3">
+      <a class="navbar-brand" href="#">Looper</a>
+      
+      <button class="hamburger {{navbar.hamburger}} hamburger-squeeze hamburger-toggle d-lg-none" type="button" data-toggle="collapse" data-target="#navbarColor{{forloop.index}}" aria-controls="navbarColor{{forloop.index}}" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="hamburger-box">
+          <span class="hamburger-inner"></span>
+        </span>
+      </button>
+      
+
+      
+      <div class="collapse navbar-collapse" id="navbarColor{{forloop.index}}">
+        
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+        
+        
+        <form class="form-inline my-2 my-lg-0">
+          
+          <div class="top-bar-search d-flex">
+            
+            <div class="input-group has-clearable">
+              <button type="button" class="close" aria-label="Close">
+                <span aria-hidden="true"><i class="fa fa-times-circle"></i></span>
+              </button>
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <span class="oi oi-magnifying-glass"></span>
+                </span>
+              </div>
+              <input type="text" class="form-control" aria-label="Search" placeholder="Type something...">
+            </div>
+            
+            
+          </div>
+          
+        </form>
+        
+      </div>
+      
+    </nav>
+    
+    {% endfor %}
+  </div>
+  
+</div>
+
+

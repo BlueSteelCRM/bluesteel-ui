@@ -1,0 +1,28 @@
+
+<script src="assets/vendor/jquery/jquery.min.js"></script>
+<script src="assets/vendor/popper.js/umd/popper.min.js"></script>
+<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+
+
+<script src="assets/vendor/pace-progress/pace.min.js"></script>
+<script src="assets/vendor/stacked-menu/js/stacked-menu.min.js"></script>
+<script src="assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+{% if page.pluginsJs %}
+{% for js in page.pluginsJs %}
+<script src="assets/vendor/{{js}}"></script>
+{% endfor %}
+{% endif %}
+
+
+
+<script src="assets/javascript/theme.min.js"></script>
+
+
+{% if page.pageJs %}
+
+{% for js in page.pageJs %}
+<script src="assets/javascript/{{js}}"></script>
+{% endfor %}
+
+{% endif %}
