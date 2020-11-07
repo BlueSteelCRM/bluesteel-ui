@@ -8,6 +8,7 @@ import {Route,Switch} from 'react-router-dom';
 import {SchemaContext} from './services/SchemaContext';
 import JSONPretty from 'react-json-pretty';
 import Person from './obj/person/index.js';
+import PersonView from './obj/person/View.js';
 import Segment from './obj/segment/index.js';
 import DefaultObject from './obj/';
 
@@ -26,9 +27,9 @@ function App() {
 				<div className="wrapper">
 					<Switch>
 						<Route path='/schema'><TestSchemaDisplay/></Route>
-						<Route path='/obj/person'><Person/></Route>
-						<Route path='/obj/segment'><Segment/></Route>
-						<Route path='/obj/:object'><DefaultObject/></Route>
+						<Route path={['/obj/Person/:id','/obj/Person']}><Person/></Route>
+						<Route path='/obj/Segment'><Segment/></Route>
+						<Route path='/obj/:object'>DEFAULT OBJ</Route>
 						<Route path='/'>
 										<Index/>
 						</Route>

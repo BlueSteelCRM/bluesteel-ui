@@ -2,6 +2,10 @@ import React from 'react';
 
 import {useList} from 'services/List';
 import pluralize from 'pluralize';
+import {NavLink} from 'react-router-dom';
+import dayjs from 'dayjs';
+import calendar from 'dayjs/plugin/calendar';
+dayjs.extend(calendar);
 /*
 import {useHistory} from 'react-router-dom';
 const history=useHistory();
@@ -33,12 +37,12 @@ function List(props){
 	      <div className="d-sm-flex justify-content-sm-between align-items-sm-center">
 	        <div className="team">
 	          <h4 className="list-group-item-title">
-	            <a href="page-team.html">{nameFunc(item)}</a>
+	            <NavLink to={`/obj/${object}/${item.id}`}>{nameFunc(item)}</NavLink>
 	            {item.owner &&
 	            <a href="page-team.html" className="mention ml-1">Owner</a>
 	            }
 	          </h4>
-	          <p className="list-group-item-text">Updated {item.updated_at}</p>
+	          <p className="list-group-item-text">Updated {dayjs(item.updated_at).calendar()}</p>
 	        </div>
 	        <ul className="list-inline text-muted mb-0">
 	          <li className="list-inline-item mr-3" data-toggle="tooltip" title="Members" data-placement="bottom">
@@ -78,9 +82,6 @@ export default function (props){
 	          <ul className="nav nav-tabs card-header-tabs">
 	            <li className="nav-item">
 	              <a className="nav-link active show" data-toggle="tab" href="#project-myteams">My {pluralize(object)}</a>
-	            </li>
-	            <li className="nav-item">
-	              <a className="nav-link" data-toggle="tab" href="#project-explore-teams">Explore public teams</a>
 	            </li>
 	          </ul>
 	        </div>
