@@ -1,8 +1,6 @@
 import React,{useState} from 'react';
 import {useHistory} from 'react-router';
 
-import {Alert} from 'react-bootstrap';
-
 import {useMutation} from 'urql';
 import useNotifiers from '../util/Notifiers';
 
@@ -56,7 +54,7 @@ export default function SaveableForm({object,fields:_fields, values}){
 	//if (state.fetching) return null; //this will cause the UI to 'flash'
 
 	return <React.Fragment>
-				{error && <Alert variant="danger">{JSON.stringify(error)}</Alert>}
+				{error && <div className="alert alert-danger">{JSON.stringify(error)}</div>}
 				<AutoForm
 					onSubmit={values=>{saveRecord(values);return false;}}
 					fields={fields}

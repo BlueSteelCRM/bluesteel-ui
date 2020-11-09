@@ -1,7 +1,6 @@
 import React from 'react';
-import {parseISO,format} from 'date-fns';
+import {parseISO} from 'date-fns';
 
-import {Button} from 'react-bootstrap';
 import {
 	Form,
 	Row,
@@ -185,7 +184,7 @@ export default function AutoForm(props){
 		      return <Col key={i} {...sizes}><Field {...fieldItems}/></Col>;
 				})}
 				{submit_button &&
-					<Button variant="primary" type="submit">Save</Button>
+					<button className="button button-primary" type="submit">Save</button>
 				}
 			</Row>
     </form>

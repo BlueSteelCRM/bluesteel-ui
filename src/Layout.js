@@ -11,7 +11,7 @@ import Home from './layouts/Home';
 
 import {SchemaProvider,SchemaContext} from './SchemaContext';
 import {CustomLayoutProvider} from './CustomLayoutContext';
-import { SnackbarProvider } from 'notistack';
+import { ToastProvider} from 'react-toast-notifications'
 
 import JSONPretty from 'react-json-pretty';
 
@@ -24,7 +24,7 @@ export default function Layout(props){
 	const mainPanel = useRef(null);
     return <SchemaProvider>
 			<CustomLayoutProvider>
-				<SnackbarProvider>
+				<ToastProvider>
       <div className="wrapper">
         <Sidebar
           {...props}
@@ -44,7 +44,7 @@ export default function Layout(props){
           <Footer fluid />
         </div>
       </div>
-				</SnackbarProvider>
+				</ToastProvider>
 				</CustomLayoutProvider>
 			</SchemaProvider>;
 }

@@ -10,7 +10,7 @@ import JSONPretty from 'react-json-pretty';
 import Person from './obj/person/index.js';
 import PersonView from './obj/person/View.js';
 import Segment from './obj/segment/index.js';
-import DefaultObject from './obj/';
+import DefaultObject from './obj/default';
 
 
 function TestSchemaDisplay(){
@@ -29,7 +29,10 @@ function App() {
 						<Route path='/schema'><TestSchemaDisplay/></Route>
 						<Route path={['/obj/Person/:id','/obj/Person']}><Person/></Route>
 						<Route path='/obj/Segment'><Segment/></Route>
-						<Route path='/obj/:object'>DEFAULT OBJ</Route>
+						<Route path='/obj/:object/:id/:operation'><DefaultObject/></Route>
+						<Route path='/obj/:object/:id'><DefaultObject/></Route>
+						<Route path='/obj/:object'><DefaultObject/></Route>
+
 						<Route path='/'>
 										<Index/>
 						</Route>

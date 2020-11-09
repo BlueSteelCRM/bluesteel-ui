@@ -1,10 +1,10 @@
-import { useSnackbar } from 'notistack';
+import {useToasts } from 'react-toast-notifications'
 
 function useNotifiers(){
-	const {enqueueSnackbar} = useSnackbar();
+	 const { addToast } = useToasts()
 	return {
 		notify:function(result){
-			enqueueSnackbar((result && result.message) || "Saved",{ variant: 'success'});
+			addToast((result && result.message) || "Saved",{ appearance: 'success'});
 		},
 		notifyErr:function notifyErr(error){
 			console.error("Error:",error);
@@ -12,7 +12,7 @@ function useNotifiers(){
 			if (typeof msg=='object') msg=JSON.stringify(msg);
 			if (msg.indexOf("GraphQL error:")===0) msg=msg.slice(14);
 
-			enqueueSnackbar(msg,{ variant: 'error'});
+			addToast(msg,{ appearance: 'error'});
 		}
 	};
 };
